@@ -1,0 +1,1110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="openstreetmap-cgimap 2.1.0 (244687 spike-07.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <node id="258602578" visible="true" version="26" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4317583" lon="5.9774656"/>
+ <node id="258602579" visible="true" version="11" changeset="12664335" timestamp="2012-08-09T05:00:42Z" user="Scrup" uid="378737" lat="50.4310169" lon="5.9769435"/>
+ <node id="258602580" visible="true" version="10" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304981" lon="5.9767298"/>
+ <node id="258602581" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4298564" lon="5.9769802"/>
+ <node id="258602582" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4293510" lon="5.9768533"/>
+ <node id="258602584" visible="true" version="11" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4277940" lon="5.9733886"/>
+ <node id="258602585" visible="true" version="12" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4277689" lon="5.9724656"/>
+ <node id="258602586" visible="true" version="12" changeset="12676035" timestamp="2012-08-10T06:05:56Z" user="Scrup" uid="378737" lat="50.4285510" lon="5.9726475"/>
+ <node id="258602587" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4291242" lon="5.9740781"/>
+ <node id="258602588" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4294724" lon="5.9743278"/>
+ <node id="258602589" visible="true" version="11" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4315167" lon="5.9734189"/>
+ <node id="258602590" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4333661" lon="5.9728985"/>
+ <node id="258602591" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4339590" lon="5.9724398"/>
+ <node id="258602592" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4341538" lon="5.9719465"/>
+ <node id="258602593" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4342268" lon="5.9706028"/>
+ <node id="258602594" visible="true" version="10" changeset="12676035" timestamp="2012-08-10T06:05:57Z" user="Scrup" uid="378737" lat="50.4339178" lon="5.9694187"/>
+ <node id="258602595" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4334144" lon="5.9688390"/>
+ <node id="258602596" visible="true" version="10" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4309937" lon="5.9672975"/>
+ <node id="258602597" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4308768" lon="5.9672269"/>
+ <node id="258602598" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4306136" lon="5.9669848"/>
+ <node id="258602599" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4303936" lon="5.9661054"/>
+ <node id="258602600" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4305486" lon="5.9654976"/>
+ <node id="258602601" visible="true" version="10" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4307090" lon="5.9649330"/>
+ <node id="258602602" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304060" lon="5.9638966"/>
+ <node id="258602603" visible="true" version="13" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4290495" lon="5.9625386"/>
+ <node id="258602604" visible="true" version="10" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4287636" lon="5.9618866"/>
+ <node id="258602606" visible="true" version="13" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4296170" lon="5.9598734"/>
+ <node id="258602607" visible="true" version="15" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304757" lon="5.9596544"/>
+ <node id="258602608" visible="true" version="13" changeset="12678399" timestamp="2012-08-10T10:31:41Z" user="Scrup" uid="378737" lat="50.4315072" lon="5.9604024"/>
+ <node id="258602609" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4347143" lon="5.9667513"/>
+ <node id="258602610" visible="true" version="13" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4367075" lon="5.9680748"/>
+ <node id="258602613" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4389373" lon="5.9669111"/>
+ <node id="258602614" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4395358" lon="5.9666814"/>
+ <node id="258602615" visible="true" version="10" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4408137" lon="5.9664837"/>
+ <node id="258602616" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4412905" lon="5.9664171"/>
+ <node id="258602618" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4414022" lon="5.9664055"/>
+ <node id="258602619" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415520" lon="5.9665367"/>
+ <node id="258602620" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415508" lon="5.9667947"/>
+ <node id="258602621" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4430979" lon="5.9660281"/>
+ <node id="258602622" visible="true" version="11" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4440643" lon="5.9651626"/>
+ <node id="258602623" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4455840" lon="5.9638071"/>
+ <node id="258602624" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4459926" lon="5.9634405"/>
+ <node id="258602628" visible="true" version="11" changeset="64462553" timestamp="2018-11-14T01:20:20Z" user="LeFagnard" uid="6713931" lat="50.4426433" lon="5.9702765"/>
+ <node id="258602629" visible="true" version="11" changeset="64462553" timestamp="2018-11-14T01:20:20Z" user="LeFagnard" uid="6713931" lat="50.4424132" lon="5.9706984"/>
+ <node id="258602630" visible="true" version="15" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4419710" lon="5.9715807"/>
+ <node id="258602631" visible="true" version="13" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4405599" lon="5.9723440"/>
+ <node id="258602632" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4379469" lon="5.9746894"/>
+ <node id="258602635" visible="true" version="10" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4350195" lon="5.9760006"/>
+ <node id="258856244" visible="true" version="13" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4419073" lon="5.9716406"/>
+ <node id="258856265" visible="true" version="10" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4402208" lon="5.9726866"/>
+ <node id="258877232" visible="true" version="10" changeset="12678399" timestamp="2012-08-10T10:31:41Z" user="Scrup" uid="378737" lat="50.4337107" lon="5.9648218"/>
+ <node id="258877293" visible="true" version="12" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4343381" lon="5.9662707"/>
+ <node id="258877294" visible="true" version="13" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4351527" lon="5.9671283"/>
+ <node id="395054399" visible="true" version="7" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4341244" lon="5.9699544"/>
+ <node id="395054400" visible="true" version="5" changeset="12678399" timestamp="2012-08-10T10:31:41Z" user="Scrup" uid="378737" lat="50.4330404" lon="5.9628261"/>
+ <node id="395086669" visible="true" version="6" changeset="139129582" timestamp="2023-07-28T10:49:16Z" user="SFGJimStreet" uid="16981237" lat="50.4450844" lon="5.9668462"/>
+ <node id="395087467" visible="true" version="4" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4431675" lon="5.9662012"/>
+ <node id="395087469" visible="true" version="6" changeset="182528003" timestamp="2026-05-11T20:12:12Z" user="simonmrtsss" uid="24119137" lat="50.4456521" lon="5.9639916"/>
+ <node id="395087471" visible="true" version="9" changeset="166817565" timestamp="2025-05-27T10:09:45Z" user="woodpeck_repair" uid="145231" lat="50.4456821" lon="5.9654089"/>
+ <node id="910506586" visible="true" version="6" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415604" lon="5.9675218"/>
+ <node id="910506587" visible="true" version="5" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4416197" lon="5.9675771"/>
+ <node id="910506588" visible="true" version="5" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4417491" lon="5.9676030"/>
+ <node id="910506591" visible="true" version="5" changeset="182528003" timestamp="2026-05-11T20:12:12Z" user="simonmrtsss" uid="24119137" lat="50.4458549" lon="5.9639559"/>
+ <node id="910506594" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4459201" lon="5.9640522"/>
+ <node id="910506596" visible="true" version="6" changeset="166817565" timestamp="2025-05-27T10:09:45Z" user="woodpeck_repair" uid="145231" lat="50.4459413" lon="5.9641190"/>
+ <node id="910506605" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4314311" lon="5.9775490"/>
+ <node id="910506608" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4313109" lon="5.9774924"/>
+ <node id="910506609" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4307137" lon="5.9766886"/>
+ <node id="910506610" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4306294" lon="5.9766934"/>
+ <node id="910506611" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4295013" lon="5.9769902"/>
+ <node id="910506614" visible="true" version="4" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4276877" lon="5.9730773"/>
+ <node id="910506616" visible="true" version="4" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4277002" lon="5.9726670"/>
+ <node id="910506627" visible="true" version="4" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4280492" lon="5.9722151"/>
+ <node id="910506629" visible="true" version="4" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4283455" lon="5.9722947"/>
+ <node id="910506632" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4292226" lon="5.9742173"/>
+ <node id="910506634" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4340598" lon="5.9722438"/>
+ <node id="910506641" visible="true" version="3" changeset="12676035" timestamp="2012-08-10T06:05:58Z" user="Scrup" uid="378737" lat="50.4335505" lon="5.9689443"/>
+ <node id="910506646" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4306515" lon="5.9643313"/>
+ <node id="910506647" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4288694" lon="5.9623120"/>
+ <node id="910506649" visible="true" version="5" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4294294" lon="5.9601887"/>
+ <node id="910506654" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4309855" lon="5.9599585"/>
+ <node id="910506664" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4324071" lon="5.9616197"/>
+ <node id="910506667" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4358594" lon="5.9676245"/>
+ <node id="910506671" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415160" lon="5.9664596"/>
+ <node id="910506685" visible="true" version="6" changeset="166817565" timestamp="2025-05-27T10:09:45Z" user="woodpeck_repair" uid="145231" lat="50.4462228" lon="5.9633828"/>
+ <node id="910506689" visible="true" version="6" changeset="166817565" timestamp="2025-05-27T10:09:44Z" user="woodpeck_repair" uid="145231" lat="50.4462608" lon="5.9635380"/>
+ <node id="910506705" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4385464" lon="5.9743571"/>
+ <node id="910506711" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4320934" lon="5.9773058"/>
+ <node id="1108953059" visible="true" version="5" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4414368" lon="5.9719222"/>
+ <node id="1108953247" visible="true" version="5" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4410316" lon="5.9720149"/>
+ <node id="1108954342" visible="true" version="6" changeset="70223874" timestamp="2019-05-14T09:12:27Z" user="TomJeffs" uid="6397757" lat="50.4422939" lon="5.9710088"/>
+ <node id="1404608200" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4309104" lon="5.9767963"/>
+ <node id="1404608201" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4340212" lon="5.9696432"/>
+ <node id="1404608203" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4387022" lon="5.9742253"/>
+ <node id="1404608204" visible="true" version="3" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4281753" lon="5.9722101"/>
+ <node id="1404608209" visible="true" version="3" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4278721" lon="5.9723223"/>
+ <node id="1404608213" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4336040" lon="5.9728133"/>
+ <node id="1404608214" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4297302" lon="5.9742266"/>
+ <node id="1404608216" visible="true" version="3" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4276763" lon="5.9728699"/>
+ <node id="1404608219" visible="true" version="3" changeset="139129582" timestamp="2023-07-28T10:49:16Z" user="SFGJimStreet" uid="16981237" lat="50.4449001" lon="5.9671848"/>
+ <node id="1404608221" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4319945" lon="5.9609869"/>
+ <node id="1404608222" visible="true" version="4" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4407871" lon="5.9721343"/>
+ <node id="1404608223" visible="true" version="4" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4416828" lon="5.9718094"/>
+ <node id="1404608225" visible="true" version="2" changeset="12678399" timestamp="2012-08-10T10:31:40Z" user="Scrup" uid="378737" lat="50.4327858" lon="5.9622560"/>
+ <node id="1404608226" visible="true" version="3" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4306640" lon="5.9737488"/>
+ <node id="1404608227" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4417773" lon="5.9717503"/>
+ <node id="1404608228" visible="true" version="3" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4429756" lon="5.9663712"/>
+ <node id="1404608230" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4372502" lon="5.9679165"/>
+ <node id="1404608232" visible="true" version="5" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4418285" lon="5.9675692"/>
+ <node id="1404608233" visible="true" version="4" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4297801" lon="5.9597147"/>
+ <node id="1404608237" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4383618" lon="5.9744909"/>
+ <node id="1404608238" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304151" lon="5.9664837"/>
+ <node id="1404608239" visible="true" version="3" changeset="131567765" timestamp="2023-01-22T13:58:30Z" user="Chris112233" uid="5354676" lat="50.4414876" lon="5.9672807"/>
+ <node id="1404608244" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4294250" lon="5.9769332"/>
+ <node id="1404608245" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4412447" lon="5.9719666"/>
+ <node id="1404608250" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4341859" lon="5.9717032"/>
+ <node id="1404608251" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4292073" lon="5.9765858"/>
+ <node id="1404608252" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4341826" lon="5.9702260"/>
+ <node id="1404608254" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4308077" lon="5.9767208"/>
+ <node id="1404608256" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4402910" lon="5.9665475"/>
+ <node id="1404608259" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4307264" lon="5.9671124"/>
+ <node id="1404608260" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4306210" lon="5.9653227"/>
+ <node id="1404608262" visible="true" version="4" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4300358" lon="5.9595875"/>
+ <node id="1404608264" visible="true" version="4" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4295205" lon="5.9600090"/>
+ <node id="1404608265" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4365292" lon="5.9680418"/>
+ <node id="1404608266" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4293448" lon="5.9743024"/>
+ <node id="1404608267" visible="true" version="3" changeset="64462553" timestamp="2018-11-14T01:20:20Z" user="LeFagnard" uid="6713931" lat="50.4425754" lon="5.9703724"/>
+ <node id="1404608268" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4288701" lon="5.9613935"/>
+ <node id="1404608270" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4311042" lon="5.9771568"/>
+ <node id="1404608272" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4337866" lon="5.9726708"/>
+ <node id="1404608273" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4312041" lon="5.9773755"/>
+ <node id="1404608274" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4368673" lon="5.9680712"/>
+ <node id="1404608276" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4288078" lon="5.9621634"/>
+ <node id="1404608277" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4337636" lon="5.9691753"/>
+ <node id="1404608278" visible="true" version="2" changeset="12676035" timestamp="2012-08-10T06:05:55Z" user="Scrup" uid="378737" lat="50.4305491" lon="5.9640937"/>
+ <node id="1404608281" visible="true" version="3" changeset="139129582" timestamp="2023-07-28T10:49:16Z" user="SFGJimStreet" uid="16981237" lat="50.4445436" lon="5.9677408"/>
+ <node id="1404608282" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4287828" lon="5.9616338"/>
+ <node id="1404608292" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304882" lon="5.9667526"/>
+ <node id="1404608294" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4425116" lon="5.9669962"/>
+ <node id="1404608297" visible="true" version="4" changeset="64462553" timestamp="2018-11-14T01:20:20Z" user="LeFagnard" uid="6713931" lat="50.4421672" lon="5.9712948"/>
+ <node id="1404608298" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4295898" lon="5.9770251"/>
+ <node id="1404608300" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4307086" lon="5.9646274"/>
+ <node id="1404608304" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4362397" lon="5.9678864"/>
+ <node id="1404608306" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4302759" lon="5.9595848"/>
+ <node id="1404608307" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4419344" lon="5.9670718"/>
+ <node id="1404608308" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4340276" lon="5.9656921"/>
+ <node id="1404943601" visible="true" version="3" changeset="64462553" timestamp="2018-11-14T01:20:20Z" user="LeFagnard" uid="6713931" lat="50.4428321" lon="5.9700244"/>
+ <node id="1404968009" visible="true" version="3" changeset="182528003" timestamp="2026-05-11T20:12:12Z" user="simonmrtsss" uid="24119137" lat="50.4457757" lon="5.9639292"/>
+ <node id="1404968222" visible="true" version="3" changeset="182528003" timestamp="2026-05-11T20:12:12Z" user="simonmrtsss" uid="24119137" lat="50.4455125" lon="5.9641189"/>
+ <node id="1405335018" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4438467" lon="5.9686810"/>
+ <node id="1405335039" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4312599" lon="5.9774435"/>
+ <node id="1855375038" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4391888" lon="5.9737199"/>
+ <node id="1855375043" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4406942" lon="5.9722157"/>
+ <node id="1855375045" visible="true" version="3" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4408559" lon="5.9720871"/>
+ <node id="1855375047" visible="true" version="3" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4409212" lon="5.9720495"/>
+ <node id="1855375049" visible="true" version="3" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4411262" lon="5.9719918"/>
+ <node id="1855375057" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4414959" lon="5.9664367"/>
+ <node id="1855375060" visible="true" version="2" changeset="131567765" timestamp="2023-01-22T13:58:30Z" user="Chris112233" uid="5354676" lat="50.4414946" lon="5.9673512"/>
+ <node id="1855375073" visible="true" version="2" changeset="131567765" timestamp="2023-01-22T13:58:30Z" user="Chris112233" uid="5354676" lat="50.4415068" lon="5.9674083"/>
+ <node id="1855375075" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415352" lon="5.9664907"/>
+ <node id="1855375082" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415609" lon="5.9666003"/>
+ <node id="1855375083" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415600" lon="5.9666668"/>
+ <node id="1855375089" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4416646" lon="5.9675997"/>
+ <node id="1855375091" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4416994" lon="5.9676069"/>
+ <node id="1855375093" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4417613" lon="5.9672547"/>
+ <node id="1855375094" visible="true" version="4" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4417880" lon="5.9675929"/>
+ <node id="1855375095" visible="true" version="1" changeset="12643270" timestamp="2012-08-07T09:56:37Z" user="Scrup" uid="378737" lat="50.4417987" lon="5.9672225"/>
+ <node id="1855375101" visible="true" version="5" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4420725" lon="5.9714572"/>
+ <node id="1855375105" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4421221" lon="5.9713799"/>
+ <node id="1855375110" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4422878" lon="5.9671977"/>
+ <node id="1855375116" visible="true" version="2" changeset="64462553" timestamp="2018-11-14T01:20:20Z" user="LeFagnard" uid="6713931" lat="50.4425021" lon="5.9704976"/>
+ <node id="1855375120" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4425718" lon="5.9669433"/>
+ <node id="1855375121" visible="true" version="3" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4426189" lon="5.9668864"/>
+ <node id="1855375125" visible="true" version="2" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4430705" lon="5.9662836"/>
+ <node id="1855375133" visible="true" version="2" changeset="139129582" timestamp="2023-07-28T10:49:16Z" user="SFGJimStreet" uid="16981237" lat="50.4447571" lon="5.9674285"/>
+ <node id="1855375136" visible="true" version="2" changeset="139129582" timestamp="2023-07-28T10:49:16Z" user="SFGJimStreet" uid="16981237" lat="50.4449910" lon="5.9670192"/>
+ <node id="1855375138" visible="true" version="2" changeset="139129582" timestamp="2023-07-28T10:49:16Z" user="SFGJimStreet" uid="16981237" lat="50.4451858" lon="5.9666481"/>
+ <node id="1855375140" visible="true" version="2" changeset="139129582" timestamp="2023-07-28T10:49:16Z" user="SFGJimStreet" uid="16981237" lat="50.4453582" lon="5.9662800"/>
+ <node id="1855375143" visible="true" version="2" changeset="139129582" timestamp="2023-07-28T10:49:16Z" user="SFGJimStreet" uid="16981237" lat="50.4454754" lon="5.9659945"/>
+ <node id="1855375150" visible="true" version="2" changeset="182528003" timestamp="2026-05-11T20:12:12Z" user="simonmrtsss" uid="24119137" lat="50.4457184" lon="5.9639443"/>
+ <node id="1855375154" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4457357" lon="5.9651291"/>
+ <node id="1855375158" visible="true" version="2" changeset="182528003" timestamp="2026-05-11T20:12:12Z" user="simonmrtsss" uid="24119137" lat="50.4458173" lon="5.9639346"/>
+ <node id="1855375160" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4457919" lon="5.9649357"/>
+ <node id="1855375173" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4458515" lon="5.9647482"/>
+ <node id="1855375175" visible="true" version="2" changeset="182528003" timestamp="2026-05-11T20:12:12Z" user="simonmrtsss" uid="24119137" lat="50.4458911" lon="5.9639933"/>
+ <node id="1855375183" visible="true" version="4" changeset="166817565" timestamp="2025-05-27T10:09:44Z" user="woodpeck_repair" uid="145231" lat="50.4461118" lon="5.9633414"/>
+ <node id="1855375184" visible="true" version="4" changeset="166817565" timestamp="2025-05-27T10:09:45Z" user="woodpeck_repair" uid="145231" lat="50.4461541" lon="5.9633389"/>
+ <node id="1855375185" visible="true" version="4" changeset="166817565" timestamp="2025-05-27T10:09:45Z" user="woodpeck_repair" uid="145231" lat="50.4462461" lon="5.9634198"/>
+ <node id="1855375186" visible="true" version="4" changeset="166817565" timestamp="2025-05-27T10:09:44Z" user="woodpeck_repair" uid="145231" lat="50.4462042" lon="5.9637612"/>
+ <node id="1855375188" visible="true" version="4" changeset="166817565" timestamp="2025-05-27T10:09:44Z" user="woodpeck_repair" uid="145231" lat="50.4462337" lon="5.9636450"/>
+ <node id="1855432135" visible="true" version="3" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4428924" lon="5.9664957"/>
+ <node id="1858140562" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4306713" lon="5.9766879"/>
+ <node id="1858140563" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4307612" lon="5.9766979"/>
+ <node id="1858140564" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4308615" lon="5.9767552"/>
+ <node id="1858140565" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4309741" lon="5.9768700"/>
+ <node id="1858140566" visible="true" version="1" changeset="12664335" timestamp="2012-08-09T05:00:19Z" user="Scrup" uid="378737" lat="50.4310638" lon="5.9770386"/>
+ <node id="1858140567" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4311331" lon="5.9772404"/>
+ <node id="1858140568" visible="true" version="1" changeset="12664335" timestamp="2012-08-09T05:00:19Z" user="Scrup" uid="378737" lat="50.4311555" lon="5.9772969"/>
+ <node id="1858140569" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4313722" lon="5.9775263"/>
+ <node id="1858140570" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4314687" lon="5.9775554"/>
+ <node id="1858140571" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4315167" lon="5.9775540"/>
+ <node id="1858140572" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4315626" lon="5.9775434"/>
+ <node id="1858140573" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4316245" lon="5.9775260"/>
+ <node id="1858140581" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4373093" lon="5.9749742"/>
+ <node id="1858140586" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4381855" lon="5.9745960"/>
+ <node id="1858140597" visible="true" version="3" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4422622" lon="5.9710855"/>
+ <node id="1858140759" visible="true" version="2" changeset="139129582" timestamp="2023-07-28T10:49:16Z" user="SFGJimStreet" uid="16981237" lat="50.4455895" lon="5.9656928"/>
+ <node id="1858140771" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4458402" lon="5.9649777"/>
+ <node id="1858140782" visible="true" version="4" changeset="166817565" timestamp="2025-05-27T10:09:44Z" user="woodpeck_repair" uid="145231" lat="50.4461983" lon="5.9633595"/>
+ <node id="1858267014" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4292892" lon="5.9767589"/>
+ <node id="1858267015" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4293193" lon="5.9768134"/>
+ <node id="1858267016" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4293836" lon="5.9768964"/>
+ <node id="1858267017" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4294680" lon="5.9769673"/>
+ <node id="1858267018" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4295522" lon="5.9770084"/>
+ <node id="1858267019" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4296579" lon="5.9770362"/>
+ <node id="1858267023" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4297341" lon="5.9770211"/>
+ <node id="1858267036" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4305890" lon="5.9767017"/>
+ <node id="1858295678" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4291108" lon="5.9763615"/>
+ <node id="1858295802" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4319137" lon="5.9773933"/>
+ <node id="1858426323" visible="true" version="3" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4276769" lon="5.9729716"/>
+ <node id="1858426326" visible="true" version="2" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4276836" lon="5.9727709"/>
+ <node id="1858426329" visible="true" version="2" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4277332" lon="5.9732462"/>
+ <node id="1858426337" visible="true" version="2" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4277333" lon="5.9725526"/>
+ <node id="1858426345" visible="true" version="2" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4278144" lon="5.9723900"/>
+ <node id="1858426348" visible="true" version="2" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4279314" lon="5.9722689"/>
+ <node id="1858426371" visible="true" version="2" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4281113" lon="5.9722067"/>
+ <node id="1858426401" visible="true" version="2" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4282944" lon="5.9722544"/>
+ <node id="1858426435" visible="true" version="2" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4283949" lon="5.9723474"/>
+ <node id="1858426451" visible="true" version="2" changeset="12676035" timestamp="2012-08-10T06:05:56Z" user="Scrup" uid="378737" lat="50.4284683" lon="5.9724572"/>
+ <node id="1858426461" visible="true" version="3" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4285085" lon="5.9725418"/>
+ <node id="1859737217" visible="true" version="1" changeset="12676035" timestamp="2012-08-10T06:05:37Z" user="Scrup" uid="378737" lat="50.4285892" lon="5.9727480"/>
+ <node id="1859737228" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4288359" lon="5.9733592"/>
+ <node id="1859737238" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4289844" lon="5.9737320"/>
+ <node id="1859737244" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4290682" lon="5.9739518"/>
+ <node id="1859737254" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4291677" lon="5.9741507"/>
+ <node id="1859737259" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4292827" lon="5.9742679"/>
+ <node id="1859737267" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4294151" lon="5.9743227"/>
+ <node id="1859737279" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4295302" lon="5.9743245"/>
+ <node id="1859737284" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4295944" lon="5.9742976"/>
+ <node id="1859737317" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4303954" lon="5.9663200"/>
+ <node id="1859737318" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304232" lon="5.9658736"/>
+ <node id="1859737320" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304512" lon="5.9666370"/>
+ <node id="1859737323" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304533" lon="5.9657473"/>
+ <node id="1859737324" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304882" lon="5.9639875"/>
+ <node id="1859737325" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304943" lon="5.9656236"/>
+ <node id="1859737329" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4305447" lon="5.9668724"/>
+ <node id="1859737337" visible="true" version="1" changeset="12676035" timestamp="2012-08-10T06:05:41Z" user="Scrup" uid="378737" lat="50.4306065" lon="5.9642017"/>
+ <node id="1859737341" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4306764" lon="5.9651456"/>
+ <node id="1859737342" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4306852" lon="5.9644711"/>
+ <node id="1859737344" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4306956" lon="5.9650500"/>
+ <node id="1859737348" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4307154" lon="5.9647959"/>
+ <node id="1859737349" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4309288" lon="5.9736196"/>
+ <node id="1859737352" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4308007" lon="5.9671766"/>
+ <node id="1859737378" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4312067" lon="5.9735048"/>
+ <node id="1859737408" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4325628" lon="5.9731121"/>
+ <node id="1859737430" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4334898" lon="5.9728569"/>
+ <node id="1859737438" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4336548" lon="5.9690395"/>
+ <node id="1859737439" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4336977" lon="5.9727498"/>
+ <node id="1859737444" visible="true" version="1" changeset="12676035" timestamp="2012-08-10T06:05:45Z" user="Scrup" uid="378737" lat="50.4338415" lon="5.9692913"/>
+ <node id="1859737447" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4338799" lon="5.9725625"/>
+ <node id="1859737451" visible="true" version="1" changeset="12676035" timestamp="2012-08-10T06:05:45Z" user="Scrup" uid="378737" lat="50.4339710" lon="5.9695220"/>
+ <node id="1859737457" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4340111" lon="5.9723416"/>
+ <node id="1859737462" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4340752" lon="5.9697899"/>
+ <node id="1859737465" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4341182" lon="5.9720795"/>
+ <node id="1859737466" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4341748" lon="5.9718146"/>
+ <node id="1859737469" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4342109" lon="5.9704148"/>
+ <node id="1859737470" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4342245" lon="5.9709388"/>
+ <node id="1859737471" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4342291" lon="5.9708485"/>
+ <node id="1859754607" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4287736" lon="5.9620078"/>
+ <node id="1859754608" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4287671" lon="5.9617734"/>
+ <node id="1859754612" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4288227" lon="5.9615040"/>
+ <node id="1859754623" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4289352" lon="5.9624199"/>
+ <node id="1859754669" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4293018" lon="5.9627877"/>
+ <node id="1859754694" visible="true" version="3" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4296938" lon="5.9597894"/>
+ <node id="1859754699" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4298400" lon="5.9633252"/>
+ <node id="1859754703" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4299049" lon="5.9596345"/>
+ <node id="1859754737" visible="true" version="3" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4301627" lon="5.9595746"/>
+ <node id="1859754753" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4303807" lon="5.9596127"/>
+ <node id="1859754802" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4309078" lon="5.9672476"/>
+ <node id="1859754877" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4314057" lon="5.9602931"/>
+ <node id="1859930337" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4289821" lon="5.9624697"/>
+ <node id="1859930386" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4293589" lon="5.9603397"/>
+ <node id="1859930439" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4295895" lon="5.9630690"/>
+ <node id="1859930752" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4326927" lon="5.9683801"/>
+ <node id="1859971648" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4311552" lon="5.9600727"/>
+ <node id="1859971650" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4312698" lon="5.9601664"/>
+ <node id="1859971651" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4316696" lon="5.9605686"/>
+ <node id="1859971652" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4318378" lon="5.9607710"/>
+ <node id="1859971653" visible="true" version="1" changeset="12678399" timestamp="2012-08-10T10:31:38Z" user="Scrup" uid="378737" lat="50.4326135" lon="5.9619574"/>
+ <node id="1859971654" visible="true" version="1" changeset="12678399" timestamp="2012-08-10T10:31:38Z" user="Scrup" uid="378737" lat="50.4329485" lon="5.9626036"/>
+ <node id="1859971655" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4331387" lon="5.9631006"/>
+ <node id="1859971656" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4338671" lon="5.9652835"/>
+ <node id="1859971657" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4339425" lon="5.9654947"/>
+ <node id="1859971658" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4341020" lon="5.9658609"/>
+ <node id="1859971659" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4341971" lon="5.9660378"/>
+ <node id="1859971660" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4344986" lon="5.9665069"/>
+ <node id="1859971661" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4346131" lon="5.9666441"/>
+ <node id="1859971662" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4348085" lon="5.9668479"/>
+ <node id="1859971663" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4349105" lon="5.9669387"/>
+ <node id="1859971665" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4363253" lon="5.9679440"/>
+ <node id="1859971666" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4364319" lon="5.9680037"/>
+ <node id="1859971668" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4366105" lon="5.9680633"/>
+ <node id="1859971669" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4367771" lon="5.9680763"/>
+ <node id="1859971670" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4369819" lon="5.9680482"/>
+ <node id="1859971671" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4371022" lon="5.9680001"/>
+ <node id="1859971672" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4391775" lon="5.9668017"/>
+ <node id="1859971673" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4393942" lon="5.9667211"/>
+ <node id="1859971674" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4396847" lon="5.9666477"/>
+ <node id="1859971675" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4399443" lon="5.9665897"/>
+ <node id="1859971677" visible="true" version="2" changeset="131567765" timestamp="2023-01-22T13:58:30Z" user="Chris112233" uid="5354676" lat="50.4415166" lon="5.9674427"/>
+ <node id="1859971678" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4419707" lon="5.9674674"/>
+ <node id="1859971679" visible="true" version="3" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4420963" lon="5.9673675"/>
+ <node id="1866942587" visible="true" version="1" changeset="12735628" timestamp="2012-08-15T08:02:24Z" user="Scrup" uid="378737" lat="50.4334236" lon="5.9639606"/>
+ <node id="3306208152" visible="true" version="2" changeset="131567765" timestamp="2023-01-22T13:58:30Z" user="Chris112233" uid="5354676" lat="50.4414864" lon="5.9672131"/>
+ <node id="3306209961" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4414966" lon="5.9670887"/>
+ <node id="5804658288" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4414383" lon="5.9664052"/>
+ <node id="5804658289" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4414694" lon="5.9664181"/>
+ <node id="6059040089" visible="true" version="2" changeset="70223874" timestamp="2019-05-14T09:12:27Z" user="TomJeffs" uid="6397757" lat="50.4423659" lon="5.9708217"/>
+ <node id="6059040090" visible="true" version="1" changeset="64462553" timestamp="2018-11-14T01:20:19Z" user="LeFagnard" uid="6713931" lat="50.4425456" lon="5.9704145"/>
+ <node id="6471907187" visible="true" version="3" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4420102" lon="5.9715323"/>
+ <node id="6471907211" visible="true" version="1" changeset="70219859" timestamp="2019-05-14T07:07:18Z" user="TomJeffs" uid="6397757" lat="50.4429533" lon="5.9698663"/>
+ <node id="6763639931" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4301757" lon="5.9739924"/>
+ <node id="6763639947" visible="true" version="1" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4277022" lon="5.9731467"/>
+ <node id="6763639948" visible="true" version="1" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4279905" lon="5.9722342"/>
+ <node id="6763639949" visible="true" version="1" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4282351" lon="5.9722252"/>
+ <node id="6763639950" visible="true" version="1" changeset="73968505" timestamp="2019-09-01T09:32:30Z" user="Andrés31" uid="811230" lat="50.4284397" lon="5.9724082"/>
+ <node id="10573365732" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4290135" lon="5.9738128"/>
+ <node id="10573365739" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4310868" lon="5.9735508"/>
+ <node id="10574409914" visible="true" version="2" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415315" lon="5.9674754"/>
+ <node id="10574409926" visible="true" version="2" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4429281" lon="5.9664447"/>
+ <node id="11573036562" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415888" lon="5.9675533"/>
+ <node id="11573036563" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4460298" lon="5.9643712"/>
+ <node id="11573036567" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4459008" lon="5.9645688"/>
+ <node id="11573036568" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4459561" lon="5.9643216"/>
+ <node id="11573045569" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4459317" lon="5.9644452"/>
+ <node id="11573045572" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4459574" lon="5.9642169"/>
+ <node id="11573045578" visible="true" version="2" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4415584" lon="5.9718777"/>
+ <node id="11573045580" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4389724" lon="5.9739495"/>
+ <node id="11573045582" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4388755" lon="5.9740561"/>
+ <node id="11573045586" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4384541" lon="5.9744286"/>
+ <node id="11573045587" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4386243" lon="5.9742940"/>
+ <node id="11573045588" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4387894" lon="5.9741444"/>
+ <node id="11573045593" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4310420" lon="5.9769884"/>
+ <node id="11573045599" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4342299" lon="5.9707204"/>
+ <node id="11573045600" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4341564" lon="5.9700842"/>
+ <node id="11573045604" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4303892" lon="5.9662173"/>
+ <node id="11573045605" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4306666" lon="5.9670516"/>
+ <node id="11573045606" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4304041" lon="5.9659994"/>
+ <node id="11573045607" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4288367" lon="5.9622392"/>
+ <node id="11573045608" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4287898" lon="5.9620902"/>
+ <node id="11573045609" visible="true" version="2" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4294765" lon="5.9600873"/>
+ <node id="11573045610" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4322013" lon="5.9612958"/>
+ <node id="11573045611" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4327006" lon="5.9621037"/>
+ <node id="11573045612" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4328710" lon="5.9624253"/>
+ <node id="11573045613" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4330934" lon="5.9629709"/>
+ <node id="11573045617" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4416169" lon="5.9672516"/>
+ <node id="11573045618" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4416891" lon="5.9672755"/>
+ <node id="11573045619" visible="true" version="2" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4415604" lon="5.9671709"/>
+ <node id="11573045620" visible="true" version="2" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4415426" lon="5.9670465"/>
+ <node id="11573045621" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4415846" lon="5.9672139"/>
+ <node id="11573045622" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4416519" lon="5.9672704"/>
+ <node id="11573045623" visible="true" version="1" changeset="146904602" timestamp="2024-01-31T13:25:20Z" user="SFGJimStreet" uid="16981237" lat="50.4417263" lon="5.9672719"/>
+ <node id="12100943862" visible="true" version="1" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4299704" lon="5.9596066"/>
+ <node id="12100943863" visible="true" version="1" changeset="155029204" timestamp="2024-08-09T15:34:50Z" user="SFGJimStreet" uid="16981237" lat="50.4298418" lon="5.9596705"/>
+ <node id="13279625650" visible="true" version="1" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4438288" lon="5.9656044"/>
+ <node id="13279625652" visible="true" version="1" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4415094" lon="5.9669445"/>
+ <node id="13279625653" visible="true" version="1" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4415482" lon="5.9671068"/>
+ <node id="13279625654" visible="true" version="1" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237" lat="50.4427568" lon="5.9666915"/>
+ <node id="13299532543" visible="true" version="1" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4409743" lon="5.9720300"/>
+ <node id="13299532544" visible="true" version="1" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4407387" lon="5.9721750"/>
+ <node id="13299532551" visible="true" version="1" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4422161" lon="5.9711934"/>
+ <node id="13299532552" visible="true" version="1" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4418457" lon="5.9716944"/>
+ <node id="13299532553" visible="true" version="1" changeset="174557907" timestamp="2025-11-12T12:42:45Z" user="SFGJimStreet" uid="16981237" lat="50.4413387" lon="5.9719466"/>
+ <node id="13460192696" visible="true" version="1" changeset="177295332" timestamp="2026-01-16T12:02:28Z" user="AndreasOdense" uid="12159956" lat="50.4415567" lon="5.9667128"/>
+ <way id="24449918" visible="true" version="25" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="1405335039"/>
+  <nd ref="1404608273"/>
+  <nd ref="1858140568"/>
+  <nd ref="1858140567"/>
+  <nd ref="1404608270"/>
+  <nd ref="1858140566"/>
+  <nd ref="11573045593"/>
+  <nd ref="258602579"/>
+  <nd ref="1858140565"/>
+  <nd ref="1404608200"/>
+  <nd ref="1858140564"/>
+  <nd ref="1404608254"/>
+  <nd ref="1858140563"/>
+  <nd ref="910506609"/>
+  <nd ref="1858140562"/>
+  <nd ref="910506610"/>
+  <nd ref="1858267036"/>
+  <nd ref="258602580"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Les Combes"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807099" visible="true" version="5" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602623"/>
+  <nd ref="258602624"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N640"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807100" visible="true" version="11" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="910506649"/>
+  <nd ref="11573045609"/>
+  <nd ref="1404608264"/>
+  <nd ref="258602606"/>
+  <nd ref="1859754694"/>
+  <nd ref="1404608233"/>
+  <nd ref="12100943863"/>
+  <nd ref="1859754703"/>
+  <nd ref="12100943862"/>
+  <nd ref="1404608262"/>
+  <nd ref="1859754737"/>
+  <nd ref="1404608306"/>
+  <nd ref="1859754753"/>
+  <nd ref="258602607"/>
+  <nd ref="910506654"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Courbe Paul Frère"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807101" visible="true" version="5" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602595"/>
+  <nd ref="1859930752"/>
+  <nd ref="258602596"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807103" visible="true" version="6" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602590"/>
+  <nd ref="1859737430"/>
+  <nd ref="1404608213"/>
+  <nd ref="1859737439"/>
+  <nd ref="1404608272"/>
+  <nd ref="1859737447"/>
+  <nd ref="258602591"/>
+  <nd ref="1859737457"/>
+  <nd ref="910506634"/>
+  <nd ref="1859737465"/>
+  <nd ref="258602592"/>
+  <nd ref="1859737466"/>
+  <nd ref="1404608250"/>
+  <nd ref="1859737470"/>
+  <nd ref="1859737471"/>
+  <nd ref="11573045599"/>
+  <nd ref="258602593"/>
+  <nd ref="1859737469"/>
+  <nd ref="1404608252"/>
+  <nd ref="11573045600"/>
+  <nd ref="395054399"/>
+  <nd ref="1859737462"/>
+  <nd ref="1404608201"/>
+  <nd ref="1859737451"/>
+  <nd ref="258602594"/>
+  <nd ref="1859737444"/>
+  <nd ref="1404608277"/>
+  <nd ref="1859737438"/>
+  <nd ref="910506641"/>
+  <nd ref="258602595"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Double Gauche"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807105" visible="true" version="6" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="1404608256"/>
+  <nd ref="258602615"/>
+  <nd ref="258602616"/>
+  <nd ref="258602618"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N640"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807106" visible="true" version="8" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="10573365732"/>
+  <nd ref="1859737244"/>
+  <nd ref="258602587"/>
+  <nd ref="1859737254"/>
+  <nd ref="910506632"/>
+  <nd ref="1859737259"/>
+  <nd ref="1404608266"/>
+  <nd ref="1859737267"/>
+  <nd ref="258602588"/>
+  <nd ref="1859737279"/>
+  <nd ref="1859737284"/>
+  <nd ref="1404608214"/>
+  <nd ref="6763639931"/>
+  <nd ref="1404608226"/>
+  <nd ref="1859737349"/>
+  <nd ref="10573365739"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Speaker's Corner"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807109" visible="true" version="9" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602596"/>
+  <nd ref="1859754802"/>
+  <nd ref="258602597"/>
+  <nd ref="1859737352"/>
+  <nd ref="1404608259"/>
+  <nd ref="11573045605"/>
+  <nd ref="258602598"/>
+  <nd ref="1859737329"/>
+  <nd ref="1404608292"/>
+  <nd ref="1859737320"/>
+  <nd ref="1404608238"/>
+  <nd ref="1859737317"/>
+  <nd ref="11573045604"/>
+  <nd ref="258602599"/>
+  <nd ref="11573045606"/>
+  <nd ref="1859737318"/>
+  <nd ref="1859737323"/>
+  <nd ref="1859737325"/>
+  <nd ref="258602600"/>
+  <nd ref="1404608260"/>
+  <nd ref="1859737341"/>
+  <nd ref="1859737344"/>
+  <nd ref="258602601"/>
+  <nd ref="1859737348"/>
+  <nd ref="1404608300"/>
+  <nd ref="1859737342"/>
+  <nd ref="910506646"/>
+  <nd ref="1859737337"/>
+  <nd ref="1404608278"/>
+  <nd ref="1859737324"/>
+  <nd ref="258602602"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Fagnes"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807110" visible="true" version="12" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="395087471"/>
+  <nd ref="1858140759"/>
+  <nd ref="1855375143"/>
+  <nd ref="1855375140"/>
+  <nd ref="1855375138"/>
+  <nd ref="395086669"/>
+  <nd ref="1855375136"/>
+  <nd ref="1404608219"/>
+  <nd ref="1855375133"/>
+  <nd ref="1404608281"/>
+  <nd ref="1405335018"/>
+  <nd ref="6471907211"/>
+  <nd ref="1404943601"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N62"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807111" visible="true" version="5" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="1404608251"/>
+  <nd ref="1858295678"/>
+  <nd ref="258602584"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807112" visible="true" version="7" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602584"/>
+  <nd ref="1858426329"/>
+  <nd ref="6763639947"/>
+  <nd ref="910506614"/>
+  <nd ref="1858426323"/>
+  <nd ref="1404608216"/>
+  <nd ref="1858426326"/>
+  <nd ref="910506616"/>
+  <nd ref="1858426337"/>
+  <nd ref="258602585"/>
+  <nd ref="1858426345"/>
+  <nd ref="1404608209"/>
+  <nd ref="1858426348"/>
+  <nd ref="6763639948"/>
+  <nd ref="910506627"/>
+  <nd ref="1858426371"/>
+  <nd ref="1404608204"/>
+  <nd ref="6763639949"/>
+  <nd ref="1858426401"/>
+  <nd ref="910506629"/>
+  <nd ref="1858426435"/>
+  <nd ref="6763639950"/>
+  <nd ref="1858426451"/>
+  <nd ref="1858426461"/>
+  <nd ref="258602586"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Bruxelles"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807113" visible="true" version="7" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602580"/>
+  <nd ref="258602581"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+ </way>
+ <way id="126807114" visible="true" version="7" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602608"/>
+  <nd ref="1859971651"/>
+  <nd ref="1859971652"/>
+  <nd ref="1404608221"/>
+  <nd ref="11573045610"/>
+  <nd ref="910506664"/>
+  <nd ref="1859971653"/>
+  <nd ref="11573045611"/>
+  <nd ref="1404608225"/>
+  <nd ref="11573045612"/>
+  <nd ref="1859971654"/>
+  <nd ref="395054400"/>
+  <nd ref="11573045613"/>
+  <nd ref="1859971655"/>
+  <nd ref="1866942587"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N640"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126807116" visible="true" version="8" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602602"/>
+  <nd ref="1859754699"/>
+  <nd ref="1859930439"/>
+  <nd ref="1859754669"/>
+  <nd ref="258602603"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126835637" visible="true" version="12" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="1108954342"/>
+  <nd ref="1858140597"/>
+  <nd ref="13299532551"/>
+  <nd ref="1404608297"/>
+  <nd ref="1855375105"/>
+  <nd ref="1855375101"/>
+  <nd ref="6471907187"/>
+  <nd ref="258602630"/>
+  <nd ref="258856244"/>
+  <nd ref="13299532552"/>
+  <nd ref="1404608227"/>
+  <nd ref="1404608223"/>
+  <nd ref="11573045578"/>
+  <nd ref="1108953059"/>
+  <nd ref="13299532553"/>
+  <nd ref="1404608245"/>
+  <nd ref="1855375049"/>
+  <nd ref="1108953247"/>
+  <nd ref="13299532543"/>
+  <nd ref="1855375047"/>
+  <nd ref="1855375045"/>
+  <nd ref="1404608222"/>
+  <nd ref="13299532544"/>
+  <nd ref="1855375043"/>
+  <nd ref="258602631"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Raidillon"/>
+  <tag k="old_ref" v="N62b"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126835638" visible="true" version="10" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602631"/>
+  <nd ref="258856265"/>
+  <nd ref="1855375038"/>
+  <nd ref="11573045580"/>
+  <nd ref="11573045582"/>
+  <nd ref="11573045588"/>
+  <nd ref="1404608203"/>
+  <nd ref="11573045587"/>
+  <nd ref="910506705"/>
+  <nd ref="11573045586"/>
+  <nd ref="1404608237"/>
+  <nd ref="1858140586"/>
+  <nd ref="258602632"/>
+  <nd ref="1858140581"/>
+  <nd ref="258602635"/>
+  <nd ref="910506711"/>
+  <nd ref="1858295802"/>
+  <nd ref="258602578"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Kemmel"/>
+  <tag k="old_ref" v="N62"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="126835639" visible="true" version="7" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="1404943601"/>
+  <nd ref="258602628"/>
+  <nd ref="1404608267"/>
+  <nd ref="6059040090"/>
+  <nd ref="1855375116"/>
+  <nd ref="258602629"/>
+  <nd ref="6059040089"/>
+  <nd ref="1108954342"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Eau Rouge"/>
+  <tag k="old_ref" v="N62"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="175178443" visible="true" version="6" changeset="182528003" timestamp="2026-05-11T20:12:12Z" user="simonmrtsss" uid="24119137">
+  <nd ref="258602624"/>
+  <nd ref="1855375183"/>
+  <nd ref="1855375184"/>
+  <nd ref="1858140782"/>
+  <nd ref="910506685"/>
+  <nd ref="1855375185"/>
+  <nd ref="910506689"/>
+  <nd ref="1855375188"/>
+  <nd ref="1855375186"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="La Source"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="175178448" visible="true" version="5" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="1855375186"/>
+  <nd ref="11573036563"/>
+  <nd ref="1858140771"/>
+  <nd ref="395087471"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N62"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="175195997" visible="true" version="4" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602581"/>
+  <nd ref="1858267023"/>
+  <nd ref="1858267019"/>
+  <nd ref="1404608298"/>
+  <nd ref="1858267018"/>
+  <nd ref="910506611"/>
+  <nd ref="1858267017"/>
+  <nd ref="1404608244"/>
+  <nd ref="1858267016"/>
+  <nd ref="258602582"/>
+  <nd ref="1858267015"/>
+  <nd ref="1858267014"/>
+  <nd ref="1404608251"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Malmedy"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="175371353" visible="true" version="9" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602603"/>
+  <nd ref="1859930337"/>
+  <nd ref="1859754623"/>
+  <nd ref="910506647"/>
+  <nd ref="11573045607"/>
+  <nd ref="1404608276"/>
+  <nd ref="11573045608"/>
+  <nd ref="1859754607"/>
+  <nd ref="258602604"/>
+  <nd ref="1859754608"/>
+  <nd ref="1404608282"/>
+  <nd ref="1859754612"/>
+  <nd ref="1404608268"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Campus"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="175371365" visible="true" version="5" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="1404608268"/>
+  <nd ref="1859930386"/>
+  <nd ref="910506649"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="176133745" visible="true" version="4" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="1866942587"/>
+  <nd ref="258877232"/>
+  <nd ref="1859971656"/>
+  <nd ref="1859971657"/>
+  <nd ref="1404608308"/>
+  <nd ref="1859971658"/>
+  <nd ref="1859971659"/>
+  <nd ref="258877293"/>
+  <nd ref="1859971660"/>
+  <nd ref="1859971661"/>
+  <nd ref="258602609"/>
+  <nd ref="1859971662"/>
+  <nd ref="1859971663"/>
+  <nd ref="258877294"/>
+  <nd ref="910506667"/>
+  <nd ref="1404608304"/>
+  <nd ref="1859971665"/>
+  <nd ref="1859971666"/>
+  <nd ref="1404608265"/>
+  <nd ref="1859971668"/>
+  <nd ref="258602610"/>
+  <nd ref="1859971669"/>
+  <nd ref="1404608274"/>
+  <nd ref="1859971670"/>
+  <nd ref="1859971671"/>
+  <nd ref="1404608230"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Blanchimont"/>
+  <tag k="old_ref" v="N640"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="176133746" visible="true" version="5" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="910506654"/>
+  <nd ref="1859971648"/>
+  <nd ref="1859971650"/>
+  <nd ref="1859754877"/>
+  <nd ref="258602608"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="178964809" visible="true" version="3" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="1404608230"/>
+  <nd ref="258602613"/>
+  <nd ref="1859971672"/>
+  <nd ref="1859971673"/>
+  <nd ref="258602614"/>
+  <nd ref="1859971674"/>
+  <nd ref="1859971675"/>
+  <nd ref="1404608256"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N640"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="323851541" visible="true" version="8" changeset="174187510" timestamp="2025-11-04T11:04:15Z" user="SFGJimStreet" uid="16981237">
+  <nd ref="258602620"/>
+  <nd ref="13279625652"/>
+  <nd ref="3306209961"/>
+  <nd ref="3306208152"/>
+  <nd ref="1404608239"/>
+  <nd ref="1855375060"/>
+  <nd ref="1855375073"/>
+  <nd ref="1859971677"/>
+  <nd ref="10574409914"/>
+  <nd ref="910506586"/>
+  <nd ref="11573036562"/>
+  <nd ref="910506587"/>
+  <nd ref="1855375089"/>
+  <nd ref="1855375091"/>
+  <nd ref="910506588"/>
+  <nd ref="1855375094"/>
+  <nd ref="1404608232"/>
+  <nd ref="1859971678"/>
+  <nd ref="1859971679"/>
+  <nd ref="1855375110"/>
+  <nd ref="1404608294"/>
+  <nd ref="1855375120"/>
+  <nd ref="1855375121"/>
+  <nd ref="13279625654"/>
+  <nd ref="1855432135"/>
+  <nd ref="10574409926"/>
+  <nd ref="1404608228"/>
+  <nd ref="1855375125"/>
+  <nd ref="395087467"/>
+  <nd ref="13279625650"/>
+  <nd ref="1404968222"/>
+  <nd ref="395087469"/>
+  <nd ref="1855375150"/>
+  <nd ref="1404968009"/>
+  <nd ref="1855375158"/>
+  <nd ref="910506591"/>
+  <nd ref="1855375175"/>
+  <nd ref="910506594"/>
+  <nd ref="910506596"/>
+  <nd ref="11573045572"/>
+  <nd ref="11573036568"/>
+  <nd ref="11573045569"/>
+  <nd ref="11573036567"/>
+  <nd ref="1855375173"/>
+  <nd ref="1855375160"/>
+  <nd ref="1855375154"/>
+  <nd ref="395087471"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Pit Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="613486590" visible="true" version="6" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602620"/>
+  <nd ref="11573045620"/>
+  <nd ref="13279625653"/>
+  <nd ref="11573045619"/>
+  <nd ref="11573045621"/>
+  <nd ref="11573045617"/>
+  <nd ref="11573045622"/>
+  <nd ref="11573045618"/>
+  <nd ref="11573045623"/>
+  <nd ref="1855375093"/>
+  <nd ref="1855375095"/>
+  <nd ref="1404608307"/>
+  <nd ref="258602621"/>
+  <nd ref="258602622"/>
+  <nd ref="258602623"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N640"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="637268672" visible="true" version="6" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602618"/>
+  <nd ref="5804658288"/>
+  <nd ref="5804658289"/>
+  <nd ref="1855375057"/>
+  <nd ref="910506671"/>
+  <nd ref="1855375075"/>
+  <nd ref="258602619"/>
+  <nd ref="1855375082"/>
+  <nd ref="1855375083"/>
+  <nd ref="13460192696"/>
+  <nd ref="258602620"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Chicane"/>
+  <tag k="old_ref" v="N640"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1359025267" visible="true" version="2" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="10573365739"/>
+  <nd ref="1859737378"/>
+  <nd ref="258602589"/>
+  <nd ref="1859737408"/>
+  <nd ref="258602590"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1359025268" visible="true" version="2" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602586"/>
+  <nd ref="1859737217"/>
+  <nd ref="1859737228"/>
+  <nd ref="1859737238"/>
+  <nd ref="10573365732"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="old_ref" v="N605"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1430527230" visible="true" version="2" changeset="188483176" timestamp="2026-09-03T16:40:47Z" user="ndf_maypole" uid="20498931">
+  <nd ref="258602578"/>
+  <nd ref="1858140573"/>
+  <nd ref="1858140572"/>
+  <nd ref="1858140571"/>
+  <nd ref="1858140570"/>
+  <nd ref="910506605"/>
+  <nd ref="1858140569"/>
+  <nd ref="910506608"/>
+  <nd ref="1405335039"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Les Combes"/>
+  <tag k="old_ref" v="N62"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="operator" v="Circuit de Spa-Francorchamps"/>
+  <tag k="owner" v="Région wallonne"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <relation id="284560" visible="true" version="23" changeset="172057741" timestamp="2025-09-17T10:49:00Z" user="JeroenvanderGun" uid="11963177">
+  <member type="node" ref="258602622" role="start"/>
+  <member type="way" ref="175178448" role=""/>
+  <member type="way" ref="175178443" role=""/>
+  <member type="way" ref="126807099" role=""/>
+  <member type="way" ref="637268672" role=""/>
+  <member type="way" ref="613486590" role=""/>
+  <member type="way" ref="126807105" role=""/>
+  <member type="way" ref="176133745" role=""/>
+  <member type="way" ref="126807114" role=""/>
+  <member type="way" ref="176133746" role=""/>
+  <member type="way" ref="126807100" role=""/>
+  <member type="way" ref="175371365" role=""/>
+  <member type="way" ref="175371353" role=""/>
+  <member type="way" ref="126807116" role=""/>
+  <member type="way" ref="126807109" role=""/>
+  <member type="way" ref="126807101" role=""/>
+  <member type="way" ref="126807103" role=""/>
+  <member type="way" ref="1359025267" role=""/>
+  <member type="way" ref="126807106" role=""/>
+  <member type="way" ref="1359025268" role=""/>
+  <member type="way" ref="126807112" role=""/>
+  <member type="way" ref="126807111" role=""/>
+  <member type="way" ref="175195997" role=""/>
+  <member type="way" ref="126807113" role=""/>
+  <member type="way" ref="24449918" role=""/>
+  <member type="way" ref="1430527230" role=""/>
+  <member type="way" ref="126835638" role=""/>
+  <member type="way" ref="126835637" role=""/>
+  <member type="way" ref="126835639" role=""/>
+  <member type="way" ref="126807110" role=""/>
+  <member type="way" ref="323851541" role="pit_lane"/>
+  <member type="way" ref="178964809" role=""/>
+  <tag k="name" v="Circuit de Spa Francorchamps"/>
+  <tag k="name:en" v="Spa-Francorchamps Circuit"/>
+  <tag k="type" v="circuit"/>
+  <tag k="wikidata" v="Q172851"/>
+  <tag k="wikipedia" v="en:Circuit de Spa-Francorchamps"/>
+ </relation>
+</osm>

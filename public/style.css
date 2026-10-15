@@ -1,0 +1,1185 @@
+/* =============================================================================
+ * style.css —— 本地拟真 HUD 样式
+ * 字体全部走系统默认无衬线族（system-ui / 微软雅黑 / Arial），不加载任何在线字体。
+ * ========================================================================== */
+
+:root {
+  --bg: #07090d;
+  --ink: #eef3f8;
+  --ink-dim: #93a1b1;
+  --line: rgba(255, 255, 255, .12);
+  --glass: rgba(14, 18, 25, .82);
+  --glass-2: rgba(20, 26, 35, .9);
+  --red: #e10600;
+  --red-2: #ff2d1f;
+  --amber: #ffc400;
+  --green: #22d17a;
+  --blue: #46c8ff;
+  --shadow: 0 18px 50px rgba(0, 0, 0, .55);
+  --sans: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC",
+          "Hiragino Sans GB", Arial, "Helvetica Neue", sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, "DejaVu Sans Mono", monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--bg); color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  cursor: default;
+}
+
+canvas#gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+.hidden { display: none !important; }
+
+/* ---------------------------------------------------------------- 通用控件 */
+
+.overlay {
+  position: fixed; inset: 0; z-index: 30;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(1200px 700px at 50% 0%, rgba(225, 6, 0, .16), transparent 60%),
+    radial-gradient(900px 600px at 90% 100%, rgba(70, 200, 255, .10), transparent 60%),
+    rgba(4, 6, 9, .92);
+  backdrop-filter: blur(3px);
+}
+
+.panel {
+  width: min(760px, 94vw);
+  max-height: 94vh; overflow: auto;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 26px 28px 22px;
+}
+
+/* =============================================================================
+ * 滚动条统一样式（用户报障："创建房间页的原始下滑条美化一下或者隐藏"）
+ *
+ * 之前只有个别容器写了 `scrollbar-width: thin`，`.panel`（创建房间页的主面板）
+ * 在小屏/窗口偏矮时会出现**操作系统原生滚动条**（Windows 上是浅灰粗条），
+ * 与整套深色玻璃拟态完全不搭。
+ *
+ * 做法：给所有可滚动容器统一深色细滚动条（Firefox 走 scrollbar-*，
+ * Chromium/Edge/Safari 走 ::-webkit-scrollbar），并保留 `scrollbar-gutter: stable`
+ * 避免出现滚动条时内容左右跳动（结算表头与数值错位也与此有关）。
+ * ========================================================================== */
+.panel, .settle-panel, .tower .st-body, .season-body, .chat-body, .settle-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, .22) transparent;
+  scrollbar-gutter: stable;
+}
+.panel::-webkit-scrollbar, .settle-panel::-webkit-scrollbar,
+.tower .st-body::-webkit-scrollbar, .season-body::-webkit-scrollbar,
+.chat-body::-webkit-scrollbar, .settle-body::-webkit-scrollbar {
+  width: 10px; height: 10px;
+}
+.panel::-webkit-scrollbar-track, .settle-panel::-webkit-scrollbar-track,
+.tower .st-body::-webkit-scrollbar-track, .season-body::-webkit-scrollbar-track,
+.chat-body::-webkit-scrollbar-track, .settle-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.panel::-webkit-scrollbar-thumb, .settle-panel::-webkit-scrollbar-thumb,
+.tower .st-body::-webkit-scrollbar-thumb, .season-body::-webkit-scrollbar-thumb,
+.chat-body::-webkit-scrollbar-thumb, .settle-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.panel::-webkit-scrollbar-thumb:hover, .settle-panel::-webkit-scrollbar-thumb:hover,
+.tower .st-body::-webkit-scrollbar-thumb:hover, .season-body::-webkit-scrollbar-thumb:hover,
+.chat-body::-webkit-scrollbar-thumb:hover, .settle-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .32);
+  background-clip: padding-box;
+}
+.panel::-webkit-scrollbar-corner, .settle-panel::-webkit-scrollbar-corner { background: transparent; }
+
+.p-head h1 { font-size: 30px; letter-spacing: .06em; font-weight: 800; }
+.p-head h1 span { color: var(--red-2); }
+.p-head .sub { color: var(--ink-dim); font-size: 13px; margin-top: 6px; letter-spacing: .04em; }
+.p-head { border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 18px; }
+
+.stage { display: block; }
+.row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.lbl { width: 76px; flex: none; color: var(--ink-dim); font-size: 13px; letter-spacing: .08em; }
+
+.inp {
+  flex: 1; min-width: 0;
+  background: var(--glass-2); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 11px 14px; font-size: 15px; font-family: var(--sans);
+  outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.inp:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(225, 6, 0, .18); }
+.inp.sel { cursor: pointer; appearance: none; }
+.inp.code {
+  flex: none; width: 118px; text-align: center; letter-spacing: .34em;
+  text-transform: uppercase; font-weight: 700; font-family: var(--mono);
+}
+
+.btn {
+  background: var(--glass-2); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 12px 20px; font-size: 15px; font-weight: 600; font-family: var(--sans);
+  cursor: pointer; transition: transform .08s, background .15s, border-color .15s;
+  letter-spacing: .05em;
+}
+.btn:hover { background: rgba(255, 255, 255, .09); }
+.btn:active { transform: translateY(1px); }
+.btn.primary {
+  background: linear-gradient(135deg, var(--red), #a30400);
+  border-color: rgba(255, 90, 80, .5);
+  box-shadow: 0 8px 24px rgba(225, 6, 0, .3);
+}
+.btn.primary:hover { background: linear-gradient(135deg, #ff2a1c, #c00500); }
+.btn.ghost { background: transparent; color: var(--ink-dim); }
+.btn.ghost:hover { color: var(--ink); background: rgba(255, 255, 255, .06); }
+.btn.wide { width: 100%; margin-top: 4px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.joinbox { display: flex; gap: 8px; }
+
+.colors { display: flex; gap: 8px; flex-wrap: wrap; }
+.sw {
+  width: 30px; height: 30px; border-radius: 8px; cursor: pointer;
+  border: 2px solid transparent; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .5);
+  transition: transform .1s, border-color .1s;
+}
+.sw:hover { transform: scale(1.08); }
+.sw.on { border-color: #fff; transform: scale(1.12); }
+
+.netinfo { margin-top: 16px; font-size: 12px; color: var(--ink-dim); line-height: 1.7; }
+.netinfo b { color: var(--green); font-family: var(--mono); }
+.netinfo .warn { color: var(--amber); }
+
+.keys {
+  margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 12px; color: var(--ink-dim);
+}
+.keys b { color: var(--ink); font-family: var(--mono); }
+
+/* ------------------------------------------------------------------ 房间 */
+.roomcode {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--glass-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px; margin-bottom: 16px;
+}
+.roomcode b {
+  font-family: var(--mono); font-size: 34px; letter-spacing: .34em;
+  color: var(--amber); line-height: 1;
+}
+.hintline { font-size: 12px; color: var(--ink-dim); }
+.trackname { flex: 1; min-width: 0; font-size: 15px; font-weight: 600; color: var(--ink); }
+.chkrow { flex: 1; min-width: 0; display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--ink-dim); cursor: pointer; }
+.chkrow input { width: 16px; height: 16px; accent-color: var(--amber); cursor: pointer; }
+.chkrow:hover { color: var(--ink); }
+
+/* ==========================================================================
+   FM8 赛事裁决横幅（FRR）—— 屏幕正上方中央
+   平滑下落出现 -> 保持 3 秒 -> 平滑向上淡出收回，不遮挡驾驶核心视线
+   ========================================================================== */
+.frr {
+  position: fixed; left: 50%; top: 0; z-index: 40;
+  transform: translate(-50%, -140%); opacity: 0;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 22px 13px; border-radius: 0 0 12px 12px;
+  background: rgba(9, 11, 15, .88);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, .14); border-top: none;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .55);
+  color: var(--ink); white-space: nowrap; pointer-events: none;
+  transition: transform .38s cubic-bezier(.22, 1, .36, 1), opacity .38s ease;
+}
+.frr.on { transform: translate(-50%, 0); opacity: 1; }
+.frr-ico {
+  width: 22px; height: 22px; border-radius: 5px; flex: none;
+  background: var(--amber); color: #1b1206;
+  display: grid; place-items: center; font-weight: 900; font-size: 15px;
+}
+.frr-tag { color: var(--amber); font-weight: 800; font-size: 12px; letter-spacing: .08em; }
+.frr-txt { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.players { display: grid; gap: 10px; }
+.pcard {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--glass-2); border: 1px solid var(--line);
+  border-radius: 12px; padding: 12px 14px;
+}
+.pcard.empty { opacity: .38; border-style: dashed; }
+.pcolor { width: 16px; height: 16px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.6); }
+.pname { flex: 1; font-weight: 600; }
+.pid { font-family: var(--mono); color: var(--ink-dim); font-size: 12px; }
+.ptag {
+  font-size: 11px; padding: 4px 9px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--ink-dim); letter-spacing: .08em;
+}
+.ptag.ok { color: #06170e; background: var(--green); border-color: transparent; font-weight: 700; }
+.ptag.me { color: var(--blue); border-color: rgba(70, 200, 255, .5); }
+/* 玩家延迟徽标（用户要求"在房间内显示每个玩家的延迟毫秒"）。
+ * 数值来自服务端测量（Client.rttMs），客户端只负责按档着色。 */
+.ptag.ping { font-family: var(--mono); font-variant-numeric: tabular-nums; min-width: 62px; text-align: center; }
+.ptag.ping.good { color: #7ff0a8; border-color: rgba(60, 220, 120, .45); }
+.ptag.ping.ok { color: #ffd76a; border-color: rgba(255, 200, 60, .45); }
+.ptag.ping.bad { color: #ff8d7a; border-color: rgba(255, 90, 70, .5); }
+
+/* ------------------------------------------------------------------ HUD */
+#hud { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+.card {
+  background: var(--glass); border: 1px solid var(--line);
+  border-radius: 14px; box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+}
+.hud-tl { position: absolute; top: 18px; left: 18px; display: grid; gap: 12px; }
+.hud-tr { position: absolute; top: 18px; right: 18px; display: grid; gap: 12px; justify-items: end; }
+.hud-bl { position: absolute; left: 18px; bottom: 22px; display: grid; gap: 10px; }
+.hud-br { position: absolute; right: 18px; bottom: 14px; }
+
+/* ---- FM8 HUD 版式（规格 §五）------------------------------------------- */
+/* 左上：计时塔 + 圈速信息框 并排 */
+.twrow { display: flex; align-items: flex-start; gap: 10px; }
+.hud-tl { position: absolute; top: 18px; left: 18px; display: grid; gap: 12px; }
+
+.tower { padding: 9px 12px 10px; min-width: 292px; }
+/* 规格 §八：房间支持到 12 人，计时塔行数随之增长。
+   用 max-height + 滚动兜住，避免小屏下把仪表盘/小地图顶出视口。
+   12 行 × ~29px ≈ 348px 仍在 420px 内，因此常规 4~12 人不会出现滚动条。 */
+.tower .st-body { max-height: min(52vh, 420px); overflow-y: auto; scrollbar-width: thin; }
+.tower .st-body::-webkit-scrollbar { width: 6px; }
+.tower .st-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius: 3px; }
+.tw-head {
+  display: grid; grid-template-columns: 34px 1fr 62px 58px 18px; gap: 8px;
+  font-size: 10px; color: var(--ink-dim); letter-spacing: .1em;
+  padding-bottom: 6px; border-bottom: 1px solid var(--line);
+}
+.tw-head span:nth-child(1) { text-align: left; }
+.tw-head span:nth-child(3), .tw-head span:nth-child(4) { text-align: right; }
+.tw-head span:nth-child(5) { text-align: right; }
+
+/* 圈速信息框（规格 §五.2）：**无边框 / 无卡片底**，纯浮动文字。
+   与计时塔的卡片底形成对比 —— FM8 里圈速框就是浮在画面上的文字块。 */
+.lapbox {
+  padding: 4px 6px; min-width: 178px;
+  background: none; border: none; box-shadow: none; backdrop-filter: none;
+}
+.lb-row {
+  display: grid; grid-template-columns: 1fr 12px auto; gap: 6px; align-items: baseline;
+  padding: 2px 0; font-size: 11px; color: var(--ink-dim);
+  text-shadow: 0 1px 3px rgba(0,0,0,.85);      /* 无底浮动文字需自加描影保证可读 */
+}
+/* 规格：圈速为**白色等宽大字** */
+.lb-row b { font-family: var(--mono); font-size: 17px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+.lb-mark { font-style: normal; font-size: 8px; color: var(--ink-dim); }
+.lb-dirty { font-style: normal; font-size: 13px; line-height: 1; color: #ffcf33; text-shadow: 0 0 8px rgba(255,207,51,.45); }
+/* 规格：惩罚行 —— "+2.000" 橙红 */
+.lb-row.pen-row { grid-template-columns: 1fr auto; }
+.lb-pen { color: #ff6a2c !important; }
+.seg { color: var(--ink-dim); }
+.seg.up { color: var(--green); }      /* 比最佳快 -> 绿 */
+.seg.down { color: #ff5a3c; }         /* 比最佳慢 -> 红 */
+
+/* 右上：圈数进度 + 分组 */
+.lapcounter { display: flex; align-items: baseline; gap: 12px; }
+.lapcounter b {
+  font-family: var(--mono); font-size: 19px; font-weight: 800; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.lapcounter span { font-size: 11px; color: var(--ink-dim); letter-spacing: .08em; }
+
+/* 左下：微缩地图卡片（整块贴左下角） */
+.hud-bl .map-card { margin-top: 2px; }
+
+/* 右下：遥测列 + 圆环转速表 */
+.telemetry { display: grid; gap: 8px; justify-items: center; margin-right: 10px; }
+.tel-grid { display: grid; grid-template-columns: repeat(2, 13px); gap: 4px; }
+.tel { display: block; width: 13px; height: 17px; border-radius: 3px; background: #2a3138; box-shadow: inset 0 0 0 1px rgba(0,0,0,.5); }
+.tel-mode { display: grid; justify-items: center; }
+.tel-mode b { font-family: var(--mono); font-size: 17px; font-weight: 800; color: var(--amber); line-height: 1; }
+.tel-mode span { font-size: 8px; color: var(--ink-dim); letter-spacing: .1em; }
+.tel-fuel { width: 13px; height: 46px; border-radius: 4px; background: #23292f; overflow: hidden; display: flex; align-items: flex-end; box-shadow: inset 0 0 0 1px rgba(0,0,0,.5); }
+.tel-fuel i { display: block; width: 100%; height: 100%; background: linear-gradient(180deg, #ffd200, #ff8a00); transition: height .25s linear; }
+
+.lap-card { padding: 12px 16px 14px; min-width: 232px; }
+.laps { display: flex; align-items: baseline; gap: 4px; }
+.laps b { font-size: 40px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.laps i { color: var(--ink-dim); font-style: normal; margin: 0 2px; }
+.laps span { color: var(--ink-dim); font-size: 18px; font-weight: 600; }
+.lapmeta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 10px; }
+.lapmeta div { display: grid; gap: 3px; }
+.lapmeta span { font-size: 10px; color: var(--ink-dim); letter-spacing: .1em; }
+.lapmeta b { font-family: var(--mono); font-size: 15px; font-variant-numeric: tabular-nums; }
+.delta { margin-top: 8px; display: flex; justify-content: space-between; font-size: 12px; }
+.delta b { font-family: var(--mono); color: var(--green); }
+.delta.bad b { color: var(--red-2); }
+
+.pen-card { padding: 10px 14px 12px; border-color: rgba(225, 6, 0, .45); }
+.pen-head { font-size: 10px; letter-spacing: .14em; color: var(--red-2); font-weight: 700; }
+.pen-val { display: flex; align-items: baseline; gap: 3px; margin-top: 2px; }
+.pen-val b { font-family: var(--mono); font-size: 26px; color: var(--red-2); }
+.pen-val span { color: var(--ink-dim); font-size: 12px; }
+.pen-lines { display: grid; gap: 2px; margin-top: 4px; }
+.pen-lines div { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-dim); font-family: var(--mono); }
+
+/* 左下角微缩地图：移除圆盘/椭圆底衬，仅保留赛道与车辆标记。 */
+.map-card {
+  padding: 0; border-radius: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+/* 透明微缩地图（FK8 实测约 176px 视觉尺寸） */
+#minimap {
+  display: block; width: 176px; height: 176px;
+  border-radius: 50%; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.18);
+  background: #696969;
+  box-shadow: 0 8px 24px rgba(0,0,0,.32), inset 0 0 0 1px rgba(0,0,0,.22);
+}
+
+/* 大厅在线玩家：固定左上，和右侧赛事榜形成两侧信息锚点。 */
+.presence-panel {
+  position: absolute; top: 22px; left: 22px; z-index: 3;
+  width: min(250px, calc(100vw - 44px)); padding: 14px 16px;
+  border: 1px solid var(--line); border-radius: 14px;
+  background: rgba(11, 17, 24, .74); box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+.presence-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
+.presence-head b { font-size: 13px; letter-spacing: .08em; }
+.presence-head span { color: var(--ink-dim); font: 12px var(--mono); }
+.presence-body { display: grid; gap: 5px; max-height: 190px; overflow: auto; scrollbar-width: thin; }
+.presence-row { display: grid; grid-template-columns: 10px 1fr auto; gap: 8px; align-items: center; min-height: 25px; color: var(--ink-dim); }
+.presence-row.me { color: var(--ink); }
+.presence-dot { width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 8px currentColor; }
+.presence-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.presence-ping { color: var(--ink-dim); font: 11px var(--mono); font-variant-numeric: tabular-nums; }
+.presence-empty { color: var(--ink-dim); font-size: 12px; }
+
+/* 规则切换按钮和模式说明共享房间信息的紧凑网格。 */
+#roomGameMode { color: var(--blue); }
+.hud-bl .map-legend { padding: 2px 6px 0; }
+.map-legend { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-dim); padding: 6px 4px 0; }
+.map-legend b { color: var(--amber); font-family: var(--mono); font-size: 14px; }
+
+.standings { padding: 10px 12px 12px; min-width: 268px; }
+/* FM8 计时塔行（规格 §五.1）：名次(+王冠) / 车手 / 时间差距 / 处罚 / 🔧 */
+.st-row { display: grid; grid-template-columns: 34px 1fr 62px 58px 18px; gap: 8px; align-items: center; }
+.st-head { font-size: 10px; color: var(--ink-dim); letter-spacing: .1em; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.st-row { font-size: 13px; padding: 4px 0; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+/* 名次单元格：数字 + 领先者王冠（规格：名次后带王冠） */
+.st-row .rk { display: inline-flex; align-items: center; gap: 3px; font-weight: 700; }
+.st-row .rk .crown { font-style: normal; font-size: 11px; line-height: 1; filter: drop-shadow(0 0 3px rgba(255,210,0,.55)); }
+/* 末列 🔧：该车已退赛 / DNF 时的维修区标记 */
+.st-row .wr { font-size: 11px; text-align: right; opacity: .85; line-height: 1; }
+/* 规格：自己所在行是**微弱蓝色高亮**（不是整行变金） */
+.st-row.me {
+  background: rgba(58, 140, 255, .15); border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(58, 140, 255, .22);
+}
+.st-row.me .rk,
+.st-row.me .nm,
+.st-row.me .gap { color: #00d2ff; }
+.st-row.me .gap.me-row { color: #00d2ff; opacity: .9; }
+.st-row .pen {
+  font-family: var(--mono); font-size: 11px; text-align: right; color: var(--ink-dim);
+}
+.st-row .pen.hit {
+  color: #1b1206; background: var(--amber); border-radius: 4px;
+  padding: 1px 5px; font-weight: 800;
+}
+.st-row .pen.hit i { font-style: normal; opacity: .72; margin-left: 3px; }
+.st-row .nm { font-family: var(--sans); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st-row .dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; }
+.st-row.fin .nm::after { content: " ✓"; color: var(--green); }
+
+/* FM8 布局：遥测列在左，圆环转速表在右，整体贴右下角。
+   注意 .gauge-box 必须保持 200x200 且 position:relative —— 指针 / G 值都是
+   相对它做 50%/bottom 定位的，如果把指针挂到更宽的 .speedo-wrap 上就会偏掉。 */
+.speedo-wrap { display: flex; align-items: flex-end; gap: 10px; }
+.gauge-box { position: relative; width: 200px; height: 200px; }
+#speedo { width: 200px; height: 200px; overflow: visible; }
+.spd-bg { fill: rgba(8, 11, 15, .82); stroke: rgba(255, 255, 255, .10); stroke-width: 2; }
+.spd-arc { fill: none; stroke: rgba(255, 255, 255, .13); stroke-width: 11; stroke-linecap: round; }
+.spd-fill { fill: none; stroke: url(#spdGrad); stroke-width: 11; stroke-linecap: round; }
+/* 指针：独立 HTML 元素，CSS 旋转。
+   几何约定（与 JS 的角度映射必须严格一致）：
+     指针默认垂直朝上（0° = 12 点钟），rotate 正角 = 顺时针；
+     转轴位于元素 90% 高度处（即表盘圆心），元素高度 111px 使 90% = 99.9px = 圆心 y；
+     0 km/h -> -120°（左下方），260 km/h -> +120°（右下方），总行程 240°。 */
+.needle {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 4px;
+  height: 111px;              /* 111 × 90% = 99.9px ≈ 表盘圆心 */
+  margin-left: -2px;
+  background: linear-gradient(to top, rgba(255, 45, 31, .25) 0%, var(--red-2) 34%, #ff8b80 100%);
+  border-radius: 2px;
+  transform-origin: 50% 90%;  /* 旋转轴心 = 表盘圆心 */
+  transition: transform 0.05s linear;   /* 平滑微抖动，消除突变卡顿 */
+  filter: drop-shadow(0 0 6px rgba(255, 45, 31, .75));
+  will-change: transform;
+  pointer-events: none;
+}
+.hub { fill: #dfe6ee; }
+/* FM8：中心是巨大档位，下方才是车速 */
+.gear { fill: var(--amber); font-family: var(--mono); font-size: 58px; font-weight: 800; text-anchor: middle; }
+.spd-num { fill: #fff; font-family: var(--mono); font-size: 28px; font-weight: 700; text-anchor: middle; font-variant-numeric: tabular-nums; }
+.unit { fill: var(--ink-dim); font-family: var(--sans); font-size: 10px; text-anchor: middle; letter-spacing: .18em; }
+.gforce { position: absolute; left: 50%; bottom: -4px; transform: translateX(-50%); font-family: var(--mono); font-size: 11px; color: var(--ink-dim); }
+
+.badge {
+  font-size: 15px; font-weight: 800; letter-spacing: .16em;
+  padding: 9px 18px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--glass); width: fit-content;
+}
+/* 尾流提示：FM8 规格 —— 纯白灰度极简单行文字，无闪烁、无彩色、无大字 */
+.draft-text {
+  position: absolute; top: 4px; right: 6px;
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  letter-spacing: .22em; color: #e9edf2; opacity: .78;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .9);
+  pointer-events: none;
+}
+.badge.wrong { color: var(--red-2); border-color: rgba(255, 45, 31, .6); animation: pulse .45s infinite alternate; }
+@keyframes pulse { from { opacity: .62; } to { opacity: 1; } }
+
+.alert {
+  background: linear-gradient(90deg, rgba(225, 6, 0, .96), rgba(150, 3, 0, .82));
+  border: 1px solid rgba(255, 130, 120, .6);
+  border-radius: 12px; padding: 12px 22px; width: fit-content;
+  box-shadow: 0 12px 40px rgba(225, 6, 0, .45);
+  animation: alertIn .18s ease-out;
+}
+.alert b { font-size: 19px; letter-spacing: .08em; font-weight: 800; }
+.alert.warn { background: linear-gradient(90deg, rgba(200, 140, 0, .95), rgba(120, 80, 0, .8)); border-color: rgba(255, 210, 120, .6); box-shadow: 0 12px 40px rgba(200, 140, 0, .4); }
+.alert.off { background: linear-gradient(90deg, rgba(30, 90, 140, .95), rgba(15, 50, 80, .8)); border-color: rgba(120, 200, 255, .5); box-shadow: none; }
+@keyframes alertIn { from { transform: translateY(10px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.spectate { padding: 10px 14px 12px; pointer-events: auto; }
+.spec-head { font-size: 11px; letter-spacing: .12em; color: var(--blue); font-weight: 700; }
+.spec-head span { color: var(--ink-dim); font-weight: 400; letter-spacing: 0; margin-left: 8px; }
+.spec-list { display: grid; gap: 4px; margin-top: 6px; }
+.spec-row { font-family: var(--mono); font-size: 12px; display: flex; gap: 8px; align-items: center; padding: 2px 0; }
+.spec-row.on { color: var(--amber); font-weight: 700; }
+.spec-row .dot { width: 9px; height: 9px; border-radius: 3px; }
+
+.toast {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: var(--glass); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 26px; font-size: 15px; z-index: 20; box-shadow: var(--shadow);
+}
+
+/* --------------------------------------------------------------- 启动、结算 */
+.boot-box { display: grid; gap: 16px; justify-items: center; }
+.brand { font-size: 34px; font-weight: 900; letter-spacing: .08em; }
+.brand span { color: var(--red-2); }
+.boot-msg { color: var(--ink-dim); font-size: 13px; letter-spacing: .1em; }
+.bar { width: 300px; height: 4px; background: rgba(255, 255, 255, .1); border-radius: 3px; overflow: hidden; }
+.bar i { display: block; width: 12%; height: 100%; background: linear-gradient(90deg, var(--red), var(--amber)); transition: width .25s; }
+
+.res-panel { width: min(880px, 95vw); }
+.res-panel h2 { font-size: 26px; letter-spacing: .1em; }
+.res-sub { color: var(--ink-dim); font-size: 12px; margin: 8px 0 16px; }
+.res-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.res-table th {
+  text-align: left; font-size: 10px; letter-spacing: .12em; color: var(--ink-dim);
+  padding: 8px 10px; border-bottom: 1px solid var(--line); font-weight: 600;
+}
+.res-table td { padding: 11px 10px; border-bottom: 1px solid rgba(255, 255, 255, .06); font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.res-table td.nm { font-family: var(--sans); font-weight: 600; }
+.res-table tr.me td { background: rgba(225, 6, 0, .12); }
+.res-table tr.p1 td.rk { color: var(--amber); font-weight: 800; }
+.res-table .dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; }
+
+@media (max-width: 1180px) {
+  .hud-tl .standings { display: none; }
+  /* 规格 §五.3：小屏下按比例收窄放大后的圆形小地图 */
+  #minimap { width: 140px; height: 140px; }
+  .map-card { padding: 8px; }
+}
+@media (max-width: 820px) {
+  .speedo-wrap, #speedo { width: 150px; height: 150px; }
+  .hud-tr { display: none; }
+  .lap-card { min-width: 180px; }
+}
+
+/* 调试读数（?dbg=1）：仅用于开发与无头验收测试 */
+.dbg {
+  position: fixed; left: 18px; top: 50%; transform: translateY(-50%);
+  z-index: 40; font-family: var(--mono); font-size: 12px; line-height: 1.55;
+  color: #9ef0c0; background: rgba(0, 0, 0, .72); border: 1px solid rgba(158, 240, 192, .35);
+  border-radius: 8px; padding: 10px 14px; white-space: pre; pointer-events: none; margin: 0;
+}
+
+/* 救援复位冻结横幅：半透明居中，倒计时归零前禁止起步 */
+.rescue {
+  position: fixed; left: 50%; top: 38%; transform: translate(-50%, -50%);
+  z-index: 14; pointer-events: none; text-align: center;
+  background: rgba(10, 12, 16, .72); border: 1px solid rgba(255, 196, 0, .5);
+  border-radius: 14px; padding: 16px 34px; backdrop-filter: blur(4px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .6);
+}
+.rescue b { display: block; font-size: 20px; letter-spacing: .12em; color: var(--amber); }
+.rescue span { display: block; font-size: 13px; color: var(--ink-dim); margin-top: 4px; letter-spacing: .1em; }
+.rescue em {
+  display: block; font-style: normal; font-family: var(--mono);
+  font-size: 54px; font-weight: 800; line-height: 1.1; color: #fff;
+  text-shadow: 0 0 24px rgba(255, 196, 0, .55);
+}
+
+/* 罚时静默标签：红橙色小标签，跟在车手名后（不再是居中弹窗） */
+.pen-tag {
+  display: inline-block; margin-left: 6px; padding: 1px 5px;
+  font-style: normal; font-family: var(--mono); font-size: 10px; font-weight: 700;
+  color: #ffb08a; background: rgba(225, 60, 20, .22);
+  border: 1px solid rgba(255, 120, 80, .5); border-radius: 4px;
+  vertical-align: middle; letter-spacing: .02em;
+}
+.st-row .rk { font-family: var(--mono); font-size: 17px; font-weight: 800; color: var(--ink); text-align: center; }
+.st-row:nth-child(1) .rk { color: var(--amber); font-weight: 800; }
+/* 计时塔「秒差」列（规格 §7.1 相对本地玩家版）：
+   第一行 -> 本地=P1 时 "--"（金色）；本地非 P1 时落后第一名（负数）。
+   第 2 行及之后 -> 一律相对本地玩家：本地行 "--"，其余 落后"-X.X"/领先"+X.X"。 */
+.st-row .gap { font-family: var(--mono); font-size: 11px; text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1.15; }
+.st-row .gap .int { display: block; font-size: 9px; color: var(--ink-dim); }
+.st-row .gap.leader { color: var(--amber); font-weight: 800; letter-spacing: .08em; font-size: 12px; }
+/* 本地玩家恰为 P1："--" —— 金色但不当成 "LEADER" 字标，字号略小以免抢名次数字 */
+.st-row .gap.leader.me-lead { letter-spacing: .12em; }
+/* 本地玩家行（第 2 行及之后）的 "--"：中性灰，弱化 */
+.st-row .gap.me-row { color: var(--ink-dim); font-weight: 700; letter-spacing: .1em; }
+/* P1 副行 "VS P2 -0.85s"：不继承 LEADER 的字重与字距，保持次级信息观感 */
+.st-row .gap.leader .int { font-weight: 400; letter-spacing: 0; font-size: 9px; }
+/* 本地玩家必须是最终覆盖层：即使本地恰为 P1，排名/昵称/秒差也保持青色。 */
+.st-row.me .rk,
+.st-row.me .nm,
+.st-row.me .gap,
+.st-row.me .gap.leader,
+.st-row.me .gap.me-row,
+.st-row.me .gap.leader.me-lead { color: #00d2ff; }
+.st-row .lap { font-family: var(--mono); font-size: 11px; text-align: right; color: var(--ink-dim); }
+
+/* ==========================================================================
+ * 规格 §一.1 — 赛季积分排行榜（Season Leaderboard）
+ * 首页右侧滑出的半透明磨砂面板。默认 translateX(110%) 藏于右侧屏外，
+ * 进入大厅时加上 .show 平滑滑入。前 10 名，默认随机名已在服务端过滤。
+ * ========================================================================== */
+.season-panel {
+  position: fixed; top: 50%; right: 0; transform: translate(110%, -50%);
+  width: 288px; max-height: 78vh; overflow: hidden;
+  background: rgba(12, 15, 21, .62);
+  border: 1px solid rgba(255, 255, 255, .14); border-right: none;
+  border-radius: 16px 0 0 16px;
+  box-shadow: -18px 0 50px rgba(0, 0, 0, .55);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  padding: 16px 16px 14px 18px; z-index: 34;
+  transition: transform .55s cubic-bezier(.22, 1, .36, 1), opacity .4s;
+  opacity: 0; pointer-events: none;
+}
+.season-panel.show { transform: translate(0, -50%); opacity: 1; pointer-events: auto; }
+.season-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.season-head .season-ico { font-size: 17px; }
+.season-head b { font-size: 15px; letter-spacing: .06em; }
+.season-cols, .season-row {
+  display: grid; grid-template-columns: 34px 1fr 54px; gap: 8px; align-items: center;
+}
+.season-cols {
+  font-size: 10px; letter-spacing: .12em; color: var(--ink-dim);
+  padding-bottom: 6px; border-bottom: 1px solid var(--line);
+}
+.season-cols span:nth-child(2) { text-align: left; }
+.season-cols span:nth-child(3) { text-align: right; }
+.season-body { display: grid; gap: 1px; margin-top: 6px; max-height: 58vh; overflow-y: auto; scrollbar-width: thin; }
+.season-body::-webkit-scrollbar { width: 5px; }
+.season-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,.16); border-radius: 3px; }
+.season-row {
+  font-family: var(--mono); font-size: 12.5px; padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .05);
+  animation: seasonIn .45s backwards cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes seasonIn { from { opacity: 0; transform: translateX(22px); } to { opacity: 1; transform: none; } }
+.season-row .sr-rank { font-weight: 800; text-align: center; color: var(--ink-dim); }
+.season-row .sr-name { font-family: var(--sans); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.season-row .sr-pts { text-align: right; font-weight: 800; color: var(--amber); font-variant-numeric: tabular-nums; }
+.season-row.p1 .sr-rank { color: var(--amber); }
+.season-row.p1 .sr-name { color: var(--amber); }
+.season-row.p2 .sr-rank { color: #d8dee6; }
+.season-row.p3 .sr-rank { color: #d99a63; }
+.season-empty { font-size: 12px; color: var(--ink-dim); padding: 18px 2px; text-align: center; line-height: 1.7; }
+.season-foot { font-size: 10px; color: var(--ink-dim); opacity: .72; margin-top: 10px; letter-spacing: .04em; }
+@media (max-width: 900px) { .season-panel { display: none; } }
+
+/* ==========================================================================
+ * 规格 §二 — 全员完赛全屏磨砂结算 Modal
+ * 由 RACE_RESULTS 报文驱动，延迟 1.5s 平滑弹出（.show 触发 transition）。
+ * 全屏磨砂玻璃 + 逐行名次表 + 赛季积分列。
+ * ========================================================================== */
+.settlement {
+  z-index: 42;
+  background: rgba(4, 6, 10, .58);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  opacity: 0;
+  transition: opacity .45s ease;
+  align-items: center; justify-content: center;
+}
+.settlement.show { opacity: 1; }
+.settle-panel {
+  width: min(760px, 94vw); max-height: 88vh; overflow: auto;
+  background: linear-gradient(180deg, rgba(20, 24, 32, .96), rgba(12, 15, 20, .97));
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 18px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .72);
+  padding: 26px 28px 22px;
+  transform: translateY(18px) scale(.985);
+  transition: transform .45s cubic-bezier(.2, .8, .2, 1);
+}
+.settlement.show .settle-panel { transform: translateY(0) scale(1); }
+.settle-head { text-align: center; margin-bottom: 18px; }
+.settle-flag { font-size: 30px; display: block; margin-bottom: 4px; }
+.settle-head h2 { font-size: 25px; letter-spacing: .12em; margin: 0; }
+.settle-sub { margin: 6px 0 0; font-size: 13px; color: var(--ink-dim); letter-spacing: .06em; }
+.settle-cols, .stl-row {
+  display: grid;
+  grid-template-columns: 56px 1fr 120px 116px 96px;
+  align-items: center;
+  gap: 8px;
+}
+.settle-cols {
+  font-size: 11px; letter-spacing: .16em; color: var(--ink-dim);
+  text-transform: uppercase; padding: 0 12px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+/* ★ 表头必须与各列**数值**同向对齐（用户报障："圈秒数与上边的标题没对齐"）。
+ *   网格布局里每个单元格是独立盒子，表头默认左对齐、而 .stl-tot/.stl-best/.stl-pts
+ *   是右对齐 ⇒ 数值贴着列右沿、标题贴着列左沿，窄列（最快圈 116px）看着就是错位。
+ *   这里按同一套列宽给出对应对齐：名次居中，总成绩/最快圈/赛季积分右对齐。 */
+.settle-cols > span:nth-child(1) { text-align: center; }
+.settle-cols > span:nth-child(2) { text-align: left; }
+.settle-cols > span:nth-child(3),
+.settle-cols > span:nth-child(4),
+.settle-cols > span:nth-child(5) { text-align: right; }
+.settle-body { padding-top: 6px; }
+.stl-row {
+  padding: 11px 12px; border-radius: 10px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0; transform: translateY(8px);
+  animation: stlIn .38s ease forwards;
+}
+@keyframes stlIn { to { opacity: 1; transform: translateY(0); } }
+.stl-row:nth-child(1) { animation-delay: .04s; }
+.stl-row:nth-child(2) { animation-delay: .10s; }
+.stl-row:nth-child(3) { animation-delay: .16s; }
+.stl-row:nth-child(4) { animation-delay: .22s; }
+.stl-row:nth-child(5) { animation-delay: .28s; }
+.stl-row:nth-child(n+6) { animation-delay: .32s; }
+.stl-row + .stl-row { margin-top: 4px; }
+.stl-row.p1 { background: linear-gradient(90deg, rgba(255, 210, 0, .16), rgba(255, 210, 0, .02)); }
+.stl-row.me { box-shadow: inset 0 0 0 1.5px rgba(70, 200, 255, .55); }
+.stl-rk { font-weight: 800; font-size: 19px; text-align: center; color: var(--ink-dim); }
+.stl-row.p1 .stl-rk { color: var(--amber); }
+.stl-nm { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 15px; overflow: hidden; }
+.stl-nm .dot { width: 11px; height: 11px; border-radius: 50%; flex: 0 0 auto; }
+.stl-tot, .stl-best { text-align: right; font-size: 14px; color: var(--ink); }
+.stl-best { color: var(--ink-dim); }
+.stl-pts {
+  text-align: right; font-weight: 800; font-size: 16px;
+  color: var(--green); letter-spacing: .02em;
+}
+.stl-row.p1 .stl-pts { color: var(--amber); }
+.settle-actions {
+  display: flex; gap: 12px; margin-top: 20px; justify-content: center;
+}
+
+/* ==========================================================================
+ * 局内起步灯控（5 盏信号灯）
+ * 进入场景时五灯全红，随后从右向左逐盏熄灭。
+ * 五盏全灭后整体切绿（.go），同时显示 GO 并放行。
+ * ========================================================================== */
+.startlights {
+  position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+  z-index: 16; pointer-events: none; padding-top: 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.sl-row {
+  display: flex; gap: 12px;
+  background: rgba(8, 10, 14, .86);
+  border: 1px solid rgba(255, 255, 255, .16); border-bottom: none;
+  border-radius: 0 0 12px 12px;
+  padding: 12px 20px 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .6);
+}
+.sl {
+  display: block; width: 46px; height: 46px; border-radius: 50%;
+  background: #220404; box-shadow: inset 0 2px 6px rgba(0, 0, 0, .85), inset 0 0 0 2px rgba(255, 255, 255, .07);
+  transition: background .12s linear, box-shadow .12s linear;
+}
+.sl.red.on {
+  background: radial-gradient(circle at 38% 32%, #ff6a58, #c41205 62%, #7a0a02);
+  box-shadow: 0 0 26px 6px rgba(225, 40, 20, .85), inset 0 0 14px rgba(255, 200, 190, .6);
+}
+.startlights.go .sl.red {
+  background: radial-gradient(circle at 38% 32%, #8dffc0, #22d17a 60%, #08743d);
+  box-shadow: 0 0 28px 7px rgba(34, 209, 122, .88), inset 0 0 14px rgba(235, 255, 244, .72);
+}
+.sl-go {
+  width: 100%; min-height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, .06);
+  color: transparent; font-size: 16px; font-weight: 900; letter-spacing: .12em;
+  transition: color .12s linear, background .12s linear, box-shadow .12s linear;
+}
+.startlights.go .sl-go {
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  color: #eafff3;
+  text-shadow: 0 0 12px rgba(34, 209, 122, .95);
+  box-shadow: 0 0 26px 5px rgba(34, 209, 122, .85);
+  animation: goFlash .5s ease-out;
+}
+@keyframes goFlash { from { opacity: .2; } to { opacity: 1; } }
+
+/* ==========================================================================
+ * 规格 §四.1 — 完赛单行半透明条幅（替代全屏结果面板）
+ * ========================================================================== */
+.finishbar {
+  position: fixed; top: 74px; left: 50%; transform: translateX(-50%);
+  z-index: 18; pointer-events: none;
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(10, 13, 18, .66);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 999px; padding: 9px 22px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .5);
+  animation: finishIn .4s cubic-bezier(.22, 1, .36, 1);
+}
+@keyframes finishIn { from { opacity: 0; transform: translate(-50%, -14px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.finishbar .fb-ico { font-size: 16px; }
+.finishbar .fb-txt { font-size: 14px; font-weight: 700; letter-spacing: .04em; color: #fff; }
+.finishbar .fb-hint {
+  font-size: 11px; color: var(--ink-dim); letter-spacing: .06em;
+  border-left: 1px solid var(--line); padding-left: 12px;
+}
+
+/* ==========================================================================
+ * 规格 §四.2 — 观战入力回显（Input Telemetry Overlay）
+ * 屏幕正下方：半透明键盘指示器 [W][A][S][D]/[Space] + 油门/刹车进度条。
+ * ========================================================================== */
+.inputov {
+  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 15; pointer-events: none;
+  display: flex; align-items: center; gap: 18px;
+  background: rgba(10, 13, 18, .55);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 14px; padding: 9px 16px;
+  backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .45);
+}
+.io-keys { display: flex; align-items: flex-end; gap: 6px; }
+.io-key {
+  display: flex; align-items: center; justify-content: center;
+  min-width: 30px; height: 30px; padding: 0 8px;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  color: var(--ink-dim); background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .18); border-radius: 6px;
+  transition: all .08s linear;
+}
+.io-key.wide { min-width: 62px; font-size: 10px; letter-spacing: .1em; }
+.io-key.on {
+  color: #06090d; background: var(--amber); border-color: transparent;
+  box-shadow: 0 0 14px rgba(255, 196, 0, .7); transform: translateY(1px);
+}
+.io-bars { display: grid; gap: 5px; min-width: 168px; }
+.io-bar { display: flex; align-items: center; gap: 8px; }
+.io-bar span { font-size: 9px; letter-spacing: .14em; color: var(--ink-dim); width: 26px; }
+.io-bar i {
+  display: block; flex: 1; height: 7px; border-radius: 4px;
+  background: rgba(255, 255, 255, .09); overflow: hidden; position: relative;
+}
+.io-bar i::after {
+  content: ""; position: absolute; inset: 0; width: 0;
+  border-radius: 4px; transition: width .07s linear;
+}
+.io-bar.thr i::after { background: linear-gradient(90deg, #22d17a, #7dffb0); }
+.io-bar.brk i::after { background: linear-gradient(90deg, #ff2d1f, #ff8b80); }
+.io-bar.thr i { --w: 0%; }
+.io-bar.brk i { --w: 0%; }
+
+
+/* =============================================================================
+ * 规格 §二 — 大厅一体化聊天 / 赛事事件控制台（Lobby Chat & Event Console）
+ *
+ * 布局：进入房间后从右侧滑入的固定面板，宽 340px、纵向撑满右工作区。
+ * 质感：深黑微透明毛玻璃（rgba(14,17,23,.78) + blur(12px)）+ 左缘 1px 分隔线。
+ * 消息流：玩家发言 = 车色方标 + 高亮昵称气泡；系统/倒数 = 橙金→亮青渐变描边。
+ *   ⚠️ 倒数公告与聊天同层渲染，天然不会被任何 UI 叠层遮挡（规格 §一.2 根治）。
+ * ========================================================================== */
+.chat-panel {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 340px;
+  display: flex; flex-direction: column;
+  background: rgba(14, 17, 23, .78);
+  backdrop-filter: blur(12px) saturate(1.25);
+  -webkit-backdrop-filter: blur(12px) saturate(1.25);
+  border-left: 1px solid rgba(255, 255, 255, .08);
+  box-shadow: -18px 0 48px rgba(0, 0, 0, .5);
+  z-index: 36;
+  transform: translateX(102%);
+  transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .35s;
+  opacity: 0; pointer-events: none;
+}
+.chat-panel.show { transform: translateX(0); opacity: 1; pointer-events: auto; }
+
+.chat-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .035), transparent);
+}
+.chat-title { display: flex; align-items: baseline; gap: 6px; min-width: 0; }
+.chat-title .chat-ico { font-size: 15px; }
+.chat-title b { font-size: 14px; letter-spacing: .08em; font-weight: 700; }
+.chat-title small { font-size: 9px; letter-spacing: .18em; color: var(--ink-dim); }
+.chat-online { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-dim); }
+.chat-online b { color: var(--blue); font-family: var(--mono); font-size: 13px; }
+.dot-live {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+  box-shadow: 0 0 8px rgba(34, 209, 122, .85); animation: chatPulse 2.2s infinite;
+}
+@keyframes chatPulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+/* ---- 消息流容器：独立滚动，超出平滑贴底 ---- */
+.chat-feed {
+  flex: 1; min-height: 0;
+  overflow-y: auto; overflow-x: hidden;
+  padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 9px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .18) transparent;
+  overscroll-behavior: contain;
+}
+.chat-feed::-webkit-scrollbar { width: 6px; }
+.chat-feed::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .16); border-radius: 3px; }
+
+/* ---- 玩家发言气泡 ---- */
+.chat-row { display: flex; gap: 8px; align-items: flex-start; animation: chatIn .28s ease-out; }
+@keyframes chatIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.chat-swatch {
+  flex: none; width: 12px; height: 12px; border-radius: 3px; margin-top: 3px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28), 0 1px 4px rgba(0, 0, 0, .5);
+}
+.chat-bubble { min-width: 0; flex: 1; }
+.chat-name { font-size: 11px; font-weight: 700; letter-spacing: .02em; color: var(--blue); }
+.chat-name .chat-self { color: var(--amber); }
+.chat-text {
+  font-size: 13px; line-height: 1.45; color: var(--ink);
+  word-break: break-word; white-space: pre-wrap; margin-top: 1px;
+}
+
+/* ---- 系统 / 倒数公告：橙金 → 亮青渐变描边，居中醒目 ---- */
+.chat-sys {
+  position: relative;
+  border-radius: 10px;
+  padding: 8px 11px;
+  font-size: 12px; line-height: 1.4; text-align: center;
+  color: #ffe8b8;
+  background:
+    linear-gradient(180deg, rgba(255, 196, 0, .07), rgba(56, 232, 200, .05)),
+    rgba(255, 255, 255, .02);
+  letter-spacing: .02em;
+  animation: chatIn .3s ease-out;
+}
+/* 渐变高光边框用双层背景 + mask 实现（不额外占 DOM） */
+.chat-sys::before {
+  content: ""; position: absolute; inset: 0; border-radius: 10px; padding: 1px;
+  background: linear-gradient(100deg, rgba(255, 196, 0, .72), rgba(56, 232, 200, .5) 62%, rgba(70, 200, 255, .35));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events: none;
+}
+/* 发车倒数：加粗大字、居中、带脉冲光晕 —— 规格要求"杜绝任何图层重叠遮挡" */
+.chat-sys.countdown {
+  font-size: 16px; font-weight: 800; letter-spacing: .04em;
+  color: #ffd873; padding: 11px 12px;
+  text-shadow: 0 0 14px rgba(255, 196, 0, .5);
+  animation: chatIn .3s ease-out, cdGlow 1s ease-in-out infinite;
+}
+.chat-sys.countdown::before {
+  background: linear-gradient(100deg, rgba(255, 196, 0, .95), rgba(255, 120, 40, .6) 70%, rgba(56, 232, 200, .45));
+}
+.chat-sys.go {
+  font-size: 17px; font-weight: 800; color: #8affd0;
+  text-shadow: 0 0 16px rgba(34, 209, 122, .6);
+}
+.chat-sys.go::before {
+  background: linear-gradient(100deg, rgba(34, 209, 122, .9), rgba(56, 232, 200, .7));
+}
+/* ★ 全员准备后的整备倒计时（右侧聊天框）：秒数做成大号数字，一眼能看见 */
+.chat-sys.cd-big {
+  padding: 10px 12px;
+  display: flex; align-items: baseline; justify-content: center; gap: 6px;
+  flex-wrap: wrap;
+}
+.chat-sys.cd-big .chat-cd-pre { font-size: 11px; font-weight: 600; color: #ffd9a0; opacity: .92; }
+.chat-sys.cd-big .chat-cd-num {
+  font-size: 30px; line-height: 1; font-weight: 900;
+  color: #ffb347; letter-spacing: .02em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 16px rgba(255, 150, 40, .65);
+  animation: cdNumPop .42s cubic-bezier(.2, 1.5, .4, 1);
+}
+.chat-sys.cd-big .chat-cd-post { font-size: 13px; font-weight: 800; color: #ffe0a8; }
+@keyframes cdNumPop {
+  from { transform: scale(1.5); opacity: .35; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+@keyframes cdGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(255, 196, 0, 0); }
+  50% { box-shadow: 0 0 18px rgba(255, 196, 0, .33); }
+}
+
+/* ---- 底部紧凑输入区 ---- */
+.chat-input-row {
+  display: flex; gap: 8px; align-items: center;
+  padding: 11px 13px 13px;
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  background: linear-gradient(0deg, rgba(255, 255, 255, .03), transparent);
+}
+.chat-input {
+  flex: 1; min-width: 0;
+  background: rgba(6, 9, 13, .82); color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, .13); border-radius: 9px;
+  padding: 9px 12px; font-size: 13px; font-family: var(--sans);
+  outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.chat-input::placeholder { color: rgba(147, 161, 177, .62); }
+.chat-input:focus { border-color: rgba(70, 200, 255, .55); box-shadow: 0 0 0 3px rgba(70, 200, 255, .13); }
+.chat-send {
+  flex: none; cursor: pointer;
+  padding: 9px 15px; border-radius: 9px; border: 1px solid transparent;
+  background: linear-gradient(180deg, var(--red-2), var(--red));
+  color: #fff; font-size: 13px; font-weight: 700; letter-spacing: .06em;
+  font-family: var(--sans);
+  transition: filter .15s, transform .1s;
+}
+.chat-send:hover { filter: brightness(1.12); }
+.chat-send:active { transform: translateY(1px); }
+.chat-send:disabled { opacity: .45; cursor: not-allowed; filter: none; }
+
+/* =============================================================================
+ * 规格 §三 — 局内非侵入式轻量聊天浮层（HUD Chat Stream）
+ *
+ * 位置：左下、计时塔下方 / 圆形小地图上方之间的空白带，绝不压挡风玻璃与弯心。
+ * 行为：新消息平滑淡入，停留 5s 后向左淡出；最多同时 4 条，超出自动淡出更旧的。
+ * ========================================================================== */
+.hud-chat {
+  position: fixed;
+  left: 22px; bottom: 258px;         /* 小地图（176px + 底距）之上 */
+  width: min(46vw, 460px);
+  z-index: 12;
+  pointer-events: none;
+  display: flex; flex-direction: column; gap: 5px;
+  justify-content: flex-end;
+}
+.hc-feed { display: flex; flex-direction: column; gap: 5px; }
+.hc-msg {
+  align-self: flex-start; max-width: 100%;
+  display: flex; align-items: baseline; gap: 7px;
+  padding: 5px 11px; border-radius: 8px;
+  background: rgba(9, 12, 17, .62);
+  backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+  border-left: 3px solid var(--blue);
+  font-size: 13px; line-height: 1.35;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+  opacity: 0; transform: translateX(-14px);
+}
+/* 淡入 → 停留 → 向左淡出（由 JS 切换 .in / .out 类驱动，停留 5s） */
+.hc-msg.in { animation: hcIn .26s ease-out forwards; }
+.hc-msg.out { animation: hcOut .5s ease-in forwards; }
+@keyframes hcIn { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes hcOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-26px); } }
+.hc-msg .hc-name { flex: none; font-size: 11px; font-weight: 700; letter-spacing: .02em; }
+.hc-msg .hc-text { color: #e8eef6; word-break: break-word; }
+.hc-msg.sys {
+  border-left-color: #ffc400;
+  background: linear-gradient(90deg, rgba(255, 196, 0, .13), rgba(9, 12, 17, .62) 42%);
+}
+.hc-msg.sys .hc-name { color: #ffc400; }
+.hc-msg.sys .hc-text { color: #ffe8b8; }
+.hc-msg.cd {
+  border-left-color: #ff8b2b;
+  background: linear-gradient(90deg, rgba(255, 140, 40, .2), rgba(9, 12, 17, .6) 46%);
+}
+.hc-msg.cd .hc-text { color: #ffd873; font-weight: 800; }
+.hc-msg.go {
+  border-left-color: #22d17a;
+  background: linear-gradient(90deg, rgba(34, 209, 122, .2), rgba(9, 12, 17, .6) 46%);
+}
+.hc-msg.go .hc-text { color: #8affd0; font-weight: 800; }
+/* ★ 全员准备后的整备倒计时：右侧聊天框里的大号数字（常驻不淡出） */
+.hc-msg.cd.cd-big {
+  padding: 7px 14px;
+  border-left-width: 4px;
+  border-left-color: #ff8b2b;
+  background: linear-gradient(90deg, rgba(255, 140, 40, .26), rgba(9, 12, 17, .66) 52%);
+  box-shadow: 0 4px 18px rgba(255, 140, 40, .22);
+}
+.hc-msg.cd.cd-big .hc-text { display: flex; align-items: baseline; gap: 8px; }
+.hc-msg.cd.cd-big .hc-cd-num {
+  font-size: 26px; line-height: 1; font-weight: 900;
+  color: #ffb347; letter-spacing: .02em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 14px rgba(255, 150, 40, .55);
+}
+.hc-msg.cd.cd-big .hc-cd-txt { font-size: 12px; font-weight: 700; color: #ffe0a8; }
+
+/* 驾驶中快捷打字条（Enter / T 呼出） */
+.hc-bar {
+  position: fixed; left: 50%; bottom: 74px; transform: translateX(-50%);
+  z-index: 22;
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 10px 8px 14px; border-radius: 12px;
+  background: rgba(9, 12, 17, .82);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, .14);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .55);
+  animation: hcBarIn .2s ease-out;
+}
+@keyframes hcBarIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.hc-bar .hc-hint { font-size: 11px; letter-spacing: .1em; color: var(--amber); font-weight: 700; }
+.hc-bar .hc-input {
+  width: min(52vw, 460px);
+  background: rgba(6, 9, 13, .9); color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, .14); border-radius: 8px;
+  padding: 8px 12px; font-size: 14px; font-family: var(--sans); outline: none;
+}
+.hc-bar .hc-input:focus { border-color: rgba(255, 196, 0, .55); box-shadow: 0 0 0 3px rgba(255, 196, 0, .13); }
+
+/* 小屏适配：窄屏隐藏大厅聊天面板，避免挤压中央操作区 */
+@media (max-width: 980px) {
+  .chat-panel { width: 300px; }
+}
+@media (max-width: 760px) {
+  .chat-panel { display: none; }
+}
+
+
+/* =============================================================================
+ * 车手名牌（用户要求 2026-09-30）
+ *   · 只显示**一定范围内最近的 4 名**其他玩家（避免满屏标签）；
+ *   · 名牌与车辆之间留空隙（世界锚点上抬 2.4m + 屏幕再上移 10px），
+ *     且名牌本身**不遮挡自己前方的赛道**（靠上、半透明、小字号）。
+ * ========================================================================== */
+#nameplates { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.nplate {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  padding: 2px 8px 2px 7px;
+  border-radius: 5px;
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: #eef2f7;
+  background: rgba(6, 9, 13, .62);
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-left-width: 3px;            /* 左侧色条 = 该车配色 */
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+  backdrop-filter: blur(2px);
+  will-change: transform, opacity;
+}
+.nplate .np-gap { font-family: var(--mono); font-variant-numeric: tabular-nums;
+  color: #ffd76a; margin-left: 6px; font-size: 11px; }
+.nplate .np-reason { display: block; color: #fff; font-size: 11px; font-weight: 500; }
+.nplate.np-behind { opacity: .55; }   /* 在我后面的车名牌淡一点 */
+
+/* 护栏撞击调查：白色胶囊 -> 深色展开结果条 -> 上移淡出。 */
+#frrBanner.impact {
+  position: fixed; left: 50%; top: 18px; z-index: 40;
+  width: 92px; min-height: 38px; padding: 0;
+  display: block; overflow: hidden;
+  transform: translate(-50%, -150%); opacity: 0;
+  border: 0; border-radius: 13px;
+  background: transparent; box-shadow: none;
+  color: #111; pointer-events: none; white-space: nowrap;
+  transition: transform .42s cubic-bezier(.25, 1, .5, 1), opacity .42s ease,
+    width .62s cubic-bezier(.25, 1, .5, 1), background .62s ease,
+    border-radius .62s cubic-bezier(.25, 1, .5, 1);
+}
+#frrBanner.impact.on { transform: translate(-50%, 0); opacity: 1; }
+.impact-investigating,
+.impact-result {
+  min-height: 38px; display: flex; align-items: center; justify-content: center;
+}
+.impact-investigating {
+  gap: 12px; padding: 0 13px;
+  border-radius: 13px; background: rgba(255,255,255,.96);
+  box-shadow: 0 9px 30px rgba(0,0,0,.28);
+  transition: opacity .22s ease, transform .38s cubic-bezier(.25,1,.5,1);
+}
+.impact-label, .impact-result-label {
+  font-size: 14px; font-weight: 800; letter-spacing: .08em;
+}
+.impact-loader {
+  width: 18px; height: 18px; display: block; flex: none;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(112,120,128,.95) 0 7deg, transparent 7deg 30deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 42%, #000 45% 61%, transparent 64%);
+  mask: radial-gradient(circle, transparent 0 42%, #000 45% 61%, transparent 64%);
+  animation: impactSpinner .85s linear infinite;
+}
+@keyframes impactSpinner { to { transform: rotate(360deg); } }
+.impact-result {
+  position: absolute; inset: 0; justify-content: space-between; gap: 18px;
+  padding: 0 7px 0 18px; opacity: 0; transform: translateX(-12px);
+  color: #fff; transition: opacity .35s ease .18s, transform .55s cubic-bezier(.25,1,.5,1) .05s;
+}
+.impact-verdict {
+  min-height: 30px; display: inline-flex; align-items: center;
+  padding: 0 11px; border-radius: 999px;
+  color: #07150d; background: #47e477; font-size: 12px; font-weight: 900;
+}
+#frrBanner.impact.result {
+  width: 232px; background: rgba(12,16,21,.92);
+  box-shadow: 0 12px 34px rgba(0,0,0,.45); border-radius: 9px;
+}
+#frrBanner.impact.result .impact-investigating { opacity: 0; transform: translateX(-18px); }
+#frrBanner.impact.result .impact-result { opacity: 1; transform: translateX(0); }
+#frrBanner.impact:not(.on) { transform: translate(-50%, -18px); opacity: 0; }
+
+/* presence 使用原生 details，summary 只保留可点击的面板标题。 */
+#presenceDetails > summary { list-style: none; cursor: pointer; }
+#presenceDetails > summary::-webkit-details-marker { display: none; }
+#presenceDetails > summary::after { content: '⌄'; margin-left: 8px; color: var(--ink-dim); }
+#presenceDetails[open] > summary::after { content: '⌃'; }
+
+/* Worker 重构：唯一裁决状态机、小地图磨砂与本车尾流边缘风线。 */
+.player-profile { display: flex; align-items: center; gap: 10px; padding: 0 0 12px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,.09); }
+.player-profile > span { color: var(--ink-dim); font-size: 11px; }
+#profileName { color: #f5f7fa; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+#minimap { background: rgba(35,39,44,.52); backdrop-filter: blur(12px) saturate(1.12); -webkit-backdrop-filter: blur(12px) saturate(1.12); }
+#frrBanner[hidden] { display: none; }
+#frrBanner.impact { width: var(--penalty-width, 94px); transform: translate(calc(var(--penalty-width, 94px) * -.5), -150%); background: rgba(255,255,255,.97); }
+#frrBanner.impact.on { transform: translate(calc(var(--penalty-width, 94px) * -.5), 0); opacity: 1; }
+#frrBanner.impact:not(.on) { transform: translate(calc(var(--penalty-width, 94px) * -.5), -150%); opacity: 0; }
+#frrBanner.impact.result { width: 252px; background: rgba(12,16,21,.86); backdrop-filter: blur(12px); }
+.impact-investigating { background: transparent; }
+.impact-verdict { color: #06170e; background: #00E074; font-variant-numeric: tabular-nums; }
+#frrBanner.penalized .impact-verdict { color: #211203; background: #ffb23d; }
+#slipstreamEdges { position: fixed; inset: 0; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity .15s linear; z-index: 1; }
+#slipstreamEdges::before, #slipstreamEdges::after { content: ''; position: absolute; top: 12%; bottom: 12%; width: 10%; background: repeating-linear-gradient(120deg, transparent 0 25px, rgba(235,244,255,.24) 26px 27px, transparent 28px 82px); mask-image: linear-gradient(to right, #000, transparent); animation: slipstreamWind .32s linear infinite; }
+#slipstreamEdges::before { left: 0; }
+#slipstreamEdges::after { right: 0; transform: scaleX(-1); }
+@keyframes slipstreamWind { to { background-position-y: 164px; } }
+.np-ghost-reason { color: #a4d6f6; padding: 1px 5px; margin-left: 5px; border: 1px solid rgba(164,214,246,.28); border-radius: 4px; font-size: 10px; }
+
+

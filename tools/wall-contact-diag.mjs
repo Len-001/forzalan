@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+(0,eval)(fs.readFileSync(new URL('../public/libs/three.min.js',import.meta.url),'utf8'));
+globalThis.document={createElement:()=>({style:{},getContext:()=>new Proxy({},{get:()=>()=>({addColorStop(){}})})})};globalThis.window={devicePixelRatio:1,addEventListener(){}};
+const {Track}=await import('../public/js/track.js');const {RacePhysics,CFG}=await import('../public/js/physics.js');
+const trk=new Track(777,'vegas');trk.build();const q=new RacePhysics(trk);q.racing=true;
+let i=0;for(let k=1;k<trk.count;k++)if(trk.raceLine.radius[k]>trk.raceLine.radius[i])i=k;
+const c=q.addCar({id:1,name:'D',color:'#fff',isLocal:true,startIndex:i,lateral:0,laps:99});const p=trk.pts[i],s=trk.side[i],t=trk.tan[i],lat=(trk.barrierLatArr?.[i]||trk.barrierLat||trk.halfWidth+trk.curbWidth+.75)-.95;
+c.body.position.set(p.x+s.x*lat,p.y+CFG.RIDE_H+.05,p.z+s.z*lat);
+const yaw=Math.atan2(t.x+s.x*Math.tan(12*Math.PI/180),t.z+s.z*Math.tan(12*Math.PI/180));c.body.quaternion.set(0,Math.sin(yaw/2),0,Math.cos(yaw/2));const vyaw=Math.atan2(t.x+s.x*Math.tan(6*Math.PI/180),t.z+s.z*Math.tan(6*Math.PI/180));c.body.velocity.set(Math.sin(vyaw)*130/3.6,0,Math.cos(vyaw)*130/3.6);c.syncFromBody();c.prevPos.copy(c.pos);c.prevQuat.copy(c.quat);
+let step=0;const original=q.applyBarrierDeflection;
+q.applyBarrierDeflection=function(dt){let eq=this.world.contacts.find(eq=>this.barrierContactNormal(eq)?.carBody===c.body);const n=eq&&this.barrierContactNormal(eq);let data;if(n){const v=Math.hypot(c.preBarrierVx,c.preBarrierVz);const shape=n.barrierBody.shapes[0];data={step,pre:v*3.6,post:c.speedKmh,fresh:!c._wallContact,theta:Math.asin(Math.abs(c.preBarrierVx*n.nx+c.preBarrierVz*n.nz)/v)*180/Math.PI,normal:[n.nx,n.nz],shape:shape.halfExtents};}original.call(this,dt);if(data&&(step%10===0||data.theta>25))console.log(JSON.stringify({...data,after:c.body.velocity.length()*3.6}));};
+for(step=0;step<120;step++){c.input.throttle=1;q.fixedStep(1/60);}console.log({index:i,end:c.speedKmh});

@@ -1,0 +1,52 @@
+# ===== Go =====
+# 构建缓存（原包最大膨胀源，254.7 MB）
+.gocache/
+.gotmp/
+*.test
+*.out
+
+# ===== 编译产物 =====
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+*.a
+*.lib
+*.pdb
+
+# ===== Emscripten / WASM =====
+.emcache/
+native/wasm/dist/
+wasm/dist/
+native/build/
+wasm/build/
+*.wasm
+*.wasm.map
+
+# ===== Node / 前端依赖 =====
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ===== 日志与运行期数据 =====
+*.log
+logs/
+
+# ===== 备份文件 =====
+*.bak
+*.bak-*
+*~
+
+# ===== 编辑器 / 操作系统 =====
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ===== 项目数据目录（AGENT 工作数据，不入库）=====
+.workbuddy/

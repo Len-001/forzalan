@@ -1,0 +1,27 @@
+{
+  "layoutVersion": 1,
+  "sizeof": 96,
+  "alignof": 16,
+  "byteOrder": "little",
+  "offsets": {
+    "frame": 0,
+    "tickMs": 4,
+    "serverTimeSec": 8,
+    "position": 16,
+    "rotation": 32,
+    "velocity": 48,
+    "angularVelocity": 64,
+    "accel": 80
+  },
+  "reference": {
+    "frame": 1122867,
+    "tickMs": 4478310,
+    "serverTimeSec": 12.500000,
+    "position": [1.500000, -2.250000, 3.750000],
+    "rotation": [0.500000, 0.500000, 0.500000, 0.500000],
+    "velocity": [30.000000, 0.500000, -12.000000],
+    "angularVelocity": [0.250000, 1.500000, -0.750000],
+    "accel": [9.000000, -1.000000, 0.000000]
+  },
+  "referenceHex": "332211006655440000004841000000000000c03f000010c000007040000000000000003f0000003f0000003f0000003f0000f0410000003f000040c1000000000000803e0000c03f000040bf0000000000001041000080bf0000000000000000"
+}

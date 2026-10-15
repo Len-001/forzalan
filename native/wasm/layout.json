@@ -1,0 +1,10 @@
+{
+  "snapshotSize": 96,
+  "align": 16,
+  "littleEndian": true,
+  "offsets": {
+    "frame": 0, "tickMs": 4, "serverTimeSec": 8,
+    "position": 16, "rotation": 32, "velocity": 48,
+    "angularVelocity": 64, "accel": 80
+  }
+}

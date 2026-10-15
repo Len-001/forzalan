@@ -1,0 +1,280 @@
+{
+  "snap": {
+    "t": 221,
+    "offline": true,
+    "settled": true,
+    "laps": 1,
+    "clock": 223.221,
+    "cars": [
+      {
+        "id": 2,
+        "name": "AI · 银箭",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 159.28,
+        "total": 159.28
+      },
+      {
+        "id": 3,
+        "name": "AI · 红隼",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 176.37,
+        "total": 176.37
+      },
+      {
+        "id": 4,
+        "name": "AI · 蓝鲨",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 160.4,
+        "total": 160.4
+      },
+      {
+        "id": 6,
+        "name": "AI · 猎风",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 161.13,
+        "total": 161.13
+      },
+      {
+        "id": 8,
+        "name": "AI · 黑曜",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 162.4,
+        "total": 162.4
+      },
+      {
+        "id": 10,
+        "name": "AI · 飓风",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 163.55,
+        "total": 163.55
+      },
+      {
+        "id": 1,
+        "name": "车手49",
+        "ai": false,
+        "auto": true,
+        "finished": false,
+        "retired": false,
+        "lap": 0,
+        "laps": 1,
+        "pen": 0,
+        "net": null,
+        "total": null
+      },
+      {
+        "id": 5,
+        "name": "AI · 赤焰",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 175.28,
+        "total": 175.28
+      },
+      {
+        "id": 7,
+        "name": "AI · 雷鸟",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 177.45,
+        "total": 177.45
+      },
+      {
+        "id": 9,
+        "name": "AI · 北极星",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 179.15,
+        "total": 179.15
+      },
+      {
+        "id": 11,
+        "name": "AI · 流光",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 179.78,
+        "total": 179.78
+      },
+      {
+        "id": 12,
+        "name": "AI · 磐石",
+        "ai": true,
+        "auto": true,
+        "finished": true,
+        "retired": false,
+        "lap": 1,
+        "laps": 1,
+        "pen": 0,
+        "net": 164.58,
+        "total": 164.58
+      }
+    ],
+    "settlement": [
+      {
+        "name": "AI · 银箭",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 159.28334045410156,
+        "rank": 1
+      },
+      {
+        "name": "AI · 蓝鲨",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 160.39999389648438,
+        "rank": 2
+      },
+      {
+        "name": "AI · 猎风",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 161.13333129882812,
+        "rank": 3
+      },
+      {
+        "name": "AI · 黑曜",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 162.39999389648438,
+        "rank": 4
+      },
+      {
+        "name": "AI · 飓风",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 163.5500030517578,
+        "rank": 5
+      },
+      {
+        "name": "AI · 磐石",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 164.5833282470703,
+        "rank": 6
+      },
+      {
+        "name": "AI · 赤焰",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 175.28334045410156,
+        "rank": 7
+      },
+      {
+        "name": "AI · 红隼",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 176.36666870117188,
+        "rank": 8
+      },
+      {
+        "name": "AI · 雷鸟",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 177.4499969482422,
+        "rank": 9
+      },
+      {
+        "name": "AI · 北极星",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 179.14999389648438,
+        "rank": 10
+      },
+      {
+        "name": "AI · 流光",
+        "fin": true,
+        "dnf": false,
+        "lap": 1,
+        "net": 179.78334045410156,
+        "rank": 11
+      },
+      {
+        "name": "车手49",
+        "fin": false,
+        "dnf": true,
+        "lap": 0,
+        "net": 0,
+        "rank": 12
+      }
+    ],
+    "settlementShown": true,
+    "resultRows": [
+      "1AI · 银箭2:39.280.02:39.282:39.27",
+      "2AI · 蓝鲨2:40.400.02:40.402:40.38",
+      "3AI · 猎风2:41.130.02:41.132:41.12",
+      "4AI · 黑曜2:42.400.02:42.402:42.38",
+      "5AI · 飓风2:43.550.02:43.552:43.53",
+      "6AI · 磐石2:44.580.02:44.582:44.57",
+      "7AI · 赤焰2:55.280.02:55.282:55.27",
+      "8AI · 红隼2:56.370.02:56.372:56.35",
+      "9AI · 雷鸟2:57.450.02:57.452:57.43",
+      "10AI · 北极星2:59.150.02:59.152:59.13",
+      "11AI · 流光2:59.780.02:59.782:59.77",
+      "12车手49DNF0.0—--:--.--"
+    ]
+  }
+}

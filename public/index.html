@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="aRJvoE4vZaLXhW5R7AoqNH">
+<head data-page-node-id="gXLUFwhRrYwznaSPhKFFDt">
+<meta charset="utf-8" data-page-node-id="HeNm4FPJBM3CplHse1oX8Z">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="aekUM7sC2cXePKFbC3Vl58">
+<!--
+  全离线内容安全策略：default-src 'none' 表示除下面显式列出的来源外，浏览器会拒绝一切加载。
+  任何人不小心写回外链脚本/字体/图片（CDN 等），都会被浏览器当场拦截 —— 这是"零外部请求"的自动防线，
+  同时 tools/e2e.mjs 会静态扫描本目录下所有文件，出现任何外链字面量即判定失败。
+
+  script-src 里的 'wasm-unsafe-eval' 是给 WebAssembly 用的：
+  WebAssembly.instantiate / compile 属于"动态代码生成"，即使 wasm 已经以 base64 内联在
+  JS 里（构建时用 -sSINGLE_FILE=1），也仍然需要这条显式授权，否则会被静默拒绝，
+  只在 console 留一条 CSP violation，极难排查。
+  它比 'unsafe-eval' **窄得多**：只放行 wasm 编译，不放行 eval() / new Function()，
+  所以"零外链 + 禁动态求值"这两条防线都还在。
+  兼容性：Chrome/Edge 97+、Firefox 102+、Safari 16.4+；老浏览器会忽略这个未知关键字，
+  此时 wasm 路径加载失败，但不影响纯 JS 物理路径（现有实现仍然可用）。
+-->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob: ws: wss:; font-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'" data-page-node-id="iY24cBCIxvM2otfN65xy7A">
+<title>极限竞速 · LAN ｜ 12 人局域网 3D 竞速</title>
+<link rel="stylesheet" href="./style.css" data-page-node-id="FnONTxBa9yjuu6KCIwkuCU">
+<link rel="stylesheet" href="./ui-layout-overrides.css">
+<!-- 本地离线引擎库：相对路径，绝不经过任何外网 -->
+<script src="./libs/three.min.js"></script>
+</head>
+<body data-page-node-id="NiH6gGw2sfIZLWCwwwIELX">
+
+<canvas id="gl" data-page-node-id="QGjO8wqSP5vL6EXH4QsmAR"></canvas>
+
+<!-- ============================ 启动遮罩 ============================ -->
+<div id="boot" class="overlay" data-page-node-id="tfBwIV4jY75TD2W4Eh6EpY">
+  <div class="boot-box" data-page-node-id="ghGvB1s5exytzVfnlxArJB">
+    <div class="brand" data-page-node-id="5syiAXRfdDAdrgVkumJ5MJ">极限竞速 <span data-page-node-id="DFaMlpLX9F0B1HtDkDM0T1">· LAN</span></div>
+    <div id="bootMsg" class="boot-msg" data-page-node-id="IgxdyFHyVyo42ZpS26Q5dl">正在装载本地离线引擎…<br data-page-node-id="JAENmVegE8pkm5GHEt07Jy">
+      <small style="opacity:.6" data-page-node-id="MJ2mkBBwT9A48vKPVKR3Td">若长时间停在此页：请通过 Go 服务端的 http:// 地址访问，浏览器禁止 file:// 直接加载 ES 模块。</small>
+    </div>
+    <div class="bar" data-page-node-id="lfKFwx2AlmeExopKBzFtOj"><i id="bootBar" data-page-node-id="eNAinXVWjIw4pHB8Ck6BCs"></i></div>
+  </div>
+</div>
+
+<!-- ============================ 大厅 ============================ -->
+<div id="lobby" class="overlay hidden" data-page-node-id="ZziD1NkGFPZ6JvV0TisVzI">
+  <aside id="presencePanel" class="presence-panel" aria-label="大厅玩家">
+    <div id="playerProfile" class="player-profile"><span>车手</span><b id="profileName">未命名车手</b></div>
+    <details id="presenceDetails" open>
+      <summary class="presence-head"><b>大厅玩家</b><span id="presenceCount">0 人 · 房间内 0 人</span></summary>
+      <div id="presenceBody" class="presence-body"></div>
+    </details>
+  </aside>
+
+  <!-- 赛季积分排行榜（规格 §一.1）：首页右侧滑出的半透明磨砂面板。
+       未加入房间时通过 /api/season 拉取；进入房间后由 room 报文的 season 字段推送。 -->
+  <aside id="season" class="season-panel" data-page-node-id="hrBjCgV9b9QAgRUzTUZHos">
+    <div class="season-head" data-page-node-id="Z96ESRVQ1Xpn92J4yTlfdx">
+      <span class="season-ico" data-page-node-id="9UxltiN2UcFlY8TSJU20zH">🏆</span>
+      <b data-page-node-id="FeOaOculYnxI4nFMY4lTyw">赛季积分排行榜</b>
+    </div>
+    <div class="season-cols" data-page-node-id="3qV2lI8cOrLZ11xDaA7DnT"><span data-page-node-id="vRAYWuRE3PK5yBeb2bQKbr">名次</span><span data-page-node-id="e5ub2iwKCQ0sUYMIvSsYCU">车手</span><span data-page-node-id="a4qXRaxxRea6lzlzkm2qyh">积分</span></div>
+    <div id="seasonBody" class="season-body" data-page-node-id="EzsAsYpaEQsjuSeiNWAKGD">
+      <div class="season-empty" data-page-node-id="n2CIlcEBh8J3Ee2A33nB2O">暂无记录 —— 完成一场比赛即可上榜</div>
+    </div>
+    <div class="season-foot" data-page-node-id="6wwDoLS1BZDKz7KfJuHp6C">仅统计真实昵称 · 每场按名次累加积分</div>
+  </aside>
+
+  <!-- ==================== 大厅一体化聊天 / 赛事事件控制台 ====================
+       （规格 §二）大厅右侧固定 340px 磨砂面板：标题 + 在线人数、独立滚动消息流、
+       玩家彩色气泡、系统/倒数高亮公告、底部紧凑输入框。
+       玩家发言与系统事件共用一条消息流（服务端统一走 CHAT_MESSAGE）。
+       开赛倒计时同时进入本消息流 ⇒ 与聊天同层，天然不会被任何 UI 叠层遮挡。 -->
+  <aside id="chatPanel" class="chat-panel hidden" data-page-node-id="ChPnl000000000000000AS">
+    <header class="chat-head" data-page-node-id="ChHead00000000000000AH">
+      <div class="chat-title" data-page-node-id="ChTtl000000000000000AT">
+        <span class="chat-ico" data-page-node-id="ChIco000000000000000AI">💬</span>
+        <b data-page-node-id="ChB00000000000000000AB">赛事频道</b>
+        <small data-page-node-id="ChS00000000000000000AS2">/ EVENT CHAT</small>
+      </div>
+      <div class="chat-online" data-page-node-id="ChOnl00000000000000AO">
+        <i class="dot-live" data-page-node-id="ChDot00000000000000AD"></i>
+        <span data-page-node-id="ChOnc00000000000000AON2">在线 <b id="chatOnline" data-page-node-id="ChOnb00000000000000AOB">1</b></span>
+      </div>
+    </header>
+    <div id="chatFeed" class="chat-feed" data-page-node-id="ChFeed000000000000AF" aria-live="polite"></div>
+    <div class="chat-input-row" data-page-node-id="ChInpR000000000000AR">
+      <input id="chatInput" class="chat-input" type="text" maxlength="80" autocomplete="off"
+             placeholder="按 Enter 发言…" data-page-node-id="ChInp0000000000000AIT">
+      <button id="chatSend" class="chat-send" type="button" title="发送（Enter）" data-page-node-id="ChSnd00000000000000ASD">发送</button>
+    </div>
+  </aside>
+
+  <div class="panel lobby-panel" data-page-node-id="ggC15BMTBK6w7AcxpmccO3">
+    <header class="p-head" data-page-node-id="86OImbP0BEC0T7gQHGa08n">
+      <h1 data-page-node-id="tmpbDcM3aiNkGQAPFUzAfi">极限竞速 <span data-page-node-id="QUWmxKfFlPvoevSOvMOW5W">· LAN</span></h1>
+      <p class="sub" data-page-node-id="kmWLVFq8WuPdN8dFVBw06f">12 人局域网竞速 ｜ 单文件离线部署 ｜ 零外部依赖</p>
+    </header>
+
+    <div id="stageJoin" class="stage" data-page-node-id="xEsEXJMQDhFyX8ZX9eZ8DA">
+      <div class="row" data-page-node-id="QQyHDjhWSTxnlGzbBjGBhB">
+        <label class="lbl" data-page-node-id="0BW77WoIH2IzoteEfNVEY4">车手昵称</label>
+        <input id="name" class="inp" maxlength="12" placeholder="输入昵称" value="" data-page-node-id="JzCQC1N4rI1dFqRhzH4Hpr">
+      </div>
+      <div class="row" data-page-node-id="soCPkFbfQwf7IIcVKwZQSx">
+        <label class="lbl" data-page-node-id="D14ZKbQCrri3iXLeX6obG1">车身颜色</label>
+        <div id="colors" class="colors" data-page-node-id="kEPfy0MokiYmZSZAjUm04L"></div>
+      </div>
+      <div class="row" data-page-node-id="QtTNQW1pYRJSczJfDUsIYn">
+        <label class="lbl" data-page-node-id="2UwUgdMA3Bf5kGSAnAGSnT">比赛圈数</label>
+        <select id="laps" class="inp sel" data-page-node-id="22ejTsdVxNyH6Hoc5gGOiD">
+          <option value="1" data-page-node-id="RjKQixciB82JzGm9YiDmPT">1 圈（约 1 分钟）</option>
+          <option value="3" selected data-page-node-id="GF5OiRZSVzGt1LlGFYkSfu">3 圈（标准）</option>
+          <option value="5" data-page-node-id="Z8wtaL4UUkskBQWl0xoXd2">5 圈</option>
+          <option value="8" data-page-node-id="HamA8rPgTlhRJZ5sresKOP">8 圈（耐力）</option>
+        </select>
+      </div>
+      <div class="row" data-page-node-id="U7fK4cBv98b7zv3JEQa7Pj">
+        <label class="lbl" data-page-node-id="fPp1pYPEfEESvP5cCI246Z">赛道</label>
+        <select id="track" class="inp sel" data-page-node-id="h7YKUneBrvcMTDigEkdx4f">
+          <option value="suzuka" selected data-page-node-id="B05jSg3qogUE5CBEASTX7n">铃鹿 · 8 字立体交叉</option>
+          <option value="vegas" data-page-node-id="lXTRS0a7DUjY4HtGTOIpfY">拉斯维加斯 · 街道夜赛</option>
+          <option value="spa" data-page-node-id="1Bf5s17belLtOoAFFPNQfo">斯帕 · 阿登森林</option>
+          <option value="oval">新手 · 极简高速环道</option>
+        </select>
+      </div>
+      <div class="row" data-page-node-id="2yScG7DNLyHW6ntjTjSxkB">
+        <label class="lbl" data-page-node-id="uw2S3iPwecl7nstQztmMNo">碰撞</label>
+        <label class="chkrow" data-page-node-id="ndRFfXAOeenE8tKs8kWLmY">
+          <input type="checkbox" id="ghost" data-page-node-id="4sdeClltruOTBTy60V0gvr">
+          <span data-page-node-id="3RVaCo2GfP1fBNDHuF5jIj">全员幽灵车模式（车与车不碰撞 · 可互相穿透 · 保留吸尾流）</span>
+        </label>
+      </div>
+      <div class="row"><label class="lbl">引擎音效</label><select id="engineSound" class="inp sel"><option value="i6gt">直列六缸 GT（默认）</option><option value="v8">V8 十字曲轴</option><option value="v12">V12 高转</option><option value="fe">电动方程式（Formula E）</option></select></div>
+      <div class="row"><label class="lbl">游戏模式</label><select id="gameMode" class="inp sel"><option value="horizon">地平线模式 · 轻松驾驶</option><option value="fm8" selected>FM8 模式 · 拟真规则</option><option value="bumper">碰碰车模式 · 全程实体对抗</option></select></div>
+      <div class="grid2" data-page-node-id="cn6vIBIAGQdgBnHMs12TFQ">
+        <button id="btnCreate" class="btn primary" data-page-node-id="nXUjf0xDDMKZEDRCELHXMM">创建房间</button>
+        <div class="joinbox" data-page-node-id="iXWiv5jssgblbsRJGZjWQG">
+          <input id="code" class="inp code" maxlength="4" placeholder="房间号" autocomplete="off" data-page-node-id="JrP8jtWgIFZNgxrP3EMN99">
+          <button id="btnJoin" class="btn" data-page-node-id="u9HAb5OlCgOX3dw8MJhJ2V">加入</button>
+        </div>
+      </div>
+      <button id="btnSolo" class="btn ghost wide" data-page-node-id="IOJPADVobWpSkDry45v5Zu">单机练习</button>
+      <p id="netinfo" class="netinfo" data-page-node-id="NxdSwxny0spZDZOyFSc9qj">正在探测服务端…</p>
+    </div>
+
+    <div id="stageRoom" class="stage hidden" data-page-node-id="UoMB6r7KgogeFwxeJoPorL">
+      <div class="roomcode" data-page-node-id="iljdmECyzP5X2IsMhp5SQq">
+        <span class="lbl" data-page-node-id="79HPeiT9yvAuCvh2qaLY9n">房间号</span>
+        <b id="roomCode" data-page-node-id="Fs9FAko5GpPdp56etjPPU9">····</b>
+        <span class="hintline" data-page-node-id="BtZsOa0Q4Wi9ydhuZgxUBw">把这 4 位字符告诉其他玩家</span>
+      </div>
+      <div class="row" data-page-node-id="OAPJPFlEaumFMol4ywW4lb">
+        <label class="lbl" data-page-node-id="WtUIyXnBo6BxvX2hnsOZxx">昵称</label>
+        <input id="nameInRoom" class="inp" maxlength="12" placeholder="改昵称（大厅内实时同步）" data-page-node-id="fPN8ir6APjHwaNPDB4UgAp">
+        <button id="btnRename" class="btn ghost" data-page-node-id="ZCBbupjor7edy4nZo6sEJJ">改名</button>
+      </div>
+      <div class="row" data-page-node-id="Kxgpcbku4Byz5CqLgB1QMN">
+        <label class="lbl" data-page-node-id="A5tFshYChlCHBjD5HtRdrF">赛道</label>
+        <b id="roomTrackName" class="trackname" data-page-node-id="1Sra49KGWQUJyo0exV8Z8S">铃鹿 · 8 字立体交叉</b>
+        <button id="btnTrack" class="btn ghost hidden" data-page-node-id="66T8X9PDiucZH5wvBNSWSA">切换赛道</button>
+      </div>
+      <div class="row" data-page-node-id="RrkNJh0uulQnM6UqSRD7Q8">
+        <label class="lbl" data-page-node-id="jJFPjfGDY7TFnQ5gpSCoaR">碰撞</label>
+        <b id="roomGhost" class="trackname" data-page-node-id="SIiRIWveF55obBCz9TmZpA">标准碰撞（车车可碰撞）</b>
+        <button id="btnGhost" class="btn ghost hidden" data-page-node-id="MGYtQZZs0gzxXGPKFbr4ck">切换模式</button>
+      </div>
+      <div class="row" data-page-node-id="RwMode000000000000R1">
+        <label class="lbl">规则</label>
+        <b id="roomGameMode" class="trackname">FM8 模式 · 拟真规则</b>
+        <button id="btnGameMode" class="btn ghost hidden" type="button">切换模式</button>
+      </div>
+      <div class="row" data-page-node-id="RwLaps000000000000R1">
+        <label class="lbl" data-page-node-id="LbLaps000000000000L2">圈数</label>
+        <b id="roomLaps" class="trackname" data-page-node-id="TxLaps000000000000T3">3 圈</b>
+        <button id="btnLaps" class="btn ghost hidden" data-page-node-id="BtLaps000000000000B4">修改圈数</button>
+      </div>
+      <button id="btnAddAI" class="btn ghost wide hidden" type="button">添加人机车手</button>
+      <details id="roomPlayersDetails" class="room-players">
+        <summary class="room-players-head"><b>房间玩家</b><span id="roomPlayersCount">0 人</span></summary>
+        <div id="playerList" class="players" data-page-node-id="ngJDnF8I1shQtEEI0DSE3l"></div>
+      </details>
+      <div class="row2" data-page-node-id="1gPNQ6v7GDN0ABPNxLW0KO">
+        <button id="btnReady" class="btn primary" data-page-node-id="9iJhfUfBKGOdttlBxTkFki">准备</button>
+        <button id="btnLeave" class="btn ghost" data-page-node-id="hBQcOp40FcddMyGNs2glJG">离开房间</button>
+      </div>
+      <p class="hintline" data-page-node-id="lhK6AFmbtkZZ65yg5ivQBe">全员准备后进入聊天框 5 秒整备倒计时，随后红灯逐盏熄灭发车。方向键环视，WASD 驾驶，空格手刹。</p>
+    </div>
+
+    <div class="keys" data-page-node-id="6xLwrXjjrC9Djt8uooIals">
+      <span data-page-node-id="6ZiwiJGPKnKmjO2icISEx0"><b data-page-node-id="GJcPxIEjz1BDvi2lJ0YHRM">W</b> 油门</span><span data-page-node-id="wUf46FjM84MC2w4jGydFhI"><b data-page-node-id="1u7rXxjfw2CTroKF8ATNyO">S</b> 刹车·倒车</span><span data-page-node-id="5lx3eio9eRVpFXxG9OQUhF"><b data-page-node-id="klDDhSKMMBpiEt6q1DBYxV">A/D</b> 转向</span>
+      <span data-page-node-id="7I7aRA4oGH9emSjW6rDZHs"><b data-page-node-id="gYfaD4fwA9tG3kybh2hNot">Space</b> 手刹漂移</span><span data-page-node-id="sn8KQ02VT6yBxafuczGUYg"><b data-page-node-id="li1h1KCDc9jq8ysJDHWl26">C/V</b> 切换视角（追尾·引擎盖·鸟瞰）</span><span><b>方向键</b> 八向环视</span>
+      <span data-page-node-id="w3EJAgLMd9UfzNuzvkAGbQ"><b data-page-node-id="i0ZRqRfSUD0tVGGCpRQku9">L</b> 最佳走线</span><span data-page-node-id="QZF77z4P6BYGOog1CGtYmr"><b data-page-node-id="4rrcvIcQQyTBbeHOv32QE9">R</b> 脱困复位</span><span data-page-node-id="s0qvGVREPHJu3wKbrRjjCk"><b data-page-node-id="ceTJCon1ExiuAI9DNPVA7h">M</b> 静音</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ 比赛 HUD ============================ -->
+<div id="hud" class="hidden" data-page-node-id="tAGSBMtddg7o1JIgSq5H1F">
+  <div id="slipstreamEdges" aria-hidden="true"></div>
+  <div id="nameplates" data-page-node-id="nameplates000000N1"></div>
+
+  <div class="hud-tl" data-page-node-id="HicPYNxR2n5sPX71FKVRsE">
+    <!-- FM8 计时塔：4 列 —— 名次大数字 / 车手名+配色块 / 时间差距 / 处罚。
+         自己所在行有微弱蓝色高亮；「处罚」列是橙黄色块，显示累计罚时与违规次数。
+         必须留在 .hud-tl 内（#hud 曾被多余的闭合标签提前关掉，导致速度表/地图/榜单
+         全掉到 #hud 外面）。本条注释刻意不写闭合标签字面量，免得带偏标签配平扫描器。 -->
+    <div class="twrow" data-page-node-id="mDBE1JiI95XtGDmDpZPg9p">
+      <div class="card tower" data-page-node-id="4QHEVinRDCAvLSimWH1IqL">
+        <div class="tw-head" data-page-node-id="p8Klgfn0jVzB0I56BNbMvT"><span id="twHdr" data-page-node-id="Yj2FE5bQmtX2UB92lDDwhN">玩家</span><span data-page-node-id="stnU5vYBvHBxI8Txg03rWA"></span><span data-page-node-id="L2sCbAOVaBsAfKx3ZeiUBf">时间差距</span><span data-page-node-id="2AtjSFZ6kxqaoHDqCNgJeD">处罚</span><span data-page-node-id="hNwNHdMvI6tGM61BDr3ZSY">🔧</span></div>
+        <div id="standList" class="st-body" data-page-node-id="gnjHmOhx7sAU23RsJPXdjF"></div>
+      </div>
+
+      <!-- 圈速信息框（规格 §五.2：**无边框**、浮动文字，不用卡片底）。
+           目前单圈 ▲ | 白色等宽大字 | 最佳 | 惩罚 -->
+      <div class="lapbox" data-page-node-id="R6KcpiFSpYU8Uq2eNHFWx7">
+        <div class="lb-row" data-page-node-id="hDdVfiHoNRrwnMb1sm3WV8"><span data-page-node-id="Q9YWg6evPXa2Is2wlgiuxk">目前单圈</span><i id="lapDirty" class="lb-dirty hidden" title="当前圈已被标记为脏圈">&#9888;&#65039;</i><b id="curLapTime" data-page-node-id="squmxnVefJWJWgNOjB5M3h">00:00.000</b></div>
+        <div class="lb-row" data-page-node-id="XbcCPUuc5vR3VddCJfBLU5"><span data-page-node-id="ylQYfef8BWVQdAh0WeBTSi">最佳</span><i class="lb-mark" data-page-node-id="D3IK62YMCIYxELtuptu6YS">▲</i><b id="bestLap" data-page-node-id="Oh0zwR0hcR0siFOtwrfrbu">--:--.---</b></div>
+        <div class="lb-row pen-row" data-page-node-id="ibGUsoAkjvhcwfx2vwR4O2"><span data-page-node-id="UNHlRDQG1iRm3AzaVky6mN">惩罚</span><b id="lapPen" class="lb-pen" data-page-node-id="cd9LjlGUbXb62CRF0IyA3k">+0.000</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右上角：极简圈数进度 + 车辆分组标识 -->
+  <div class="hud-tr" data-page-node-id="XFobvdqk6FchDib3kfk9BF">
+    <div class="lapcounter" data-page-node-id="GKfBN24Gtci1yIBpH4TRkH">
+      <b data-page-node-id="fmCkaizLmPunTaUQVRX7Dm">圈 <span id="lapNum" data-page-node-id="0MGhFQ7mNCfRSSaz3D0rmI">1</span>/<span id="lapTotal" data-page-node-id="FpvpUI2LNEIya3FxudgqkV">3</span></b>
+      <span id="carClass" data-page-node-id="k75WgjePZNAN9s0jJtsKMd">GT · A 组</span>
+    </div>
+  </div>
+
+  <!-- 左下角：圆形微缩地图（实时描摹赛道闭环 + 四车彩色圆点与朝向指针） -->
+  <div class="hud-bl" data-page-node-id="H8bY7g1ubTMlsetB1vPGDq">
+    <div id="wrongWay" class="badge wrong hidden" data-page-node-id="BRl0uggPb05hTdi7kcBi02">逆 行 · WRONG WAY</div>
+    <div id="alert" class="alert hidden" data-page-node-id="iS0xigA3N7xZC9ctDmzOx7"><b id="alertTxt" data-page-node-id="Lwu3XKnTLsyCEwHfBe0jNp"></b></div>
+    <div class="card map-card" data-page-node-id="nUkuNmHvBIwgROX6eWQc4h">
+      <canvas id="minimap" width="320" height="320" data-page-node-id="G37usNa3nHs8SEtQ3Jm33p"></canvas>
+      <div class="map-legend" data-page-node-id="JpgDDpK4nDwHzTPyELaoqa"><span id="mapTrack" data-page-node-id="cUN61xpyqjW3SlgSozkWFZ">赛道</span><b id="mapPos" data-page-node-id="p0B13GfYDx7P38XryHVBx7">P1</b></div>
+    </div>
+  </div>
+
+  <div class="hud-br" data-page-node-id="oWJzwnEoNfHq3gf1yjvRxF">
+    <div class="speedo-wrap" data-page-node-id="e4gXs0BkvCeUvlCFE5zyAJ">
+      <div id="draftText" class="draft-text hidden" data-page-node-id="3ckPUrx6iAcphJxEX1LSd9">DRAFTING</div>
+
+      <!-- 遥测列：四轮胎温/磨损 + 挡位模式 + 油量/电量条 -->
+      <div class="telemetry" data-page-node-id="dtvTNLidjeDxSyZIai0DjR">
+        <div class="tel-grid" data-page-node-id="rKTSlDvWxGYgEDmjRBCjOO">
+          <i id="telFL" class="tel" data-page-node-id="TuL41rBAFF4qsJJkVv1oDF"></i><i id="telFR" class="tel" data-page-node-id="GNHBcV89QN17FLKchylZzL"></i>
+          <i id="telRL" class="tel" data-page-node-id="UVFjgSYSNcsl4EYnSE5lC1"></i><i id="telRR" class="tel" data-page-node-id="fsCywBQQYtSOGOnawunLBb"></i>
+        </div>
+        <div class="tel-mode" data-page-node-id="rmaJIeT0OctTHCoLX4eRH0"><b id="gearMode" data-page-node-id="gogqh0ysJVjY9pLTJRKGU0">A</b><span data-page-node-id="qHazoTlMLL3A0gucPPhJw3">挡位</span></div>
+        <div class="tel-fuel" data-page-node-id="XsfaOri7Dp0PQLG6pPDTVj"><i id="fuelBar" data-page-node-id="gVd2SYG4PpMcJ67tfDWjam"></i></div>
+      </div>
+
+      <div class="gauge-box" data-page-node-id="jpjk32AubPAuYvueY2lPQz">
+      <svg id="speedo" viewBox="0 0 200 200" aria-hidden="true" data-page-node-id="OazVc4x0LQdZakGW789XRc">
+        <defs data-page-node-id="2mvgIbgRnlG3yTq50Slylm">
+          <linearGradient id="spdGrad" x1="0" y1="1" x2="1" y2="0" data-page-node-id="dF6U7jnsr7MSTdTDXU5k3T">
+            <stop offset="0%" stop-color="#3ad1ff" data-page-node-id="u6LqZXgtUbmHAjmuWN8GEi"/>
+            <stop offset="55%" stop-color="#ffd200" data-page-node-id="Tvo8S9Ao6HoEEd4UbFkItu"/>
+            <stop offset="100%" stop-color="#ff2d1f" data-page-node-id="xtuGo8XsbbUDD1bKiac1YF"/>
+          </linearGradient>
+        </defs>
+        <circle cx="100" cy="100" r="88" class="spd-bg" data-page-node-id="j2JCjN7IIKHz6GycQExwiV"/>
+        <path id="spdArc" class="spd-arc" d="" data-page-node-id="LaxE8xMFn5xYEoP4CLFYHO"/>
+        <path id="spdFill" class="spd-fill" d="" data-page-node-id="FigVFshnEihhAFFwT3sVnT"/>
+        <!-- FM8 布局：中心是**大号档位**，档位下方才是车速与单位 -->
+        <text id="gear" class="gear" x="100" y="114" data-page-node-id="5vlZUYDnHMTqqdB7s6vAYq">N</text>
+        <text id="spd" class="spd-num" x="100" y="148" data-page-node-id="3ihkKJF7kvFf4TixyriSxD">0</text>
+        <text class="unit" x="100" y="172" data-page-node-id="uJyNROhDSgmFHDL6lIk3Pg">公里/小时</text>
+      </svg>
+      <!-- 指针用独立 HTML 元素：规格要求 style.transform = rotate(...) + CSS transform-origin -->
+      <div id="needle" class="needle" data-page-node-id="yQNSFdw5jDKpJWs1Zd359V"></div>
+      <div id="gForce" class="gforce" data-page-node-id="2sLroHU8sFXJmqEvTWPRLK"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="spectate" class="card spectate hidden" data-page-node-id="FOXQhdhBixUac6UC9QaArm">
+    <div class="spec-head" data-page-node-id="7cTmZEVCkjWkEyJ4kabJvk">观战模式 <span data-page-node-id="UhDDE86lTgMJFRwMFcHOV9">← → 切换车辆</span></div>
+    <div id="specList" class="spec-list" data-page-node-id="E8FkCoazREZY0pRhjyoVDz"></div>
+  </div>
+
+  <!-- ==================== 局内非侵入式聊天浮层（规格 §三）====================
+       左下轻量消息流：新消息平滑淡入、停留 5s 后向左淡出；绝不遮挡挡风玻璃与弯心。
+       位置在计时塔下方、圆形小地图上方之间的空白带。 -->
+  <div id="hudChat" class="hud-chat" data-page-node-id="HCht000000000000000HC">
+    <div id="hudChatFeed" class="hc-feed" data-page-node-id="HCf0000000000000000HF" aria-live="polite"></div>
+  </div>
+  <!-- 驾驶中快捷打字条（Enter / T 呼出）。激活时切断 WASD 对赛车的控制。 -->
+  <div id="hudChatBar" class="hc-bar hidden" data-page-node-id="HCb0000000000000000HB">
+    <span class="hc-hint" data-page-node-id="HCh0000000000000000HH">发言</span>
+    <input id="hudChatInput" class="hc-input" type="text" maxlength="80" autocomplete="off"
+           placeholder="输入消息… Enter 发送 · Esc 取消" data-page-node-id="HCi0000000000000000HI">
+  </div>
+
+  <div id="toast" class="toast hidden" data-page-node-id="AsHCLy82mNmVTlcxoCynyq"></div>
+</div>
+
+<!-- 顶部裁决唯一宿主；通知销毁后子节点为空。 -->
+<div id="frrBanner" class="frr impact" aria-live="polite" aria-atomic="true" hidden data-page-node-id="O5sASE4UGSYAf2nAROvOf4"></div>
+
+<!-- ============================ 起步灯 ============================ -->
+<!-- 进入场景后五盏红灯全亮，随后逐盏熄灭；全部熄灭后五灯转绿并放行。 -->
+<div id="startLights" class="startlights hidden" data-page-node-id="JetNFmtg2AnBy8rKEBqPLT">
+  <div class="sl-row" data-page-node-id="Gy9m5Dctw0qYLBTPE8LuCr">
+    <i class="sl red" data-page-node-id="eSQX5a4rGzNpywfgHKqRql"></i><i class="sl red" data-page-node-id="FESQGEcRQCDOuCXaCnFwLt"></i><i class="sl red" data-page-node-id="XXlcSjhKJBYsWtwWtQnoFw"></i>
+    <i class="sl red" data-page-node-id="9qu2ocnEBADnb57FVW6p1r"></i><i class="sl red" data-page-node-id="MRJlNzGttrJQOrZKDrfeVH"></i>
+  </div>
+  <div class="sl-go" id="slGo" role="status" aria-live="assertive" data-page-node-id="C4A3uvJR1ljdYcMCEQB0qU">GREEN / GO!</div>
+</div>
+
+<!-- 完赛单行半透明条幅（规格 §四.1）：禁止弹全屏大面板 -->
+<div id="finishBar" class="finishbar hidden" data-page-node-id="HiD9gW5XMni3SgB3W5TLH5">
+  <span class="fb-ico" data-page-node-id="9GuqjX0B9YgyADUdTMpvhk">🏁</span>
+  <span class="fb-txt" id="finishBarTxt" data-page-node-id="5wnunwOiwjYpoqcfgkYvbm">恭喜完赛！成绩已记录</span>
+  <span class="fb-hint" data-page-node-id="e7u0m3LknHHA0uGicRG6es">← / → 切换观战</span>
+</div>
+
+<!-- 观战入力回显（规格 §四.2）：屏幕正下方半透明键盘指示器 + 油门刹车进度条 -->
+<div id="inputOverlay" class="inputov hidden" data-page-node-id="NoQG1CnvHAcuYkBclsGjZ6">
+  <div class="io-keys" data-page-node-id="ZpSllcSzb8Zt7gKqSYCPwW">
+    <b id="ioW" class="io-key" data-page-node-id="QQAy8gDZTD39oqgf02NZvb">W</b>
+    <b id="ioA" class="io-key" data-page-node-id="JFqhuIdQaYn7pgkcu6KFbn">A</b>
+    <b id="ioS" class="io-key" data-page-node-id="FgoVI7NE3XNETlyRhJRN3m">S</b>
+    <b id="ioD" class="io-key" data-page-node-id="lFHlOGaikVETfJxxMhq9DM">D</b>
+    <b id="ioSpace" class="io-key wide" data-page-node-id="g51jN20Ysa4e0ugQ1Fjz1U">SPACE</b>
+  </div>
+  <div class="io-bars" data-page-node-id="w2oeMkTxN0n6Iw87QAi0SO">
+    <div class="io-bar thr" data-page-node-id="tG8oLEXrzzEAstWCEFwl0z"><i id="ioThr" data-page-node-id="yDTKlK0jwkcIO95aTq5IUc"></i><span data-page-node-id="jCdGRYwNRdCAHN3TeQTAAd">油门</span></div>
+    <div class="io-bar brk" data-page-node-id="BEvrVifUTCuKxB8FzEINbh"><i id="ioBrk" data-page-node-id="DQikQPueWNy4kjHYU0g2Au"></i><span data-page-node-id="jD54WKujjEncn5t2JhjGDG">刹车</span></div>
+  </div>
+</div>
+
+<!-- ============================ 结算 ============================ -->
+<div id="results" class="overlay hidden" data-page-node-id="yyaQpbfRNZNTnDRCCTRoBe">
+  <div class="panel res-panel" data-page-node-id="EK0BXtV0HQVFGwYzAp7msp">
+    <h2 data-page-node-id="PhsI8eASEvLwzpsyLScUxs">比赛结果</h2>
+    <div class="res-sub" id="resSub" data-page-node-id="1BI1Z0NHFS3xp60AgxTcnt">最终成绩 = 净用时 + 累计罚时</div>
+    <table class="res-table" data-page-node-id="YPhs7cxNrb5eeeTNzwpF09">
+      <thead data-page-node-id="GaEXHHA3C2XJeq8WXCf7u8">
+        <tr data-page-node-id="CJcjxeEMH86B7RPG7Chjbk"><th data-page-node-id="rK8lnWku4sEylyFllUz57K">名次</th><th data-page-node-id="Q1WASXJ2MOLLaCJtwhIr68">车手</th><th data-page-node-id="WVT2kMyQGQxhiCk63r6OWk">净用时</th><th data-page-node-id="zEv5WjhZjQoWFvkbY7DOmH">罚时</th><th data-page-node-id="RTOGcY7vcTUtGw2jCkVY8T">总成绩</th><th data-page-node-id="fcmFtKMo9E3ZFWmSvHn7SX">最快圈</th></tr>
+      </thead>
+      <tbody id="resBody" data-page-node-id="atFu53SIEzVo7Pq8aFt5vt"></tbody>
+    </table>
+    <div class="row2" data-page-node-id="XqYxhVkh8CMa5kLnd4wMmO">
+      <button id="btnAgain" class="btn primary" data-page-node-id="4vvG5fVzGFwSANPB4s0okO">再来一局</button>
+      <button id="btnQuit" class="btn ghost" data-page-node-id="SYIKyQ1Eo19lBHdftMLaVn">返回大厅</button>
+    </div>
+    <p class="hintline" data-page-node-id="ypzUu92F9LKNACHxcKO9PM">结算后仍可切换观战视角，看其他玩家跑完。</p>
+  </div>
+</div>
+
+<!-- ==================== 规格 §二：全员完赛全屏磨砂结算 Modal ====================
+     由服务端 RACE_RESULTS 报文驱动，延迟 1.5s 平滑弹出。展示全部完赛者：
+     名次 / 车手 / 总成绩 / 最快圈 / 本场赛季积分。底部两个按钮：
+     「再来一局」与「返回大厅」（后者把房间复位到 WAITING）。 -->
+<div id="settlement" class="overlay settlement hidden" data-page-node-id="StlRoot00000000000ST">
+  <div class="settle-panel" data-page-node-id="StlPanel0000000000SP">
+    <div class="settle-head" data-page-node-id="StlHead00000000000SH">
+      <span class="settle-flag" data-page-node-id="StlFlag00000000000SF">🏁</span>
+      <h2 data-page-node-id="StlTtl000000000000ST2">比赛结算</h2>
+      <p class="settle-sub" id="settleSub" data-page-node-id="StlSub00000000000SS">本场结算</p>
+    </div>
+    <div class="settle-cols" data-page-node-id="StlCols0000000000SC">
+      <span data-page-node-id="StlC1_000000000000C1">名次</span>
+      <span data-page-node-id="StlC2_000000000000C2">车手</span>
+      <span data-page-node-id="StlC3_000000000000C3">总成绩</span>
+      <span data-page-node-id="StlC4_000000000000C4">最快圈</span>
+      <span data-page-node-id="StlC5_000000000000C5">赛季积分</span>
+    </div>
+    <div id="settleBody" class="settle-body" data-page-node-id="StlBody00000000000SB"></div>
+    <div class="settle-actions" data-page-node-id="StlAct000000000000SA">
+      <button id="settleAgain" class="btn primary" data-page-node-id="StlAgn000000000000S1">再来一局</button>
+      <button id="settleLobby" class="btn ghost" data-page-node-id="StlLby000000000000S2">返回大厅</button>
+    </div>
+    <p class="hintline" data-page-node-id="StlHint00000000000HN">赛季积分已实时累加 · 右侧榜单同步更新</p>
+  </div>
+</div>
+
+<script type="module" src="./js/RaceUI.js"></script>
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,2166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="openstreetmap-cgimap 2.1.0 (862525 spike-07.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <node id="137344634" visible="true" version="9" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1171757" lon="-115.1639797">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="137402120" visible="true" version="14" changeset="170223642" timestamp="2025-08-09T23:17:54Z" user="Flap Slimy Outward" uid="22417964" lat="36.1255324" lon="-115.1691519"/>
+ <node id="137402122" visible="true" version="4" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1253346" lon="-115.1679779"/>
+ <node id="137402123" visible="true" version="4" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1252240" lon="-115.1676067"/>
+ <node id="137402126" visible="true" version="4" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1251091" lon="-115.1674034"/>
+ <node id="137402135" visible="true" version="4" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1244624" lon="-115.1667193"/>
+ <node id="137402137" visible="true" version="4" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1234745" lon="-115.1662630"/>
+ <node id="137402141" visible="true" version="4" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1231973" lon="-115.1660990"/>
+ <node id="137402143" visible="true" version="6" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1230733" lon="-115.1659988">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="10"/>
+ </node>
+ <node id="137402146" visible="true" version="4" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1228819" lon="-115.1657711"/>
+ <node id="137402148" visible="true" version="4" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1226808" lon="-115.1654862"/>
+ <node id="137402151" visible="true" version="5" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1225776" lon="-115.1652328"/>
+ <node id="137402154" visible="true" version="5" changeset="60145579" timestamp="2018-06-25T10:47:02Z" user="manings" uid="3272286" lat="36.1224945" lon="-115.1647887"/>
+ <node id="137476745" visible="true" version="7" changeset="173022059" timestamp="2025-10-08T20:17:49Z" user="VLD299" uid="22891835" lat="36.1115256" lon="-115.1639338"/>
+ <node id="137743393" visible="true" version="9" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1192075" lon="-115.1639952">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="5"/>
+ </node>
+ <node id="247493048" visible="true" version="10" changeset="169798308" timestamp="2025-08-01T05:05:57Z" user="Flap Slimy Outward" uid="22417964" lat="36.1110604" lon="-115.1731307"/>
+ <node id="252504202" visible="true" version="7" changeset="172140289" timestamp="2025-09-19T03:55:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1222558" lon="-115.1715734">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="259859639" visible="true" version="12" changeset="172223309" timestamp="2025-09-20T21:27:24Z" user="Flap Slimy Outward" uid="22417964" lat="36.1091467" lon="-115.1731416">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="1161959432" visible="true" version="2" changeset="60147012" timestamp="2018-06-25T11:29:03Z" user="Upendrakarukonda" uid="4007051" lat="36.1126502" lon="-115.1639408"/>
+ <node id="1307215317" visible="true" version="6" changeset="169798308" timestamp="2025-08-01T05:05:57Z" user="Flap Slimy Outward" uid="22417964" lat="36.1112140" lon="-115.1731240"/>
+ <node id="1307215322" visible="true" version="5" changeset="172140289" timestamp="2025-09-19T03:55:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1235930" lon="-115.1706376">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="1307215323" visible="true" version="1" changeset="8304836" timestamp="2011-05-31T20:48:13Z" user="robgeb" uid="336460" lat="36.1098834" lon="-115.1731452"/>
+ <node id="1307215324" visible="true" version="1" changeset="8304836" timestamp="2011-05-31T20:48:13Z" user="robgeb" uid="336460" lat="36.1207385" lon="-115.1722903"/>
+ <node id="1307215327" visible="true" version="1" changeset="8304836" timestamp="2011-05-31T20:48:13Z" user="robgeb" uid="336460" lat="36.1251778" lon="-115.1696134"/>
+ <node id="1307215329" visible="true" version="1" changeset="8304836" timestamp="2011-05-31T20:48:13Z" user="robgeb" uid="336460" lat="36.1189207" lon="-115.1728294"/>
+ <node id="1307215330" visible="true" version="1" changeset="8304836" timestamp="2011-05-31T20:48:13Z" user="robgeb" uid="336460" lat="36.1181543" lon="-115.1729379"/>
+ <node id="1307215331" visible="true" version="1" changeset="8304836" timestamp="2011-05-31T20:48:13Z" user="robgeb" uid="336460" lat="36.1196140" lon="-115.1726712"/>
+ <node id="1307215334" visible="true" version="1" changeset="8304836" timestamp="2011-05-31T20:48:13Z" user="robgeb" uid="336460" lat="36.1214556" lon="-115.1720140"/>
+ <node id="1307215338" visible="true" version="13" changeset="182224985" timestamp="2026-05-04T21:53:09Z" user="Flap Slimy Outward" uid="22417964" lat="36.1149132" lon="-115.1729841">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="1307215339" visible="true" version="1" changeset="8304836" timestamp="2011-05-31T20:48:14Z" user="robgeb" uid="336460" lat="36.1242960" lon="-115.1701752"/>
+ <node id="1307215340" visible="true" version="9" changeset="182224985" timestamp="2026-05-04T21:53:09Z" user="Flap Slimy Outward" uid="22417964" lat="36.1145996" lon="-115.1729939"/>
+ <node id="1307232382" visible="true" version="2" changeset="169798308" timestamp="2025-08-01T05:05:57Z" user="Flap Slimy Outward" uid="22417964" lat="36.1115157" lon="-115.1731117"/>
+ <node id="1307232383" visible="true" version="5" changeset="170850054" timestamp="2025-08-22T19:44:29Z" user="Flap Slimy Outward" uid="22417964" lat="36.1117604" lon="-115.1731008">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="1490596685" visible="true" version="10" changeset="170223642" timestamp="2025-08-09T23:17:54Z" user="Flap Slimy Outward" uid="22417964" lat="36.1254108" lon="-115.1694739"/>
+ <node id="1490596713" visible="true" version="11" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1255587" lon="-115.1693784">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="12"/>
+ </node>
+ <node id="1590310741" visible="true" version="2" changeset="60145579" timestamp="2018-06-25T10:47:03Z" user="manings" uid="3272286" lat="36.1254094" lon="-115.1683482"/>
+ <node id="1598856720" visible="true" version="8" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1201017" lon="-115.1725210">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="13"/>
+ </node>
+ <node id="1675637835" visible="true" version="7" changeset="172140289" timestamp="2025-09-19T03:55:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1233035" lon="-115.1708270"/>
+ <node id="1912068000" visible="true" version="3" changeset="14213725" timestamp="2012-12-09T14:54:25Z" user="hno2" uid="310589" lat="36.1197458" lon="-115.1726338"/>
+ <node id="2278824741" visible="true" version="3" changeset="182224985" timestamp="2026-05-04T21:53:09Z" user="Flap Slimy Outward" uid="22417964" lat="36.1140290" lon="-115.1730301"/>
+ <node id="2747919652" visible="true" version="3" changeset="163072952" timestamp="2025-03-01T00:10:05Z" user="Flap Slimy Outward" uid="22417964" lat="36.1192046" lon="-115.1629772"/>
+ <node id="2777542741" visible="true" version="4" changeset="175179199" timestamp="2025-11-27T03:20:43Z" user="Flap Slimy Outward" uid="22417964" lat="36.1141937" lon="-115.1639658"/>
+ <node id="2820167009" visible="true" version="2" changeset="41861635" timestamp="2016-09-02T05:35:36Z" user="Tom_Holland" uid="574654" lat="36.1081206" lon="-115.1722746"/>
+ <node id="2820167011" visible="true" version="1" changeset="21971932" timestamp="2014-04-27T08:42:15Z" user="user_85673" uid="85673" lat="36.1094381" lon="-115.1731439"/>
+ <node id="2820167020" visible="true" version="1" changeset="21971932" timestamp="2014-04-27T08:42:15Z" user="user_85673" uid="85673" lat="36.1250904" lon="-115.1696691"/>
+ <node id="2820167021" visible="true" version="2" changeset="60145579" timestamp="2018-06-25T10:47:03Z" user="manings" uid="3272286" lat="36.1254672" lon="-115.1687320"/>
+ <node id="2852160853" visible="true" version="1" changeset="22282571" timestamp="2014-05-12T02:20:00Z" user="user_85673" uid="85673" lat="36.1079522" lon="-115.1684604"/>
+ <node id="2852160855" visible="true" version="2" changeset="32439288" timestamp="2015-07-06T03:31:03Z" user="mash84121" uid="1501508" lat="36.1079508" lon="-115.1686009"/>
+ <node id="2852160857" visible="true" version="5" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1088112" lon="-115.1731517">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="14"/>
+ </node>
+ <node id="2852160859" visible="true" version="7" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1085274" lon="-115.1728055">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="15"/>
+ </node>
+ <node id="2852160860" visible="true" version="1" changeset="22282571" timestamp="2014-05-12T02:20:00Z" user="user_85673" uid="85673" lat="36.1083292" lon="-115.1725615"/>
+ <node id="2852160861" visible="true" version="4" changeset="172140289" timestamp="2025-09-19T03:55:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1081655" lon="-115.1723422"/>
+ <node id="2852160862" visible="true" version="2" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1080252" lon="-115.1721079"/>
+ <node id="2852160863" visible="true" version="2" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1079856" lon="-115.1719151"/>
+ <node id="2852160864" visible="true" version="5" changeset="183278571" timestamp="2026-05-27T23:05:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1079798" lon="-115.1717973">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="16"/>
+ </node>
+ <node id="2852160865" visible="true" version="4" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1079651" lon="-115.1701953">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="2852160866" visible="true" version="2" changeset="117275231" timestamp="2022-02-11T07:31:23Z" user="smikhnouski_lyft" uid="12195445" lat="36.1079497" lon="-115.1687066"/>
+ <node id="2852160868" visible="true" version="3" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1079540" lon="-115.1675992"/>
+ <node id="2852160870" visible="true" version="5" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1079537" lon="-115.1657630"/>
+ <node id="3165620433" visible="true" version="2" changeset="169798308" timestamp="2025-08-01T05:05:57Z" user="Flap Slimy Outward" uid="22417964" lat="36.1108004" lon="-115.1731358"/>
+ <node id="3196293414" visible="true" version="3" changeset="167154842" timestamp="2025-06-03T22:46:35Z" user="Flap Slimy Outward" uid="22417964" lat="36.1180848" lon="-115.1639890"/>
+ <node id="3196293416" visible="true" version="3" changeset="167154842" timestamp="2025-06-03T22:46:35Z" user="Flap Slimy Outward" uid="22417964" lat="36.1182312" lon="-115.1639880"/>
+ <node id="3524173094" visible="true" version="4" changeset="167154842" timestamp="2025-06-03T22:46:35Z" user="Flap Slimy Outward" uid="22417964" lat="36.1162599" lon="-115.1639700"/>
+ <node id="3524177103" visible="true" version="6" changeset="173024164" timestamp="2025-10-08T21:24:38Z" user="VLD299" uid="22891835" lat="36.1172027" lon="-115.1639800">
+  <tag k="button_operated" v="yes"/>
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+ </node>
+ <node id="3524185693" visible="true" version="9" changeset="187257166" timestamp="2026-08-10T22:57:20Z" user="bburky" uid="17602539" lat="36.1146818" lon="-115.1639713">
+  <tag k="button_operated" v="yes"/>
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:island" v="no"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+ </node>
+ <node id="3529524396" visible="true" version="3" changeset="145294511" timestamp="2023-12-19T14:30:37Z" user="user_157189" uid="157189" lat="36.1175110" lon="-115.1729810">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="5"/>
+ </node>
+ <node id="3783743557" visible="true" version="5" changeset="173024423" timestamp="2025-10-08T21:34:26Z" user="VLD319" uid="23213281" lat="36.1198499" lon="-115.1726010">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:island" v="yes"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+ </node>
+ <node id="3783743618" visible="true" version="5" changeset="172600036" timestamp="2025-09-29T08:32:35Z" user="PedestrianMapping_HiddenRoute" uid="23065602" lat="36.1109576" lon="-115.1731340">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="3783743845" visible="true" version="1" changeset="34598033" timestamp="2015-10-12T19:47:34Z" user="abellao" uid="496923" lat="36.1169699" lon="-115.1729874"/>
+ <node id="3783744003" visible="true" version="1" changeset="34598033" timestamp="2015-10-12T19:47:35Z" user="abellao" uid="496923" lat="36.1183621" lon="-115.1729085"/>
+ <node id="4210496188" visible="true" version="3" changeset="174148889" timestamp="2025-11-03T13:50:59Z" user="amalakhova_lyft" uid="22107036" lat="36.1192581" lon="-115.1727632"/>
+ <node id="4331663605" visible="true" version="10" changeset="189426660" timestamp="2026-09-23T02:58:43Z" user="StackKorora" uid="3009398" lat="36.1079520" lon="-115.1641079">
+  <tag k="button_operated" v="yes"/>
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+  <tag k="traffic_signals:sound" v="yes"/>
+  <tag k="traffic_signals:vibration" v="yes"/>
+ </node>
+ <node id="4334050761" visible="true" version="2" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1079514" lon="-115.1647319"/>
+ <node id="4380087444" visible="true" version="2" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1080654" lon="-115.1721925"/>
+ <node id="4804173974" visible="true" version="1" changeset="47944955" timestamp="2017-04-19T16:31:37Z" user="thefoxiness" uid="5567460" lat="36.1194996" lon="-115.1726996"/>
+ <node id="4804173975" visible="true" version="1" changeset="47944955" timestamp="2017-04-19T16:31:37Z" user="thefoxiness" uid="5567460" lat="36.1180652" lon="-115.1729440"/>
+ <node id="4869411040" visible="true" version="7" changeset="173649252" timestamp="2025-10-22T22:32:31Z" user="Flap Slimy Outward" uid="22417964" lat="36.1246163" lon="-115.1668161">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="5255307360" visible="true" version="7" changeset="189376855" timestamp="2026-09-22T03:32:59Z" user="StackKorora" uid="3009398" lat="36.1222157" lon="-115.1715999">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:island" v="no"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="no"/>
+ </node>
+ <node id="5450834124" visible="true" version="1" changeset="56845516" timestamp="2018-03-03T12:22:49Z" user="LeTopographeFou" uid="3178375" lat="36.1223730" lon="-115.1714903"/>
+ <node id="5509252535" visible="true" version="2" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1079671" lon="-115.1712832"/>
+ <node id="5509252567" visible="true" version="1" changeset="57579072" timestamp="2018-03-27T19:41:51Z" user="Irina Karachevtseva" uid="5288591" lat="36.1079535" lon="-115.1678538"/>
+ <node id="5509253032" visible="true" version="2" changeset="60147012" timestamp="2018-06-25T11:29:04Z" user="Upendrakarukonda" uid="4007051" lat="36.1127628" lon="-115.1639470"/>
+ <node id="5509253038" visible="true" version="3" changeset="173021052" timestamp="2025-10-08T19:46:35Z" user="VLD299" uid="22891835" lat="36.1135874" lon="-115.1639578"/>
+ <node id="5509253039" visible="true" version="3" changeset="173021052" timestamp="2025-10-08T19:46:35Z" user="VLD299" uid="22891835" lat="36.1138594" lon="-115.1639614"/>
+ <node id="5509253044" visible="true" version="3" changeset="173021052" timestamp="2025-10-08T19:46:35Z" user="VLD299" uid="22891835" lat="36.1136851" lon="-115.1639591"/>
+ <node id="5509253047" visible="true" version="3" changeset="173021052" timestamp="2025-10-08T19:46:35Z" user="VLD299" uid="22891835" lat="36.1139494" lon="-115.1639626"/>
+ <node id="5513161675" visible="true" version="2" changeset="60147012" timestamp="2018-06-25T11:29:04Z" user="Upendrakarukonda" uid="4007051" lat="36.1117715" lon="-115.1639411"/>
+ <node id="5711218684" visible="true" version="2" changeset="167154842" timestamp="2025-06-03T22:46:39Z" user="Flap Slimy Outward" uid="22417964" lat="36.1158950" lon="-115.1639649"/>
+ <node id="5711218691" visible="true" version="2" changeset="167154842" timestamp="2025-06-03T22:46:39Z" user="Flap Slimy Outward" uid="22417964" lat="36.1155905" lon="-115.1639633"/>
+ <node id="5717469568" visible="true" version="1" changeset="60145579" timestamp="2018-06-25T10:47:00Z" user="manings" uid="3272286" lat="36.1222552" lon="-115.1616209"/>
+ <node id="5717469569" visible="true" version="1" changeset="60145579" timestamp="2018-06-25T10:47:00Z" user="manings" uid="3272286" lat="36.1222704" lon="-115.1621823"/>
+ <node id="5717469570" visible="true" version="1" changeset="60145579" timestamp="2018-06-25T10:47:00Z" user="manings" uid="3272286" lat="36.1222920" lon="-115.1630379"/>
+ <node id="5717469571" visible="true" version="1" changeset="60145579" timestamp="2018-06-25T10:47:00Z" user="manings" uid="3272286" lat="36.1222910" lon="-115.1636656"/>
+ <node id="5717469572" visible="true" version="5" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1222899" lon="-115.1640396"/>
+ <node id="5717585565" visible="true" version="12" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1143116" lon="-115.1639685">
+  <tag k="button_operated" v="yes"/>
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="tactile_paving" v="yes"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+  <tag k="traffic_signals:sound" v="yes"/>
+  <tag k="traffic_signals:vibration" v="yes"/>
+ </node>
+ <node id="5717585567" visible="true" version="3" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1111544" lon="-115.1639284">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="4"/>
+ </node>
+ <node id="5717585571" visible="true" version="4" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1079520" lon="-115.1641459">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="6016349698" visible="true" version="1" changeset="63914594" timestamp="2018-10-26T20:58:52Z" user="suneel-kaw" uid="8346022" lat="36.1226804" lon="-115.1712722"/>
+ <node id="6091215746" visible="true" version="6" changeset="172593019" timestamp="2025-09-29T05:06:12Z" user="PedestrianMapping_MapShadow" uid="23055540" lat="36.1172671" lon="-115.1729900">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="no"/>
+ </node>
+ <node id="6091215751" visible="true" version="7" changeset="179325032" timestamp="2026-03-03T22:04:04Z" user="RunTrails" uid="5215025" lat="36.1174745" lon="-115.1729839">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+ </node>
+ <node id="6222356723" visible="true" version="10" changeset="176796562" timestamp="2026-01-03T20:17:10Z" user="mrmaxguns" uid="14535651" lat="36.1143382" lon="-115.1639691">
+  <tag k="button_operated" v="yes"/>
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:island" v="no"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+  <tag k="traffic_signals:sound" v="yes"/>
+  <tag k="traffic_signals:vibration" v="no"/>
+ </node>
+ <node id="6715647930" visible="true" version="3" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1080024" lon="-115.1720264"/>
+ <node id="7059210713" visible="true" version="2" changeset="83320808" timestamp="2020-04-09T17:00:58Z" user="Anu_Zade" uid="8168739" lat="36.1103222" lon="-115.1731416"/>
+ <node id="7226402466" visible="true" version="1" changeset="81204125" timestamp="2020-02-19T06:20:56Z" user="rzsi" uid="10173444" lat="36.1079473" lon="-115.1652369"/>
+ <node id="7359177854" visible="true" version="2" changeset="173021052" timestamp="2025-10-08T19:46:35Z" user="VLD299" uid="22891835" lat="36.1133774" lon="-115.1639551"/>
+ <node id="7386205445" visible="true" version="1" changeset="83320808" timestamp="2020-04-09T17:00:58Z" user="Anu_Zade" uid="8168739" lat="36.1104429" lon="-115.1731398"/>
+ <node id="9034386146" visible="true" version="1" changeset="110218023" timestamp="2021-08-25T09:26:32Z" user="amakarevich_lyft" uid="11905428" lat="36.1249550" lon="-115.1671943"/>
+ <node id="9375435424" visible="true" version="1" changeset="115502565" timestamp="2021-12-29T07:08:37Z" user="YuliyaShustava_lyft" uid="11089099" lat="36.1119352" lon="-115.1730951"/>
+ <node id="9497308570" visible="true" version="2" changeset="167154842" timestamp="2025-06-03T22:46:41Z" user="Flap Slimy Outward" uid="22417964" lat="36.1168073" lon="-115.1639758"/>
+ <node id="9497407198" visible="true" version="2" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1079698" lon="-115.1709059"/>
+ <node id="9514191337" visible="true" version="2" changeset="167154842" timestamp="2025-06-03T22:46:41Z" user="Flap Slimy Outward" uid="22417964" lat="36.1153643" lon="-115.1639637"/>
+ <node id="9515536209" visible="true" version="2" changeset="182224985" timestamp="2026-05-04T21:53:09Z" user="Flap Slimy Outward" uid="22417964" lat="36.1159440" lon="-115.1729916"/>
+ <node id="9515657013" visible="true" version="2" changeset="167154842" timestamp="2025-06-03T22:46:41Z" user="Flap Slimy Outward" uid="22417964" lat="36.1157291" lon="-115.1639635"/>
+ <node id="9552067667" visible="true" version="1" changeset="118058843" timestamp="2022-03-03T14:48:09Z" user="pmarkina_lyft" uid="12195744" lat="36.1103620" lon="-115.1731403"/>
+ <node id="9577000545" visible="true" version="1" changeset="118454734" timestamp="2022-03-14T05:55:29Z" user="kmarkish_lyft" uid="11824233" lat="36.1222909" lon="-115.1636873"/>
+ <node id="9603432066" visible="true" version="1" changeset="118867987" timestamp="2022-03-24T14:42:24Z" user="akuksouski_lyft" uid="12479290" lat="36.1121837" lon="-115.1730844"/>
+ <node id="9781059410" visible="true" version="2" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1079523" lon="-115.1662360"/>
+ <node id="9832606127" visible="true" version="1" changeset="122609030" timestamp="2022-06-20T08:22:21Z" user="smikhnouski_lyft" uid="12195445" lat="36.1239130" lon="-115.1704270"/>
+ <node id="9832606128" visible="true" version="1" changeset="122609030" timestamp="2022-06-20T08:22:21Z" user="smikhnouski_lyft" uid="12195445" lat="36.1226113" lon="-115.1713210"/>
+ <node id="9832606129" visible="true" version="1" changeset="122609030" timestamp="2022-06-20T08:22:21Z" user="smikhnouski_lyft" uid="12195445" lat="36.1206341" lon="-115.1723277"/>
+ <node id="9835431642" visible="true" version="1" changeset="122653378" timestamp="2022-06-21T08:09:09Z" user="akuksouski_lyft" uid="12479290" lat="36.1231250" lon="-115.1709547"/>
+ <node id="9968242168" visible="true" version="2" changeset="167154842" timestamp="2025-06-03T22:46:42Z" user="Flap Slimy Outward" uid="22417964" lat="36.1168687" lon="-115.1639758">
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="traffic_sign" v="maxspeed"/>
+  <tag k="traffic_sign:direction" v="forward"/>
+ </node>
+ <node id="10081276856" visible="true" version="1" changeset="127136501" timestamp="2022-10-07T07:30:20Z" user="lrysiukevich_lyft" uid="14116631" lat="36.1241561" lon="-115.1665776"/>
+ <node id="10081276857" visible="true" version="1" changeset="127136501" timestamp="2022-10-07T07:30:20Z" user="lrysiukevich_lyft" uid="14116631" lat="36.1241594" lon="-115.1665792"/>
+ <node id="10081276858" visible="true" version="1" changeset="127136501" timestamp="2022-10-07T07:30:20Z" user="lrysiukevich_lyft" uid="14116631" lat="36.1243390" lon="-115.1666627"/>
+ <node id="10242226579" visible="true" version="1" changeset="129781086" timestamp="2022-12-06T12:14:14Z" user="amakarevich_lyft" uid="11905428" lat="36.1130171" lon="-115.1730485"/>
+ <node id="10278507117" visible="true" version="2" changeset="172140289" timestamp="2025-09-19T03:55:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1112997" lon="-115.1731204">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="10278555026" visible="true" version="1" changeset="130343502" timestamp="2022-12-21T17:53:11Z" user="Halfdeaf007" uid="2729711" lat="36.1125952" lon="-115.1730662"/>
+ <node id="10681393781" visible="true" version="1" changeset="132802190" timestamp="2023-02-20T17:53:00Z" user="THLEVRASH" uid="18482019" lat="36.1253047" lon="-115.1678766"/>
+ <node id="11052835397" visible="true" version="1" changeset="138669402" timestamp="2023-07-18T13:13:57Z" user="kmarkish_lyft" uid="11824233" lat="36.1222416" lon="-115.1607641"/>
+ <node id="11328804622" visible="true" version="2" changeset="163072952" timestamp="2025-03-01T00:10:05Z" user="Flap Slimy Outward" uid="22417964" lat="36.1222864" lon="-115.1627863"/>
+ <node id="11348729066" visible="true" version="3" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1090018" lon="-115.1731444"/>
+ <node id="11348753609" visible="true" version="4" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1083062" lon="-115.1629815"/>
+ <node id="11348753610" visible="true" version="4" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1085439" lon="-115.1626928"/>
+ <node id="11348753611" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1105837" lon="-115.1604566"/>
+ <node id="11348753612" visible="true" version="4" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1107004" lon="-115.1603640">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="1"/>
+ </node>
+ <node id="11348753613" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1108742" lon="-115.1603463"/>
+ <node id="11348753614" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1109842" lon="-115.1604157"/>
+ <node id="11348753615" visible="true" version="4" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1110678" lon="-115.1605274">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="2"/>
+ </node>
+ <node id="11348753616" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1111515" lon="-115.1607862"/>
+ <node id="11348753619" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1109028" lon="-115.1618403"/>
+ <node id="11348753620" visible="true" version="1" changeset="144014398" timestamp="2023-11-14T14:56:21Z" user="tvpost" uid="20247059" lat="36.1105837" lon="-115.1622526"/>
+ <node id="11348753621" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1105089" lon="-115.1623878"/>
+ <node id="11348753622" visible="true" version="4" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1104429" lon="-115.1629216">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="3"/>
+ </node>
+ <node id="11348753623" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1105397" lon="-115.1632648"/>
+ <node id="11348753624" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1106145" lon="-115.1634310"/>
+ <node id="11348753625" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1107400" lon="-115.1636107"/>
+ <node id="11348753626" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1108918" lon="-115.1637578"/>
+ <node id="11348753629" visible="true" version="1" changeset="144014398" timestamp="2023-11-14T14:56:21Z" user="tvpost" uid="20247059" lat="36.1087119" lon="-115.1627024"/>
+ <node id="11348753630" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1106321" lon="-115.1605846"/>
+ <node id="11348753631" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1107334" lon="-115.1605274"/>
+ <node id="11348753632" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1107994" lon="-115.1605247"/>
+ <node id="11348753633" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1108852" lon="-115.1605465"/>
+ <node id="11348753638" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1086429" lon="-115.1627718"/>
+ <node id="11348753639" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1086165" lon="-115.1628644"/>
+ <node id="11348753640" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1086055" lon="-115.1630061"/>
+ <node id="11348753641" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1085879" lon="-115.1630878"/>
+ <node id="11348753642" visible="true" version="2" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1085439" lon="-115.1631586"/>
+ <node id="11348753643" visible="true" version="3" changeset="175296794" timestamp="2025-11-30T01:52:00Z" user="Flap Slimy Outward" uid="22417964" lat="36.1083475" lon="-115.1633268"/>
+ <node id="11348753644" visible="true" version="3" changeset="175296794" timestamp="2025-11-30T01:52:00Z" user="Flap Slimy Outward" uid="22417964" lat="36.1082835" lon="-115.1633988"/>
+ <node id="11348753645" visible="true" version="2" changeset="175296794" timestamp="2025-11-30T01:52:00Z" user="Flap Slimy Outward" uid="22417964" lat="36.1082113" lon="-115.1635344"/>
+ <node id="11348753646" visible="true" version="2" changeset="175296794" timestamp="2025-11-30T01:52:00Z" user="Flap Slimy Outward" uid="22417964" lat="36.1081275" lon="-115.1637191"/>
+ <node id="11358754437" visible="true" version="2" changeset="175296794" timestamp="2025-11-30T01:52:00Z" user="Flap Slimy Outward" uid="22417964" lat="36.1080479" lon="-115.1636513"/>
+ <node id="11666697675" visible="true" version="7" changeset="189426660" timestamp="2026-09-23T02:57:01Z" user="StackKorora" uid="3009398" lat="36.1079629" lon="-115.1701034">
+  <tag k="button_operated" v="yes"/>
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+  <tag k="traffic_signals:sound" v="no"/>
+  <tag k="traffic_signals:vibration" v="yes"/>
+ </node>
+ <node id="12059212382" visible="true" version="4" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1222364" lon="-115.1604062">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="9"/>
+ </node>
+ <node id="12488446340" visible="true" version="2" changeset="167154844" timestamp="2025-06-03T22:46:45Z" user="Flap Slimy Outward" uid="22417964" lat="36.1190399" lon="-115.1639955"/>
+ <node id="12488446343" visible="true" version="3" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1221363" lon="-115.1604095">
+  <tag k="barrier" v="gate"/>
+ </node>
+ <node id="12626696512" visible="true" version="4" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1191725" lon="-115.1611853">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="6"/>
+ </node>
+ <node id="12638889506" visible="true" version="1" changeset="163251442" timestamp="2025-03-05T16:25:47Z" user="YuliyaShustava_lyft" uid="11089099" lat="36.1193192" lon="-115.1609218">
+  <tag k="barrier" v="gate"/>
+ </node>
+ <node id="12638889507" visible="true" version="1" changeset="163251442" timestamp="2025-03-05T16:25:47Z" user="YuliyaShustava_lyft" uid="11089099" lat="36.1196028" lon="-115.1605614"/>
+ <node id="12638889508" visible="true" version="1" changeset="163251442" timestamp="2025-03-05T16:25:47Z" user="YuliyaShustava_lyft" uid="11089099" lat="36.1197837" lon="-115.1604001"/>
+ <node id="12638889509" visible="true" version="1" changeset="163251442" timestamp="2025-03-05T16:25:47Z" user="YuliyaShustava_lyft" uid="11089099" lat="36.1201468" lon="-115.1601987"/>
+ <node id="12638889510" visible="true" version="1" changeset="163251442" timestamp="2025-03-05T16:25:47Z" user="YuliyaShustava_lyft" uid="11089099" lat="36.1203662" lon="-115.1601417"/>
+ <node id="12638889511" visible="true" version="1" changeset="163251442" timestamp="2025-03-05T16:25:47Z" user="YuliyaShustava_lyft" uid="11089099" lat="36.1206152" lon="-115.1601122"/>
+ <node id="12638889512" visible="true" version="4" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1207408" lon="-115.1601131">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="7"/>
+ </node>
+ <node id="12638889513" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1208915" lon="-115.1601132"/>
+ <node id="12638889514" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1209662" lon="-115.1601652"/>
+ <node id="12638889515" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1209926" lon="-115.1602639"/>
+ <node id="12638889516" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1209960" lon="-115.1603217"/>
+ <node id="12638889517" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1210251" lon="-115.1604632"/>
+ <node id="12638889518" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1211226" lon="-115.1605693"/>
+ <node id="12638889519" visible="true" version="1" changeset="163251442" timestamp="2025-03-05T16:25:47Z" user="YuliyaShustava_lyft" uid="11089099" lat="36.1211970" lon="-115.1605933"/>
+ <node id="12638889520" visible="true" version="1" changeset="163251442" timestamp="2025-03-05T16:25:47Z" user="YuliyaShustava_lyft" uid="11089099" lat="36.1213544" lon="-115.1606076"/>
+ <node id="12638889521" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1215084" lon="-115.1606187"/>
+ <node id="12638889522" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1217830" lon="-115.1604448"/>
+ <node id="12638889523" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1218616" lon="-115.1604184"/>
+ <node id="12638889524" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1207656" lon="-115.1602507"/>
+ <node id="12638889525" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1207924" lon="-115.1603927"/>
+ <node id="12638889526" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1208579" lon="-115.1605654"/>
+ <node id="12638889527" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1208892" lon="-115.1606121"/>
+ <node id="12638889528" visible="true" version="4" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1209393" lon="-115.1606710">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="8"/>
+ </node>
+ <node id="12638889529" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1211994" lon="-115.1607461"/>
+ <node id="12638889530" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1213767" lon="-115.1606927"/>
+ <node id="12680908708" visible="true" version="1" changeset="163818778" timestamp="2025-03-19T13:47:12Z" user="amitshrivastava_lyft" uid="21019370" lat="36.1191844" lon="-115.1619476"/>
+ <node id="12781971625" visible="true" version="3" changeset="169485400" timestamp="2025-07-26T04:09:24Z" user="Flap Slimy Outward" uid="22417964" lat="36.1255456" lon="-115.1692652"/>
+ <node id="12949325891" visible="true" version="1" changeset="168046373" timestamp="2025-06-24T12:15:08Z" user="grawat_Lyft" uid="18783549" lat="36.1199921" lon="-115.1602819"/>
+ <node id="12949325892" visible="true" version="1" changeset="168046373" timestamp="2025-06-24T12:15:08Z" user="grawat_Lyft" uid="18783549" lat="36.1199581" lon="-115.1603002"/>
+ <node id="13016208734" visible="true" version="2" changeset="175296794" timestamp="2025-11-30T01:52:00Z" user="Flap Slimy Outward" uid="22417964" lat="36.1080898" lon="-115.1635088"/>
+ <node id="13016217985" visible="true" version="2" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1086649" lon="-115.1625601">
+  <tag k="raceway" v="finish"/>
+ </node>
+ <node id="13016217986" visible="true" version="2" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1092838" lon="-115.1618816">
+  <tag k="raceway" v="start"/>
+ </node>
+ <node id="13016217987" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1081544" lon="-115.1633356"/>
+ <node id="13016217988" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1082226" lon="-115.1631450"/>
+ <node id="13016217989" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1084118" lon="-115.1628372"/>
+ <node id="13016217990" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1111757" lon="-115.1609986"/>
+ <node id="13016217991" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1111669" lon="-115.1612056"/>
+ <node id="13016217992" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1111251" lon="-115.1613881"/>
+ <node id="13016217993" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1111163" lon="-115.1606445"/>
+ <node id="13016217994" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1109754" lon="-115.1606146"/>
+ <node id="13016217995" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1107950" lon="-115.1603395"/>
+ <node id="13016217996" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1104649" lon="-115.1625512"/>
+ <node id="13016217997" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1104407" lon="-115.1627527"/>
+ <node id="13016217998" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1104891" lon="-115.1631041"/>
+ <node id="13016217999" visible="true" version="1" changeset="169263928" timestamp="2025-07-21T20:51:58Z" user="LordGarySugar" uid="13792107" lat="36.1110480" lon="-115.1615733"/>
+ <node id="13060798867" visible="true" version="2" changeset="182224985" timestamp="2026-05-04T21:53:09Z" user="Flap Slimy Outward" uid="22417964" lat="36.1147700" lon="-115.1729831"/>
+ <node id="13060955056" visible="true" version="2" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1255088" lon="-115.1690052">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="13154585534" visible="true" version="1" changeset="172140289" timestamp="2025-09-19T03:55:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1201947" lon="-115.1724872">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="13154585535" visible="true" version="1" changeset="172140289" timestamp="2025-09-19T03:55:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1198760" lon="-115.1725947"/>
+ <node id="13154585537" visible="true" version="1" changeset="172140289" timestamp="2025-09-19T03:55:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1221555" lon="-115.1716380"/>
+ <node id="13154585543" visible="true" version="1" changeset="172140289" timestamp="2025-09-19T03:55:08Z" user="Flap Slimy Outward" uid="22417964" lat="36.1234100" lon="-115.1707580"/>
+ <node id="13179859940" visible="true" version="2" changeset="173020060" timestamp="2025-10-08T19:17:03Z" user="VLD299" uid="22891835" lat="36.1222901" lon="-115.1639532">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="13179859946" visible="true" version="1" changeset="172599963" timestamp="2025-09-29T08:30:44Z" user="PedestrianMapping_MapTunnel" uid="23064806" lat="36.1224736" lon="-115.1642735">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="13179859976" visible="true" version="3" changeset="181440962" timestamp="2026-04-17T06:01:54Z" user="d150rd3r" uid="10645539" lat="36.1221723" lon="-115.1604071">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="13179859985" visible="true" version="1" changeset="172599963" timestamp="2025-09-29T08:30:44Z" user="PedestrianMapping_MapTunnel" uid="23064806" lat="36.1192073" lon="-115.1639282">
+  <tag k="crossing" v="unmarked"/>
+  <tag k="crossing:markings" v="no"/>
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="13179906318" visible="true" version="1" changeset="172601202" timestamp="2025-09-29T08:56:26Z" user="PedestrianMapping_RouteMirror" uid="23065807" lat="36.1245943" lon="-115.1668003">
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="13207647702" visible="true" version="5" changeset="189426660" timestamp="2026-09-23T02:57:30Z" user="StackKorora" uid="3009398" lat="36.1079538" lon="-115.1677215">
+  <tag k="button_operated" v="yes"/>
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="crossing:signals" v="yes"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="no"/>
+  <tag k="traffic_signals:sound" v="no"/>
+  <tag k="traffic_signals:vibration" v="yes"/>
+ </node>
+ <node id="13250780583" visible="true" version="1" changeset="173649252" timestamp="2025-10-22T22:32:31Z" user="Flap Slimy Outward" uid="22417964" lat="36.1248066" lon="-115.1669930"/>
+ <node id="13250780586" visible="true" version="3" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1247170" lon="-115.1668882">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="11"/>
+ </node>
+ <node id="13341696769" visible="true" version="2" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1079617" lon="-115.1699644"/>
+ <node id="13341696770" visible="true" version="2" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1079609" lon="-115.1698570"/>
+ <node id="13341696773" visible="true" version="1" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1079537" lon="-115.1677684">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="traffic_lights"/>
+  <tag k="traffic_signals:direction" v="forward"/>
+ </node>
+ <node id="13341696775" visible="true" version="1" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1079521" lon="-115.1640271"/>
+ <node id="13341696778" visible="true" version="3" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964" lat="36.1079696" lon="-115.1639015">
+  <tag k="junction" v="yes"/>
+  <tag k="ref" v="17"/>
+ </node>
+ <node id="13341696779" visible="true" version="1" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1080897" lon="-115.1637627"/>
+ <node id="13341696780" visible="true" version="5" changeset="189426660" timestamp="2026-09-23T02:58:52Z" user="StackKorora" uid="3009398" lat="36.1080475" lon="-115.1638115">
+  <tag k="button_operated" v="yes"/>
+  <tag k="crossing" v="traffic_signals"/>
+  <tag k="crossing:markings" v="zebra"/>
+  <tag k="highway" v="crossing"/>
+  <tag k="tactile_paving" v="yes"/>
+  <tag k="traffic_signals:sound" v="yes"/>
+  <tag k="traffic_signals:vibration" v="yes"/>
+ </node>
+ <node id="13341696784" visible="true" version="3" changeset="182221494" timestamp="2026-05-04T19:51:17Z" user="Flap Slimy Outward" uid="22417964" lat="36.1144397" lon="-115.1639683"/>
+ <node id="13341696785" visible="true" version="1" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1145884" lon="-115.1639700"/>
+ <node id="13341696788" visible="true" version="1" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1173030" lon="-115.1639816"/>
+ <node id="13341696794" visible="true" version="1" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964" lat="36.1224690" lon="-115.1641615"/>
+ <node id="13341705711" visible="true" version="1" changeset="175298057" timestamp="2025-11-30T03:13:47Z" user="Flap Slimy Outward" uid="22417964" lat="36.1192393" lon="-115.1610652"/>
+ <node id="13615751771" visible="true" version="1" changeset="179325032" timestamp="2026-03-03T22:04:04Z" user="RunTrails" uid="5215025" lat="36.1174130" lon="-115.1729847"/>
+ <node id="13615751772" visible="true" version="1" changeset="179325032" timestamp="2026-03-03T22:04:04Z" user="RunTrails" uid="5215025" lat="36.1173174" lon="-115.1729892"/>
+ <node id="13712353312" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1218206" lon="-115.1604279"/>
+ <node id="13712353313" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1212621" lon="-115.1607350"/>
+ <node id="13712353314" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1213259" lon="-115.1607151"/>
+ <node id="13712353315" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1211240" lon="-115.1607443"/>
+ <node id="13712353316" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1208123" lon="-115.1604773"/>
+ <node id="13712353317" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1210281" lon="-115.1607216"/>
+ <node id="13712353318" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1209824" lon="-115.1607007"/>
+ <node id="13712353319" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1210780" lon="-115.1607394"/>
+ <node id="13712353320" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1209340" lon="-115.1601263"/>
+ <node id="13712353321" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1209531" lon="-115.1601416"/>
+ <node id="13712353322" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1209146" lon="-115.1601165"/>
+ <node id="13712353323" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1209820" lon="-115.1602150"/>
+ <node id="13712353324" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1210039" lon="-115.1603971"/>
+ <node id="13712353325" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1210735" lon="-115.1605356"/>
+ <node id="13712353326" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1210463" lon="-115.1605017"/>
+ <node id="13712353327" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1211587" lon="-115.1605850"/>
+ <node id="13712353328" visible="true" version="1" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024" lat="36.1208295" lon="-115.1605177"/>
+ <node id="13875610403" visible="true" version="1" changeset="183143005" timestamp="2026-05-25T08:24:06Z" user="Yuliya_Petrash" uid="22194816" lat="36.1193016" lon="-115.1609534"/>
+ <node id="13889692414" visible="true" version="1" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025" lat="36.1086760" lon="-115.1729806"/>
+ <node id="13893272558" visible="true" version="1" changeset="183339304" timestamp="2026-05-29T07:34:26Z" user="Yuliya_Petrash" uid="22194816" lat="36.1192049" lon="-115.1630677">
+  <tag k="highway" v="crossing"/>
+ </node>
+ <way id="14323635" visible="true" version="26" changeset="183339304" timestamp="2026-05-29T07:34:26Z" user="Yuliya_Petrash" uid="22194816">
+  <nd ref="12626696512"/>
+  <nd ref="12680908708"/>
+  <nd ref="2747919652"/>
+  <nd ref="13893272558"/>
+  <nd ref="13179859985"/>
+  <nd ref="137743393"/>
+  <tag k="access" v="yes"/>
+  <tag k="covered" v="no"/>
+  <tag k="highway" v="unclassified"/>
+  <tag k="lanes" v="2"/>
+  <tag k="name" v="Westchester Drive"/>
+  <tag k="oneway" v="no"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Westchester"/>
+  <tag k="tiger:name_type" v="Cir"/>
+  <tag k="tiger:reviewed" v="no"/>
+ </way>
+ <way id="281237566" visible="true" version="17" changeset="189426620" timestamp="2026-09-23T02:57:02Z" user="StackKorora" uid="3009398">
+  <nd ref="13341696770"/>
+  <nd ref="2852160866"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="421265955" visible="true" version="22" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13060798867"/>
+  <nd ref="1307215340"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="bicycle" v="yes"/>
+  <tag k="foot" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lane_markings" v="no"/>
+  <tag k="lanes" v="5"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="placement" v="middle_of:4"/>
+  <tag k="sidewalk" v="no"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|none|none|none"/>
+ </way>
+ <way id="423686234" visible="true" version="18" changeset="189376881" timestamp="2026-09-22T03:36:05Z" user="StackKorora" uid="3009398">
+  <nd ref="247493048"/>
+  <nd ref="3783743618"/>
+  <nd ref="3165620433"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="423686460" visible="true" version="23" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13615751772"/>
+  <nd ref="6091215746"/>
+  <nd ref="3783743845"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="parking:both" v="no"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="423689767" visible="true" version="23" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="3783744003"/>
+  <nd ref="1307215330"/>
+  <nd ref="4804173975"/>
+  <nd ref="3529524396"/>
+  <nd ref="6091215751"/>
+  <nd ref="13615751771"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="parking:both" v="no"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="435490976" visible="true" version="9" changeset="189426620" timestamp="2026-09-23T02:55:08Z" user="StackKorora" uid="3009398">
+  <nd ref="2852160868"/>
+  <nd ref="9781059410"/>
+  <nd ref="2852160870"/>
+  <nd ref="7226402466"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="435490978" visible="true" version="8" changeset="189426620" timestamp="2026-09-23T02:55:00Z" user="StackKorora" uid="3009398">
+  <nd ref="4334050761"/>
+  <nd ref="5717585571"/>
+  <nd ref="4331663605"/>
+  <nd ref="13341696775"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="5"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="placement" v="middle_of:4"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|||right"/>
+ </way>
+ <way id="600023001" visible="true" version="22" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13154585537"/>
+  <nd ref="1307215334"/>
+  <nd ref="1307215324"/>
+  <nd ref="9832606129"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="600519166" visible="true" version="8" changeset="189426620" timestamp="2026-09-23T02:55:22Z" user="StackKorora" uid="3009398">
+  <nd ref="5509252567"/>
+  <nd ref="13341696773"/>
+  <nd ref="13207647702"/>
+  <nd ref="2852160868"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="600520431" visible="true" version="14" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13341696788"/>
+  <nd ref="3196293414"/>
+  <nd ref="3196293416"/>
+  <nd ref="12488446340"/>
+  <nd ref="137743393"/>
+  <tag k="flood_prone" v="yes"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+ </way>
+ <way id="601644233" visible="true" version="18" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="1490596685"/>
+  <nd ref="1307215327"/>
+  <nd ref="2820167020"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="foot" v="no"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:both" v="no"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="601644239" visible="true" version="15" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13341696794"/>
+  <nd ref="13179859946"/>
+  <nd ref="137402154"/>
+  <nd ref="137402151"/>
+  <nd ref="137402148"/>
+  <nd ref="137402146"/>
+  <nd ref="137402143"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Sands"/>
+  <tag k="tiger:name_type" v="Ave"/>
+ </way>
+ <way id="601645722" visible="true" version="21" changeset="174442206" timestamp="2025-11-10T02:00:33Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="5717469572"/>
+  <nd ref="13179859940"/>
+  <nd ref="9577000545"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="maxheight" v="default"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="smoothness" v="good"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="601666019" visible="true" version="7" changeset="189426620" timestamp="2026-09-23T02:54:58Z" user="StackKorora" uid="3009398">
+  <nd ref="13341696775"/>
+  <nd ref="13341696778"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="5"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="placement" v="middle_of:4"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|||right"/>
+ </way>
+ <way id="601666023" visible="true" version="12" changeset="167154844" timestamp="2025-06-03T22:46:56Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="3524173094"/>
+  <nd ref="9497308570"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="lit" v="no"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="shoulder" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+ </way>
+ <way id="601671136" visible="true" version="11" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13341696785"/>
+  <nd ref="3524185693"/>
+  <nd ref="9514191337"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+ </way>
+ <way id="601671174" visible="true" version="9" changeset="177076628" timestamp="2026-01-10T20:58:47Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13341696784"/>
+  <nd ref="13341696785"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lane_markings" v="no"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+ </way>
+ <way id="674621867" visible="true" version="15" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="4210496188"/>
+  <nd ref="1307215329"/>
+  <nd ref="3783744003"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="parking:both" v="no"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="742140361" visible="true" version="13" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="2278824741"/>
+  <nd ref="10242226579"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="5"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="847458816" visible="true" version="7" changeset="167154844" timestamp="2025-06-03T22:47:00Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="9515657013"/>
+  <nd ref="5711218684"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+  <tag k="turn:lanes" v="||right"/>
+ </way>
+ <way id="847458817" visible="true" version="8" changeset="167154844" timestamp="2025-06-03T22:47:00Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="5711218684"/>
+  <nd ref="3524173094"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+  <tag k="turn:lanes" v="none|none|right"/>
+ </way>
+ <way id="999044776" visible="true" version="5" changeset="173022059" timestamp="2025-10-08T20:17:49Z" user="VLD299" uid="22891835">
+  <nd ref="137476745"/>
+  <nd ref="5513161675"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+ </way>
+ <way id="999044779" visible="true" version="6" changeset="173022059" timestamp="2025-10-08T20:17:49Z" user="VLD299" uid="22891835">
+  <nd ref="5513161675"/>
+  <nd ref="1161959432"/>
+  <nd ref="5509253032"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+ </way>
+ <way id="1009061533" visible="true" version="12" changeset="189376881" timestamp="2026-09-22T03:36:14Z" user="StackKorora" uid="3009398">
+  <nd ref="1490596713"/>
+  <nd ref="1490596685"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="foot" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:both" v="no"/>
+  <tag k="smoothness" v="good"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1009061534" visible="true" version="12" changeset="189376881" timestamp="2026-09-22T03:36:13Z" user="StackKorora" uid="3009398">
+  <nd ref="137402120"/>
+  <nd ref="12781971625"/>
+  <tag k="foot" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="6"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="45 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="old_name" v="D4–C Ranch Road"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:both" v="no"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Sands"/>
+  <tag k="tiger:name_direction_prefix" v="E"/>
+  <tag k="tiger:name_type" v="Ave"/>
+  <tag k="turn:lanes" v="left|left|||||"/>
+ </way>
+ <way id="1016480469" visible="true" version="13" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="1307232382"/>
+  <nd ref="10278507117"/>
+  <nd ref="1307215317"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="bicycle" v="yes"/>
+  <tag k="foot" v="no"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="horse" v="permissive"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="motor_vehicle" v="yes"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="through|through|through|through"/>
+ </way>
+ <way id="1016480470" visible="true" version="10" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="9603432066"/>
+  <nd ref="9375435424"/>
+  <nd ref="1307232383"/>
+  <nd ref="1307232382"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="8"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|left|none|none|none|none|right"/>
+ </way>
+ <way id="1016805774" visible="true" version="7" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="5509253032"/>
+  <nd ref="7359177854"/>
+  <nd ref="5509253038"/>
+  <nd ref="5509253044"/>
+  <nd ref="5509253039"/>
+  <nd ref="5509253047"/>
+  <nd ref="2777542741"/>
+  <nd ref="5717585565"/>
+  <nd ref="6222356723"/>
+  <nd ref="13341696784"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+ </way>
+ <way id="1030066598" visible="true" version="9" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="11348729066"/>
+  <nd ref="2852160857"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="bicycle" v="yes"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="6"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="motor_vehicle" v="yes"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:both" v="no"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|none|none|none|none"/>
+ </way>
+ <way id="1030066599" visible="true" version="9" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025">
+  <nd ref="2852160857"/>
+  <nd ref="13889692414"/>
+  <tag k="expressway" v="yes"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="West Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:both" v="no"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1030067968" visible="true" version="7" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="1307215317"/>
+  <nd ref="247493048"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1030280930" visible="true" version="10" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="9497308570"/>
+  <nd ref="9968242168"/>
+  <nd ref="137344634"/>
+  <nd ref="3524177103"/>
+  <nd ref="13341696788"/>
+  <tag k="flood_prone" v="yes"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+  <tag k="turn:lanes" v="left||"/>
+ </way>
+ <way id="1030290852" visible="true" version="7" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="2852160859"/>
+  <nd ref="2852160860"/>
+  <nd ref="2852160861"/>
+  <nd ref="2820167009"/>
+  <nd ref="4380087444"/>
+  <nd ref="2852160862"/>
+  <nd ref="6715647930"/>
+  <nd ref="2852160863"/>
+  <nd ref="2852160864"/>
+  <tag k="bicycle" v="yes"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="motor_vehicle" v="yes"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1030290854" visible="true" version="6" changeset="189426620" timestamp="2026-09-23T02:55:56Z" user="StackKorora" uid="3009398">
+  <nd ref="9497407198"/>
+  <nd ref="2852160865"/>
+  <nd ref="11666697675"/>
+  <nd ref="13341696769"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="5"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="reverse;left|left|none|none|right"/>
+ </way>
+ <way id="1030290855" visible="true" version="7" changeset="189426659" timestamp="2026-09-23T02:56:52Z" user="StackKorora" uid="3009398">
+  <nd ref="13341696769"/>
+  <nd ref="13341696770"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lane_markings" v="yes"/>
+  <tag k="lanes" v="3"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1030290856" visible="true" version="4" changeset="189426620" timestamp="2026-09-23T02:55:21Z" user="StackKorora" uid="3009398">
+  <nd ref="2852160866"/>
+  <nd ref="2852160855"/>
+  <nd ref="2852160853"/>
+  <nd ref="5509252567"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|none|none"/>
+ </way>
+ <way id="1032613489" visible="true" version="7" changeset="173022059" timestamp="2025-10-08T20:17:49Z" user="VLD299" uid="22891835">
+  <nd ref="9514191337"/>
+  <nd ref="5711218691"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+  <tag k="turn:lanes" v="left|none|none"/>
+ </way>
+ <way id="1032776580" visible="true" version="14" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="9515536209"/>
+  <nd ref="1307215338"/>
+  <nd ref="13060798867"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="foot" v="no"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="6"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxheight" v="default"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="placement" v="middle_of:4"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|none|none|none|right"/>
+ </way>
+ <way id="1032789814" visible="true" version="7" changeset="173022059" timestamp="2025-10-08T20:17:49Z" user="VLD299" uid="22891835">
+  <nd ref="5711218691"/>
+  <nd ref="9515657013"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+ </way>
+ <way id="1033820973" visible="true" version="14" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="9552067667"/>
+  <nd ref="7059210713"/>
+  <nd ref="1307215323"/>
+  <nd ref="2820167011"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="bicycle" v="yes"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="6"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxheight" v="default"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="motor_vehicle" v="yes"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|none|none|none|none"/>
+ </way>
+ <way id="1036842429" visible="true" version="7" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="3165620433"/>
+  <nd ref="7386205445"/>
+  <nd ref="9552067667"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="5"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1043464439" visible="true" version="9" changeset="189376881" timestamp="2026-09-22T03:36:06Z" user="StackKorora" uid="3009398">
+  <nd ref="1307215340"/>
+  <nd ref="2278824741"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="foot" v="no"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="placement" v="middle_of:3"/>
+  <tag k="sidewalk" v="no"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1043551491" visible="true" version="13" changeset="189376881" timestamp="2026-09-22T03:36:08Z" user="StackKorora" uid="3009398">
+  <nd ref="1598856720"/>
+  <nd ref="13154585535"/>
+  <nd ref="3783743557"/>
+  <nd ref="1912068000"/>
+  <nd ref="1307215331"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1059801988" visible="true" version="12" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="1307215331"/>
+  <nd ref="4804173974"/>
+  <nd ref="4210496188"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="5"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="parking:both" v="no"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="reverse;left|none|none|none|none"/>
+ </way>
+ <way id="1071482657" visible="true" version="11" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="2820167020"/>
+  <nd ref="1307215339"/>
+  <nd ref="9832606127"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1071482658" visible="true" version="12" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="9832606127"/>
+  <nd ref="1307215322"/>
+  <nd ref="13154585543"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="7"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|||||"/>
+ </way>
+ <way id="1071482659" visible="true" version="11" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13154585543"/>
+  <nd ref="1675637835"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="6"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left||||"/>
+ </way>
+ <way id="1071482660" visible="true" version="14" changeset="189376881" timestamp="2026-09-22T03:36:09Z" user="StackKorora" uid="3009398">
+  <nd ref="1675637835"/>
+  <nd ref="9835431642"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxheight" v="default"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1071482661" visible="true" version="11" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="9832606128"/>
+  <nd ref="5450834124"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="7"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|||||"/>
+ </way>
+ <way id="1071482662" visible="true" version="14" changeset="189376849" timestamp="2026-09-22T03:32:55Z" user="StackKorora" uid="3009398">
+  <nd ref="5450834124"/>
+  <nd ref="252504202"/>
+  <nd ref="5255307360"/>
+  <nd ref="13154585537"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="6"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left||||"/>
+ </way>
+ <way id="1071482663" visible="true" version="15" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="9832606129"/>
+  <nd ref="13154585534"/>
+  <nd ref="1598856720"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="5"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="reverse||||"/>
+ </way>
+ <way id="1101647962" visible="true" version="14" changeset="173649252" timestamp="2025-10-22T22:32:31Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13250780583"/>
+  <nd ref="9034386146"/>
+  <nd ref="137402126"/>
+  <nd ref="137402123"/>
+  <nd ref="10681393781"/>
+  <nd ref="137402122"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="sidewalk:right:surface" v="concrete"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1101647963" visible="true" version="8" changeset="172598596" timestamp="2025-09-29T08:00:24Z" user="PedestrianMapping_RouteMirror" uid="23065807">
+  <nd ref="10081276857"/>
+  <nd ref="10081276858"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Sands"/>
+  <tag k="tiger:name_type" v="Ave"/>
+  <tag k="turn:lanes" v="left|none|none|none"/>
+ </way>
+ <way id="1101647964" visible="true" version="10" changeset="173649252" timestamp="2025-10-22T22:32:31Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="10081276858"/>
+  <nd ref="137402135"/>
+  <nd ref="13179906318"/>
+  <nd ref="4869411040"/>
+  <nd ref="13250780586"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="6"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Sands"/>
+  <tag k="tiger:name_type" v="Ave"/>
+  <tag k="turn:lanes" v="left|none|none|none|none|right"/>
+ </way>
+ <way id="1101647965" visible="true" version="7" changeset="173649252" timestamp="2025-10-22T22:32:31Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13250780586"/>
+  <nd ref="13250780583"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Sands"/>
+  <tag k="tiger:name_type" v="Ave"/>
+ </way>
+ <way id="1101647966" visible="true" version="10" changeset="172598596" timestamp="2025-09-29T08:00:24Z" user="PedestrianMapping_RouteMirror" uid="23065807">
+  <nd ref="137402122"/>
+  <nd ref="1590310741"/>
+  <nd ref="2820167021"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="7"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxheight" v="default"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|none|none|none|none|right"/>
+ </way>
+ <way id="1101647967" visible="true" version="9" changeset="172598596" timestamp="2025-09-29T08:00:24Z" user="PedestrianMapping_RouteMirror" uid="23065807">
+  <nd ref="2820167021"/>
+  <nd ref="13060955056"/>
+  <nd ref="137402120"/>
+  <tag k="foot" v="no"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="7"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|none|none|none|none|right"/>
+ </way>
+ <way id="1119837129" visible="true" version="7" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="10242226579"/>
+  <nd ref="10278555026"/>
+  <nd ref="9603432066"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="5"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="||||right"/>
+ </way>
+ <way id="1223479151" visible="true" version="9" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="11348753615"/>
+  <nd ref="13016217993"/>
+  <nd ref="11348753616"/>
+  <nd ref="13016217990"/>
+  <nd ref="13016217991"/>
+  <nd ref="13016217992"/>
+  <nd ref="13016217999"/>
+  <nd ref="11348753619"/>
+  <nd ref="11348753620"/>
+  <nd ref="11348753621"/>
+  <nd ref="13016217996"/>
+  <nd ref="13016217997"/>
+  <nd ref="11348753622"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Las Vegas Strip Circuit"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1223479152" visible="true" version="6" changeset="175504718" timestamp="2025-12-04T16:28:09Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13341696778"/>
+  <nd ref="13341696780"/>
+  <nd ref="13341696779"/>
+  <nd ref="11348753646"/>
+  <nd ref="11348753645"/>
+  <nd ref="11348753644"/>
+  <nd ref="11348753643"/>
+  <nd ref="11348753642"/>
+  <nd ref="11348753641"/>
+  <nd ref="11348753640"/>
+  <nd ref="11348753639"/>
+  <nd ref="11348753638"/>
+  <nd ref="11348753629"/>
+  <nd ref="11348753630"/>
+  <nd ref="11348753631"/>
+  <nd ref="11348753632"/>
+  <nd ref="11348753633"/>
+  <nd ref="13016217994"/>
+  <nd ref="11348753616"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="noname" v="yes"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="raceway" v="pitlane"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1224841829" visible="true" version="6" changeset="175296794" timestamp="2025-11-30T01:52:00Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="5717585567"/>
+  <nd ref="137476745"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="2"/>
+  <tag k="name" v="Koval Lane"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:both" v="no"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Koval"/>
+  <tag k="tiger:name_type" v="Ln"/>
+ </way>
+ <way id="1238536330" visible="true" version="8" changeset="175296794" timestamp="2025-11-30T01:52:00Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="9577000545"/>
+  <nd ref="5717469571"/>
+  <nd ref="5717469570"/>
+  <nd ref="11328804622"/>
+  <nd ref="5717469569"/>
+  <nd ref="5717469568"/>
+  <nd ref="11052835397"/>
+  <nd ref="12059212382"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="maxheight" v="default"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="good"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1362569857" visible="true" version="6" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="3783743845"/>
+  <nd ref="9515536209"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="parking:both" v="no"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1364789152" visible="true" version="9" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024">
+  <nd ref="12638889528"/>
+  <nd ref="13712353318"/>
+  <nd ref="13712353317"/>
+  <nd ref="13712353319"/>
+  <nd ref="13712353315"/>
+  <nd ref="12638889529"/>
+  <nd ref="13712353313"/>
+  <nd ref="13712353314"/>
+  <nd ref="12638889530"/>
+  <nd ref="12638889521"/>
+  <nd ref="12638889522"/>
+  <nd ref="13712353312"/>
+  <nd ref="12638889523"/>
+  <nd ref="12488446343"/>
+  <nd ref="13179859976"/>
+  <nd ref="12059212382"/>
+  <tag k="highway" v="service"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1364789153" visible="true" version="5" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024">
+  <nd ref="12638889512"/>
+  <nd ref="12638889513"/>
+  <nd ref="13712353322"/>
+  <nd ref="13712353320"/>
+  <nd ref="13712353321"/>
+  <nd ref="12638889514"/>
+  <nd ref="13712353323"/>
+  <nd ref="12638889515"/>
+  <nd ref="12638889516"/>
+  <nd ref="13712353324"/>
+  <nd ref="12638889517"/>
+  <nd ref="13712353326"/>
+  <nd ref="13712353325"/>
+  <nd ref="12638889518"/>
+  <nd ref="13712353327"/>
+  <nd ref="12638889519"/>
+  <nd ref="12638889520"/>
+  <nd ref="12638889521"/>
+  <tag k="highway" v="service"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1381561592" visible="true" version="5" changeset="183275669" timestamp="2026-05-27T21:03:40Z" user="RunTrails" uid="5215025">
+  <nd ref="13889692414"/>
+  <nd ref="2852160859"/>
+  <tag k="expressway" v="yes"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:both" v="no"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1417454723" visible="true" version="6" changeset="189376881" timestamp="2026-09-22T03:36:16Z" user="StackKorora" uid="3009398">
+  <nd ref="12781971625"/>
+  <nd ref="1490596713"/>
+  <tag k="foot" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="6"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="45 mph"/>
+  <tag k="name" v="Spring Mountain Road"/>
+  <tag k="name:en" v="Spring Mountain Road"/>
+  <tag k="name:zh-Hans" v="春山路"/>
+  <tag k="name:zh-Hant" v="春山路"/>
+  <tag k="old_name" v="D4–C Ranch Road"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:both" v="no"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:reviewed" v="yes"/>
+  <tag k="turn:lanes" v="left|left|||||"/>
+ </way>
+ <way id="1436762463" visible="true" version="2" changeset="175328898" timestamp="2025-11-30T20:01:37Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="7226402466"/>
+  <nd ref="4334050761"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1436769040" visible="true" version="2" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="2820167011"/>
+  <nd ref="259859639"/>
+  <nd ref="11348729066"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="bicycle" v="yes"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="6"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxheight" v="default"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="motor_vehicle" v="yes"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:both" v="no"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="turn:lanes" v="left|left|none|none|none|none"/>
+ </way>
+ <way id="1454797801" visible="true" version="2" changeset="175297788" timestamp="2025-11-30T02:59:50Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="5717469572"/>
+  <nd ref="13341696794"/>
+  <tag k="fixme" v="How do racers get from the Sphere onto Sands Avenue westbound if it's blocked off by a physical barrier?"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Las Vegas Strip Circuit"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="placement" v="transition"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1456078470" visible="true" version="1" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13016217985"/>
+  <nd ref="13016217986"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Las Vegas Strip Circuit"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1456078471" visible="true" version="2" changeset="189426620" timestamp="2026-09-23T02:56:17Z" user="StackKorora" uid="3009398">
+  <nd ref="2852160864"/>
+  <nd ref="5509252535"/>
+  <nd ref="9497407198"/>
+  <tag k="bicycle" v="yes"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="lit" v="yes"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="motor_vehicle" v="yes"/>
+  <tag k="name" v="East Harmon Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1456078472" visible="true" version="3" changeset="186237341" timestamp="2026-07-23T14:08:49Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="137402143"/>
+  <nd ref="137402141"/>
+  <nd ref="137402137"/>
+  <nd ref="10081276856"/>
+  <nd ref="10081276857"/>
+  <tag k="hgv" v="designated"/>
+  <tag k="highway" v="secondary"/>
+  <tag k="lanes" v="3"/>
+  <tag k="maxspeed" v="35 mph"/>
+  <tag k="name" v="Sands Avenue"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="source:hgv" v="https://library.municode.com/nv/clark_county/codes/code_of_ordinances?nodeId=TIT14TR_CH14.46COVERE_14.46.030TRRODE"/>
+  <tag k="surface" v="asphalt"/>
+  <tag k="tiger:cfcc" v="A41"/>
+  <tag k="tiger:county" v="Clark, NV"/>
+  <tag k="tiger:name_base" v="Sands"/>
+  <tag k="tiger:name_type" v="Ave"/>
+ </way>
+ <way id="1456078473" visible="true" version="2" changeset="180968776" timestamp="2026-04-06T20:40:09Z" user="Stefano_1973" uid="804024">
+  <nd ref="12638889512"/>
+  <nd ref="12638889524"/>
+  <nd ref="12638889525"/>
+  <nd ref="13712353316"/>
+  <nd ref="13712353328"/>
+  <nd ref="12638889526"/>
+  <nd ref="12638889527"/>
+  <nd ref="12638889528"/>
+  <tag k="highway" v="service"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1456078474" visible="true" version="2" changeset="183143005" timestamp="2026-05-25T08:24:06Z" user="Yuliya_Petrash" uid="22194816">
+  <nd ref="12626696512"/>
+  <nd ref="13341705711"/>
+  <nd ref="13875610403"/>
+  <nd ref="12638889506"/>
+  <nd ref="12638889507"/>
+  <nd ref="12638889508"/>
+  <nd ref="12949325892"/>
+  <nd ref="12949325891"/>
+  <nd ref="12638889509"/>
+  <nd ref="12638889510"/>
+  <nd ref="12638889511"/>
+  <nd ref="12638889512"/>
+  <tag k="highway" v="service"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1456078475" visible="true" version="1" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="11348753622"/>
+  <nd ref="13016217998"/>
+  <nd ref="11348753623"/>
+  <nd ref="11348753624"/>
+  <nd ref="11348753625"/>
+  <nd ref="11348753626"/>
+  <nd ref="5717585567"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Las Vegas Strip Circuit"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1456078476" visible="true" version="1" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="11348753612"/>
+  <nd ref="13016217995"/>
+  <nd ref="11348753613"/>
+  <nd ref="11348753614"/>
+  <nd ref="11348753615"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Las Vegas Strip Circuit"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1456078477" visible="true" version="1" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13016217986"/>
+  <nd ref="11348753611"/>
+  <nd ref="11348753612"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Las Vegas Strip Circuit"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1456078478" visible="true" version="1" changeset="175511318" timestamp="2025-12-04T18:25:46Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13341696778"/>
+  <nd ref="11358754437"/>
+  <nd ref="13016208734"/>
+  <nd ref="13016217987"/>
+  <nd ref="13016217988"/>
+  <nd ref="11348753609"/>
+  <nd ref="13016217989"/>
+  <nd ref="11348753610"/>
+  <nd ref="13016217985"/>
+  <tag k="highway" v="raceway"/>
+  <tag k="name" v="Las Vegas Strip Circuit"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="sport" v="motor"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1486896083" visible="true" version="2" changeset="187255801" timestamp="2026-08-10T21:55:23Z" user="Flap Slimy Outward" uid="22417964">
+  <nd ref="13615751771"/>
+  <nd ref="13615751772"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="parking:both" v="no"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <way id="1547082474" visible="true" version="3" changeset="189376881" timestamp="2026-09-22T03:36:09Z" user="StackKorora" uid="3009398">
+  <nd ref="9835431642"/>
+  <nd ref="6016349698"/>
+  <nd ref="9832606128"/>
+  <tag k="alt_name" v="Las Vegas Strip"/>
+  <tag k="hgv" v="no"/>
+  <tag k="highway" v="primary"/>
+  <tag k="lanes" v="4"/>
+  <tag k="lit" v="yes"/>
+  <tag k="loc_name" v="Las Vegas Boulevard South"/>
+  <tag k="maxheight" v="default"/>
+  <tag k="maxspeed" v="30 mph"/>
+  <tag k="name" v="South Las Vegas Boulevard"/>
+  <tag k="old_ref" v="US 91;SR 6;SR 604"/>
+  <tag k="oneway" v="yes"/>
+  <tag k="postal_code" v="89123"/>
+  <tag k="sidewalk:left" v="no"/>
+  <tag k="sidewalk:right" v="separate"/>
+  <tag k="smoothness" v="excellent"/>
+  <tag k="source:old_ref" v="Nevada's State Maintained Highways (January 2003)"/>
+  <tag k="surface" v="asphalt"/>
+ </way>
+ <relation id="16696508" visible="true" version="24" changeset="186897636" timestamp="2026-08-04T00:51:50Z" user="sbedwal_Lyft" uid="18783691">
+  <member type="node" ref="13016217986" role="start"/>
+  <member type="way" ref="1456078477" role="forward"/>
+  <member type="node" ref="11348753612" role=""/>
+  <member type="way" ref="1456078476" role="forward"/>
+  <member type="node" ref="11348753615" role=""/>
+  <member type="way" ref="1223479151" role="forward"/>
+  <member type="node" ref="11348753622" role=""/>
+  <member type="way" ref="1456078475" role="forward"/>
+  <member type="node" ref="5717585567" role=""/>
+  <member type="way" ref="1224841829" role="forward"/>
+  <member type="way" ref="999044776" role="forward"/>
+  <member type="way" ref="999044779" role="forward"/>
+  <member type="way" ref="1016805774" role="forward"/>
+  <member type="way" ref="601671174" role="forward"/>
+  <member type="way" ref="601671136" role="forward"/>
+  <member type="way" ref="1032613489" role="forward"/>
+  <member type="way" ref="1032789814" role="forward"/>
+  <member type="way" ref="847458816" role="forward"/>
+  <member type="way" ref="847458817" role="forward"/>
+  <member type="way" ref="601666023" role="forward"/>
+  <member type="way" ref="1030280930" role="forward"/>
+  <member type="way" ref="600520431" role="forward"/>
+  <member type="node" ref="137743393" role=""/>
+  <member type="way" ref="14323635" role="backward"/>
+  <member type="node" ref="12626696512" role=""/>
+  <member type="way" ref="1456078474" role="forward"/>
+  <member type="node" ref="12638889512" role=""/>
+  <member type="way" ref="1456078473" role="forward"/>
+  <member type="node" ref="12638889528" role=""/>
+  <member type="way" ref="1364789152" role="forward"/>
+  <member type="node" ref="12059212382" role=""/>
+  <member type="way" ref="1238536330" role="backward"/>
+  <member type="way" ref="601645722" role="backward"/>
+  <member type="way" ref="1454797801" role="forward"/>
+  <member type="way" ref="601644239" role="forward"/>
+  <member type="node" ref="137402143" role=""/>
+  <member type="way" ref="1456078472" role="forward"/>
+  <member type="way" ref="1101647963" role="forward"/>
+  <member type="way" ref="1101647964" role="forward"/>
+  <member type="node" ref="13250780586" role=""/>
+  <member type="way" ref="1101647965" role="forward"/>
+  <member type="way" ref="1101647962" role="forward"/>
+  <member type="way" ref="1101647966" role="forward"/>
+  <member type="way" ref="1101647967" role="forward"/>
+  <member type="way" ref="1009061534" role="forward"/>
+  <member type="way" ref="1417454723" role="forward"/>
+  <member type="node" ref="1490596713" role=""/>
+  <member type="way" ref="1009061533" role="forward"/>
+  <member type="way" ref="601644233" role="forward"/>
+  <member type="way" ref="1071482657" role="forward"/>
+  <member type="way" ref="1071482658" role="forward"/>
+  <member type="way" ref="1071482659" role="forward"/>
+  <member type="way" ref="1071482660" role="forward"/>
+  <member type="way" ref="1547082474" role="forward"/>
+  <member type="way" ref="1071482661" role="forward"/>
+  <member type="way" ref="1071482662" role="forward"/>
+  <member type="way" ref="600023001" role="forward"/>
+  <member type="way" ref="1071482663" role="forward"/>
+  <member type="node" ref="1598856720" role=""/>
+  <member type="way" ref="1043551491" role="forward"/>
+  <member type="way" ref="1059801988" role="forward"/>
+  <member type="way" ref="674621867" role="forward"/>
+  <member type="way" ref="423689767" role="forward"/>
+  <member type="way" ref="1486896083" role="forward"/>
+  <member type="way" ref="423686460" role="forward"/>
+  <member type="way" ref="1362569857" role="forward"/>
+  <member type="way" ref="1032776580" role="forward"/>
+  <member type="way" ref="421265955" role="forward"/>
+  <member type="way" ref="1043464439" role="forward"/>
+  <member type="way" ref="742140361" role="forward"/>
+  <member type="way" ref="1119837129" role="forward"/>
+  <member type="way" ref="1016480470" role="forward"/>
+  <member type="way" ref="1016480469" role="forward"/>
+  <member type="way" ref="1030067968" role="forward"/>
+  <member type="way" ref="423686234" role="forward"/>
+  <member type="way" ref="1036842429" role="forward"/>
+  <member type="way" ref="1033820973" role="forward"/>
+  <member type="way" ref="1436769040" role="forward"/>
+  <member type="way" ref="1030066598" role="forward"/>
+  <member type="node" ref="2852160857" role=""/>
+  <member type="way" ref="1030066599" role="forward"/>
+  <member type="way" ref="1381561592" role="forward"/>
+  <member type="node" ref="2852160859" role=""/>
+  <member type="way" ref="1030290852" role="forward"/>
+  <member type="node" ref="2852160864" role=""/>
+  <member type="way" ref="1456078471" role="forward"/>
+  <member type="way" ref="1030290854" role="forward"/>
+  <member type="way" ref="1030290855" role="forward"/>
+  <member type="way" ref="281237566" role="forward"/>
+  <member type="way" ref="1030290856" role="forward"/>
+  <member type="way" ref="600519166" role="forward"/>
+  <member type="way" ref="435490976" role="forward"/>
+  <member type="way" ref="1436762463" role="forward"/>
+  <member type="way" ref="435490978" role="forward"/>
+  <member type="way" ref="601666019" role="forward"/>
+  <member type="node" ref="13341696778" role=""/>
+  <member type="way" ref="1456078478" role="forward"/>
+  <member type="node" ref="13016217985" role="finish"/>
+  <member type="way" ref="1456078470" role="forward"/>
+  <member type="way" ref="1364789153" role="alternative"/>
+  <member type="way" ref="1223479152" role="pit_lane"/>
+  <tag k="name" v="Las Vegas Strip Circuit"/>
+  <tag k="route" v="circuit"/>
+  <tag k="type" v="circuit"/>
+  <tag k="wikidata" v="Q113112116"/>
+  <tag k="wikipedia" v="en:Las Vegas Strip Circuit"/>
+ </relation>
+</osm>

@@ -1,0 +1,71 @@
+/* 大厅/房间布局：主卡固定在中间，侧栏使用独立锚点，避免表单网格把页面挤出重叠。 */
+.lobby-panel {
+  width: min(620px, calc(100vw - 650px));
+  max-height: calc(100vh - 36px);
+  padding: 24px 26px 20px;
+  overflow-y: auto;
+  transform: translateX(-26px);
+}
+#stageJoin,
+#stageRoom {
+  display: block;
+}
+#stageJoin > .row,
+#stageRoom > .row {
+  margin-bottom: 14px;
+  min-height: 42px;
+}
+#stageJoin > .grid2,
+#stageJoin > .btn.wide,
+#stageJoin > .netinfo,
+#stageRoom > .roomcode,
+#stageRoom > #playerList,
+#stageRoom > .row2,
+#stageRoom > .hintline {
+  margin-top: 12px;
+}
+#stageRoom > #roomPlayersDetails {
+  display: block;
+  margin-top: 14px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  background: rgba(255,255,255,.025);
+  overflow: hidden;
+}
+.room-players-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 0 13px;
+  color: var(--fg, #eef3f8);
+  cursor: pointer;
+  list-style: none;
+}
+.room-players-head::-webkit-details-marker { display: none; }
+.room-players-head::before {
+  content: '＋';
+  width: 18px;
+  color: #8f9aa6;
+  order: 3;
+  text-align: center;
+}
+.room-players[open] .room-players-head::before { content: '−'; }
+.room-players-head span { margin-left: auto; margin-right: 12px; color: #8f9aa6; font-size: 12px; }
+#stageRoom > #roomPlayersDetails > #playerList { margin: 0; padding: 0 12px 12px; }
+@media (max-width: 1180px) {
+  .presence-panel { left: 14px; }
+  .season-panel { right: 14px; }
+  .lobby-panel {
+    width: min(560px, calc(100vw - 650px));
+    transform: translateX(-40px);
+  }
+}
+@media (max-width: 900px) {
+  .presence-panel, .season-panel { display: none; }
+  .lobby-panel {
+    width: min(620px, calc(100vw - 28px));
+    transform: none;
+  }
+}
+
