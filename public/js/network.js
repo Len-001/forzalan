@@ -1,3 +1,5 @@
+import { PeerTransport } from './PeerTransport.js';
+
 /* =============================================================================
  * network.js —— 局域网 WebSocket 同步 + 60Hz 快照插值（Snapshot Interpolation）
  *
@@ -91,6 +93,7 @@ export class Net {
     this._frameStamp = 0;
     this._workerInbound = null;
     this._worker = null;
+    this.peers = new PeerTransport(this);
   }
 
   /* --------------------------- 事件 --------------------------- */
@@ -112,6 +115,14 @@ export class Net {
   /* --------------------------- 连接 --------------------------- */
 
   connect(url) {
+    this.peers.clear();
+    clearTimeout(this._retryTimer);
+    if (this._cancelConnect) this._cancelConnect();
+    const previous = this.ws;
+    this.ws = null;
+    if (previous) { try { previous.close(); } catch {} }
+    if (this._pingTimer) clearInterval(this._pingTimer);
+    this.connected = false;
     this.url = url;
     this._manualClose = false;
     return new Promise((resolve) => {
@@ -125,9 +136,12 @@ export class Net {
       }
       this.ws = ws;
       let settled = false;
-      const done = (ok) => { if (!settled) { settled = true; resolve(ok); } };
+      let timeout;
+      const done = (ok) => { if (!settled) { settled = true; clearTimeout(timeout); resolve(ok); } };
+      this._cancelConnect = () => done(false);
 
       ws.onopen = () => {
+        if (this.ws !== ws) { ws.close(); done(false); return; }
         this.connected = true;
         this._reconnect = 0;
         this.startClockSync();
@@ -135,31 +149,38 @@ export class Net {
         done(true);
       };
       ws.onmessage = (ev) => {
+        if (this.ws !== ws) return;
         let m;
         try { m = JSON.parse(ev.data); } catch (e) { return; }
         this.dispatch(m);
       };
       ws.onerror = () => {
+        if (this.ws !== ws) return;
         this.emit('error', { msg: '连接异常，请确认服务端仍在运行' });
         done(false);
       };
       ws.onclose = () => {
+        if (this.ws !== ws) { done(false); return; }
+        if (this._pingTimer) clearInterval(this._pingTimer);
         this.connected = false;
         this.emit('close');
         done(false);
         if (!this._manualClose && this._reconnect < 6) {
           this._reconnect++;
           const wait = Math.min(4000, 400 * this._reconnect);
-          setTimeout(() => { if (!this._manualClose) this.connect(this.url); }, wait);
+          this._retryTimer = setTimeout(() => { if (!this._manualClose && this.ws === ws) this.connect(this.url); }, wait);
           this.emit('reconnecting', { attempt: this._reconnect });
         }
       };
-      setTimeout(() => done(false), 5000);
+      timeout = setTimeout(() => { done(false); if (this.ws === ws && !this.connected) ws.close(); }, 5000);
     });
   }
 
   close() {
     this._manualClose = true;
+    clearTimeout(this._retryTimer);
+    if (this._cancelConnect) this._cancelConnect();
+    this.peers.clear();
     if (this._pingTimer) clearInterval(this._pingTimer);
     if (this.ws) {
       try { this.ws.close(); } catch (e) { /* ignore */ }
@@ -181,6 +202,7 @@ export class Net {
 
   /** Connect the network protocol to the physics worker's remote proxy. */
   attachWorker(workerBridge) {
+    if (this._worker) this._worker.onNetwork = null;
     this._worker = workerBridge || null;
     if (this._worker) {
       this._worker.onNetwork = (packet) => this.sendWorkerState(packet);
@@ -194,7 +216,8 @@ export class Net {
   /** Worker-owned state source. The server keeps the existing `d` protocol. */
   sendWorkerState(packet) {
     if (!packet || packet.t !== 'state' || !packet.d) return false;
-    const out = { t: 'state', id: packet.id, seq: packet.seq, d: packet.d };
+    const out = { t: 'state', id: packet.id, seq: packet.seq, d: packet.d, race:this.raceId };
+    this.peers.publish(out);
     return this.send(out);
   }
 
@@ -321,6 +344,7 @@ export class Net {
         this.clockOffset = m.s - Date.now();
         this.emit('hello', m);
         break;
+      case 'rtc': this.emit('rtc', m); break;
       case 'room':
         this.roomCode = m.room;
         this.laps = m.laps;
@@ -342,6 +366,7 @@ export class Net {
       case 'lights': this.emit('lights', m); break;
       case 'RACE_START': this.emit('raceStart', m); break;
       case 'start':
+        this.raceId = m.at;
         this.countdown = -1;
         this.seed = m.seed;
         this.laps = m.laps;

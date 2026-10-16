@@ -39,15 +39,16 @@ export class PenaltyController {
   }
 
   show(reason, seconds = 0, kind = '', mode = this.getMode()) {
-    if (mode === 'horizon') { this.clear(); return false; }
-    // 护栏撞击不产生罚时，但仍显示调查与裁决动画，让玩家知道碰撞已被记录。
+    if (mode === 'horizon' || mode === 'bumper') { this.clear(); return false; }
+    // 护栏撞击不罚时，也不显示罚时调查动画。
     const wallImpact = kind === 'wall' || reason === 'wall' || reason === '撞击护栏';
+    if (wallImpact) return false;
     const sec = wallImpact ? 0 : Math.max(0, Number(seconds) || 0);
     const rawKey = wallImpact ? 'wall' : (kind || reason || 'collision');
     // ★ 归一化：`frr_gain` / `offtrack` / `偏离赛道` 视为同一类事故，
     //   `cut` / `shortcut` / `切弯获利` 同理。否则同一次违规会被拆成多条队列项。
     const key = normalizePenaltyKey(rawKey, reason, wallImpact);
-    const label = (REASONS[rawKey] || REASONS[key] || REASONS[reason] || String(reason || '撞击')).slice(0, 6);
+    const label = (REASONS[rawKey] || REASONS[key] || REASONS[reason] || '赛事规则').slice(0, 6);
     const title = ['ram', 'collision', 'wall'].includes(key) ? '撞击' : label;
     const now = this.clock();
     const entry = { key, title, label, sec, time: now };
@@ -208,7 +209,7 @@ export function showPenaltyEvent(reason, seconds = 0, kind = '', mode = 'fm8') {
   return controller.show(reason, seconds, kind, mode);
 }
 export function setPenaltyMode(mode) {
-  currentMode = mode === 'horizon' ? 'horizon' : 'fm8';
-  if (currentMode === 'horizon') controller.clear();
+  currentMode = mode === 'horizon' || mode === 'bumper' ? mode : 'fm8';
+  if (currentMode !== 'fm8') controller.clear();
 }
 export function clearPenaltyEvents() { controller.clear(); }

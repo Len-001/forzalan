@@ -101,8 +101,8 @@ const buildPair = (mode) => {
     '★碰碰车：碰撞类罚时（wall / ram）完全不计、不入账、不弹窗',
     `penalty=${a.penalty} fired=${JSON.stringify(fired)}`);
   a.addPenalty(0.5, 'cut');
-  ok(Math.abs(a.penalty - (pen0 + 0.5)) < 1e-9 && fired.includes('cut') && a.lapInvalid === true,
-    '★碰碰车：走线类罚时（cut）照常保留 —— 该模式不能变成免费刷圈速通道',
+  ok(a.penalty === pen0 && fired.length === 0 && a.lapInvalid === false,
+    '★碰碰车：走线类罚时同样免除',
     `penalty=${a.penalty} fired=${JSON.stringify(fired)}`);
 }
 
@@ -124,8 +124,10 @@ const buildPair = (mode) => {
   rp.onPenalty = (_c, sec, reason) => fired.push(reason);
   const pen0 = a.penalty;
   a.addPenalty(2, 'wall');
-  ok(Math.abs(a.penalty - (pen0 + 2)) < 1e-9 && fired.includes('wall'),
-    '负对照 fm8：碰撞类罚时照常计入并上报', `penalty=${a.penalty}`);
+  ok(a.penalty === pen0 && fired.length === 0,
+    'fm8：撞墙免罚', `penalty=${a.penalty}`);
+  a.addPenalty(2, 'ram');
+  ok(a.penalty === pen0 + 2 && fired.includes('ram'), 'fm8：恶意撞车仍判罚');
 
   // 切换回 bumper 也必须能把材质切过去（每场实例独立，不改全局 CFG）
   rp.setGameMode('bumper');

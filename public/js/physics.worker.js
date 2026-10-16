@@ -178,13 +178,13 @@ function pushRemoteSample(id, d, t, seq = 0) {
   if (!c || !c.remote || !d) return;
   let h = remoteHistory.get(id);
   if (!h) { h = new RemoteSnapshotBuffer(); remoteHistory.set(id, h); }
-  h.push({t:num(t,performance.now()),seq,p:pos(d),q:quat(d.q),v:vel(d.v),u:[num(d.u),num(d.b),num(d.e),num(d.h)]}, performance.now());
+  if (!h.push({t:num(t,performance.now()),seq,p:pos(d),q:quat(d.q),v:vel(d.v),u:[num(d.u),num(d.b),num(d.e),num(d.h)]}, performance.now())) return;
   const wasGhost = c.ghost > 0, wasFinished = c.finishGhost;
   if (d.f) { c.finished = true; c.finishGhost = true; }
   c.lap = num(d.l, c.lap);
   c.ghostReasonCode = num(d.gr); c.ghost = num(d.go);
   if (wasGhost !== (c.ghost > 0) || wasFinished !== c.finishGhost) rp._refreshMasks();
-  if (c.ai) {
+  {
     c.cpIdx = num(d.c, -1); c.lapTimeLive = num(d.lt); c.bestLap = num(d.bl); c.bestCleanLap = num(d.bc);
     c.penalty = num(d.pen); c.violations = num(d.vio); c.lapInvalid = !!d.li;
     c.progress = num(d.pr); c.crossedStart = !!d.cs; c.lineCross = num(d.lc); c.lastLap = num(d.ll);

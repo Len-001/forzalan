@@ -13,6 +13,8 @@ import { RENDER_CFG as CFG } from './physics-protocol.js';
 import { PhysicsWorkerBridge } from './PhysicsWorkerBridge.js';
 import { ForzaChaseCamera } from './ForzaChaseCamera.js';
 import { Net } from './network.js';
+import { routeProgress } from './race-position.js';
+import { DrivingControls } from './DrivingControls.js';
 import { showPenaltyEvent, setPenaltyMode, clearPenaltyEvents } from './PenaltyController.js';
 import { syncPlayerProfile } from './RaceUI.js';
 
@@ -685,7 +687,15 @@ function buildCarVisual(color, name, num) {
   //   · 下脊（1.10 宽）只占 y∈[-0.38,-0.04]
   //   · 四个轮拱（深色）贴住轮胎外沿
   // 这样车壳在轮胎高度上是"两侧镂空"的，追尾视角能直接看到后轮的黑色圆弧。
-  const shellGeo = new THREE.BoxGeometry(1.66, 0.30, 3.90);
+  // Taper the hood/tail and bevel the shoulder instead of a rectangular shell.
+  const shellGeo = new THREE.BoxGeometry(1.78, 0.38, 3.96, 4, 2, 8);
+  const shellPos = shellGeo.attributes.position;
+  for (let i = 0; i < shellPos.count; i++) {
+    const z = shellPos.getZ(i), y = shellPos.getY(i), x = shellPos.getX(i);
+    const taper = 1 - 0.17 * Math.pow(Math.abs(z)/1.98, 3);
+    shellPos.setXYZ(i, x*taper*(y>0 ? 0.96 : 1), y - 0.12*Math.pow(Math.max(0,z)/1.98,2), z);
+  }
+  shellGeo.computeVertexNormals();
   const shell = new THREE.Mesh(shellGeo, mBody);
   shell.position.set(0, 0.15, 0);
   group.add(shell);
@@ -714,7 +724,13 @@ function buildCarVisual(color, name, num) {
   }
 
   // 座舱
-  const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.34, 0.5, 1.7), mBody);
+  const cabinGeo = new THREE.BoxGeometry(1.34, 0.5, 1.7);
+  const cabinPos = cabinGeo.attributes.position;
+  for (let i = 0; i < cabinPos.count; i++) if (cabinPos.getY(i)>0) {
+    cabinPos.setX(i,cabinPos.getX(i)*0.78); cabinPos.setZ(i,cabinPos.getZ(i)*0.66);
+  }
+  cabinGeo.computeVertexNormals();
+  const cabin = new THREE.Mesh(cabinGeo, mGlass);
   cabin.position.set(0, 0.56, -0.25);
   group.add(cabin);
   const glass = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.42, 0.35), mGlass);
@@ -756,9 +772,9 @@ function buildCarVisual(color, name, num) {
   }
 
   // 车轮：几何体预先绕 Z 旋转 90°，使圆柱轴向 = 车体 X 轴（这样 mesh.rotation.x 就是滚动）
-  const wheelGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.30, 14);
+  const wheelGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.30, 24);
   wheelGeo.rotateZ(Math.PI / 2);
-  const rimGeo = new THREE.CylinderGeometry(0.20, 0.20, 0.32, 10);
+  const rimGeo = new THREE.CylinderGeometry(0.23, 0.23, 0.32, 20);
   rimGeo.rotateZ(Math.PI / 2);
   const wheels = [];
   const W = CFG.WHEEL;
@@ -768,6 +784,12 @@ function buildCarVisual(color, name, num) {
     const tire = new THREE.Mesh(wheelGeo, mTire);
     const rim = new THREE.Mesh(rimGeo, new THREE.MeshStandardMaterial({ color: 0xb9c2cc, roughness: 0.3, metalness: 0.85 }));
     pivot.add(tire, rim);
+    const spokes = new THREE.Group();
+    for (let j = 0; j < 5; j++) {
+      const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.335,0.035,0.43), mDark);
+      spoke.rotation.x = j*Math.PI/5; spokes.add(spoke);
+    }
+    tire.add(spokes);
     group.add(pivot);
     wheels.push({ pivot, mesh: tire, isFront: W[i][1] > 0, isRight: W[i][0] > 0 });
   }
@@ -776,6 +798,12 @@ function buildCarVisual(color, name, num) {
   //   这张 CircleGeometry 平面贴在车下 -0.615m，与真实阴影贴图叠加后像一块黑饼，
   //   在斜坡/桥面上还会穿出路面。车的 castShadow 仍然开着，由渲染器出真实阴影。
   group.userData = { mBody, mDark, mGlass, mHead, mTail, heads, tails, wheels, color };
+  for (const side of [-1,1]) {
+    const mirror = new THREE.Mesh(new THREE.BoxGeometry(0.20,0.12,0.25),mBody);
+    mirror.position.set(side*0.90,0.52,0.38); group.add(mirror);
+    const skirt = new THREE.Mesh(new THREE.BoxGeometry(0.12,0.12,1.7),mDark);
+    skirt.position.set(side*0.83,-0.26,0); group.add(skirt);
+  }
   // 阴影规范（规格 §三.1）：车与车轮**投射**阴影、不接收阴影。
   // 车身如果 receiveShadow，自阴影会在曲面上出现摩尔纹；车轮同样只投不收。
   group.traverse((o) => {
@@ -1047,6 +1075,7 @@ const S = {
 };
 
 const carVisuals = new Map();   // id -> THREE.Group
+const driveControls = new DrivingControls({ changed: () => { if (S.localCar) sampleLocalInput(S.localCar, 0); }, notify: text => showToast(text) });
 
 /* ========================================================================== */
 /* 7. 输入                                                                     */
@@ -1183,18 +1212,19 @@ function sampleLocalInput(car, dt) {
     flush();
     return;
   }
-  const up = pressed('w');
-  const down = pressed('s');
-  const left = pressed('a');
-  const right = pressed('d');
-  inp.throttle = up ? 1 : 0;
-  inp.brake = down ? 1 : 0;
+  const device = typeof driveControls !== 'undefined' ? driveControls.sample() : {};
+  const up = pressed('w') || pressed('arrowup');
+  const down = pressed('s') || pressed('arrowdown');
+  const left = pressed('a') || pressed('arrowleft');
+  const right = pressed('d') || pressed('arrowright');
+  inp.throttle = up ? 1 : (device.throttle || 0);
+  inp.brake = down ? 1 : (device.brake || 0);
   // 手刹：独立状态位，绕开浏览器 key 差异
-  inp.handbrake = handbrakeKey ? 1 : 0;
+  inp.handbrake = handbrakeKey ? 1 : (device.handbrake || 0);
   // 意图直接给 physics：steer>0 = 向右。
   // 打方向/回正的双速率插值由 physics.updateSteer 负责（0.12s 打满 / 0.15s 回正），
   // 这里再插值一次会叠加成"转向迟钝"。
-  inp.steer = (right ? 1 : 0) - (left ? 1 : 0);
+  inp.steer = left || right ? (right ? 1 : 0) - (left ? 1 : 0) : (device.steer || 0);
   flush();
 }
 
@@ -1303,7 +1333,7 @@ function beginRace(opts) {
     track, seed, trackType: type, localId: opts.localId, hostId: S.offline ? opts.localId : S.hostId, grid: opts.grid, roster: opts.roster,
     laps: S.laps, ghost: !!opts.ghost, gameMode: S.gameMode,
   });
-  if (S.net && S.net.attachWorker) S.net.attachWorker(S.rp);
+  if (S.net && S.net.attachWorker) S.net.attachWorker(S.offline ? null : S.rp);
   // 全员幽灵车模式（规格 §二）：必须在任何 addCar 之前/之后立刻设置。
   // 默认关（保留上一轮的贴身肉搏碰撞）；大厅可切、URL 可覆盖。
   S.ghost = !!opts.ghost;
@@ -2696,7 +2726,7 @@ function progressScore(c) {
   const idx = Math.max(0, Math.min(n - 1, c.trackIdx | 0));
   // lineCross 由 physics 维护；老快照/测试桩没有该字段时回落 lap（只影响排序粒度）
   const ord = (typeof c.lineCross === 'number') ? c.lineCross : Math.max(0, c.lap | 0);
-  return ord * L + idx * sp;
+  return routeProgress(c, t) * L;
 }
 
 function standings() {
@@ -3450,16 +3480,12 @@ function updateRacingLine(dt) {
     const behind = ((iNow - k + N) % N) * rl.spacing;
     let r, g, b;
     if (ahead < span) {
-      const vMax = Math.sqrt(mu * 9.81 * Math.max(rl.radius[k], 15));
+      const vMax = rl.vTarget?.[k] || Math.sqrt(mu * 9.81 * Math.max(rl.radius[k], 15));
       // 从该点倒推：当前位置最多能有多快还来得及在那里降到 vMax
       const vAllow = Math.sqrt(vMax * vMax + 2 * decel * ahead);
       const ratio = vNow / Math.max(vAllow, 2);
-      // ★ 按提示词：红/黄/绿刹车点判据改用最速走线的**逆推纵向减速度需求**
-      //   brakeIntensity（0 = 绿/全油门，0.5 = 黄/松油循迹，1 = 红/重刹区）。
-      const bi = rl.brakeIntensity ? rl.brakeIntensity[k] : -1;
-      const tint = bi < 0
-        ? (ratio <= 0.92 ? LINE_SAFE : (ratio <= 1.04 ? LINE_WARN : LINE_OVER))
-        : (bi < 0.33 ? LINE_SAFE : (bi < 0.75 ? LINE_WARN : LINE_OVER));
+      // 用当前车速与该处允许速度比较，实时显示绿、黄、红。
+      const tint = ratio <= 0.90 ? LINE_SAFE : (ratio <= 1.03 ? LINE_WARN : LINE_OVER);
       recent[k * 3] = tint[0]; recent[k * 3 + 1] = tint[1]; recent[k * 3 + 2] = tint[2];
       const fade = 1 - 0.72 * (ahead / span);             // 越远越暗，避免远处喧宾夺主
       r = tint[0] * fade; g = tint[1] * fade; b = tint[2] * fade;
@@ -4515,6 +4541,24 @@ function resolveWsUrl(protocol, host) {
 }
 
 function wireNet(net) {
+  const options = document.createElement('div');
+  options.className = 'remote-options';
+  options.innerHTML = '<label><input id="p2pEnabled" type="checkbox"> 启用 P2P 车辆直连</label><span id="p2pStatus">默认服务器同步</span><div><input id="remoteGameUrl" type="url" placeholder="远程游戏地址 https://…" aria-label="远程游戏地址"><button id="openRemoteGame" class="btn">进入远程服务器</button></div><small>朋友需进入同一游戏地址和房间。跨网直连需服务器配置 STUN/TURN。</small>';
+  $('netinfo').after(options);
+  options.querySelector('#p2pEnabled').onchange = async e => {
+    try { await net.peers.enable(e.target.checked); net.peers.status(); }
+    catch (err) { e.target.checked = false; showToast(err.message); }
+  };
+  net.on('peerStatus', ({ connected, enabled }) => {
+    options.querySelector('#p2pStatus').textContent = enabled ? (connected ? '已直连 ' + connected + ' 位车手' : '等待直连 · 服务器同步可用') : '默认服务器同步';
+  });
+  options.querySelector('#openRemoteGame').onclick = () => {
+    try {
+      const url = new URL(options.querySelector('#remoteGameUrl').value);
+      if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) throw new Error();
+      location.assign(url.href);
+    } catch { showToast('请输入完整的 http:// 或 https:// 游戏地址'); }
+  };
   net.on('open', () => {
     $('netinfo').innerHTML = '服务端已连接 <b>' + net.url + '</b>';
     // 连上即把本机昵称同步给服务端：服务端新连接的默认名是占位名"车手"，
@@ -4638,7 +4682,7 @@ function wireNet(net) {
       //    整段丢失（Worker 未就绪、事件被吞），这里仍是唯一的兜底展示。
       showPenaltyEvent(m.reason || 'pen', delta, m.reason, S.gameMode);
     } else {
-      showToast(name + ' 被判罚 ' + safeFixed(delta, 1) + 's（' + (PEN_NAME[m.reason] || m.reason || '赛事规则') + '）');
+      if (S.gameMode !== 'bumper' && m.reason !== 'wall') showToast(name + ' 被判罚 ' + safeFixed(delta, 1) + 's（' + (PEN_NAME[m.reason] || '赛事规则') + '）');
     }
   });
   net.on('lap', (m) => {

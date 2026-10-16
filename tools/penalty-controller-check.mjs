@@ -23,7 +23,7 @@ const advance = target => {
 let mode = 'fm8';
 const controller = new PenaltyController({ getMode: () => mode, clock: () => now, schedule, cancel: id => timers.delete(id) });
 const wallController = new PenaltyController({ getMode: () => mode, clock: () => now, schedule, cancel: id => timers.delete(id) });
-check(wallController.show('撞击', 0, 'wall') && wallController.phase === 'investigating' && wallController.active.sec === 0, '静态墙体无罚时但显示事故调查');
+check(!wallController.show('撞击', 0, 'wall') && wallController.phase === 'idle', '静态墙体无罚时且不弹事故调查');
 wallController.clear();
 controller.show('造成碰撞', 0, 'ram');
 advance(1200); controller.show('造成碰撞', 2.5, 'ram');

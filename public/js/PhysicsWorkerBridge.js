@@ -1,4 +1,5 @@
 import { PHYSICS_DT, STATE, STATE_STRIDE, REMOTE_STRIDE, trackForWorker, RENDER_CFG } from './physics-protocol.js';
+import { routeProgress } from './race-position.js';
 
 const V3 = () => new THREE.Vector3();
 const Q = () => new THREE.Quaternion();
@@ -239,6 +240,9 @@ export class PhysicsWorkerBridge {
     return new Float32Array(Math.max(REMOTE_STRIDE, size));
   }
   handleNetworkPacket(packet) {
+    // Before ready, the Worker clock offset is unknown. Keep only the latest
+    // snapshot and encode it after calibration, or all later samples look old.
+    if (!this.ready) { this._pendingNetwork = packet; return; }
     const rawList = packet.kind === 'snap' ? packet.packet?.p || [] : packet.kind === 'state' ? [packet.packet] : [];
     // 先计可用条目；不用 Array.prototype.filter —— 那会为每个 60Hz 网络包
     // 分配一个中间数组，正是本次要消除的垃圾来源。
@@ -308,6 +312,7 @@ export class PhysicsWorkerBridge {
         v:[r1(v.x),r1(v.y),r1(v.z)],
         s:Math.round(c.speedKmh),t:r2(c.steerAngle),
         l:c.lap,c:c.cpIdx,n:r1(distNext),p:r4(spline),
+        rp:routeProgress(c, this.track),
         k:c.slip>0.5?1:0,f:c.finished?1:0,
         u:r2(c.throttle),b:r2(c.brake),e:r2(c.steer),h:c.handbrake?1:0,
         gr:c.ghostReasonCode,go:c.ghost,
@@ -323,6 +328,7 @@ export class PhysicsWorkerBridge {
       this.ready = true;
       const workerNow = Number.isFinite(m.clockNow) ? m.clockNow : null;
       this._workerToMainMonoOffset = workerNow === null ? 0 : nowMono() - workerNow;
+      if (this._pendingNetwork) { const packet = this._pendingNetwork; this._pendingNetwork = null; this.handleNetworkPacket(packet); }
       this._resolveReady(m); this._emit('ready', m); return;
     }
     if (m.type === 'recycleInput' && m.buffer) { this._inputPool.push(new Float32Array(m.buffer)); return; }

@@ -1,7 +1,7 @@
 /* Two real game pages: human/AI replication, host handoff and final-lap settlement. */
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { mkdtempSync } from 'node:fs';
+import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { createServer } from 'node:net';
 import path from 'node:path';
@@ -20,6 +20,7 @@ const server = spawn(path.join(root, 'forzalan.exe'), ['-addr', `127.0.0.1:${por
 let serverLog = ''; server.stderr.on('data', data => { serverLog = (serverLog + data).slice(-20000); });
 const browsers = [hostPort, guestPort].map(cdpPort => spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', [
   '--headless=new', '--no-first-run', '--autoplay-policy=no-user-gesture-required',
+  '--window-size=1440,900',
   '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows',
   '--remote-debugging-port=' + cdpPort, '--user-data-dir=' + mkdtempSync(path.join(scratch, 'lan-sync-browser-')), 'about:blank',
 ], { stdio: 'ignore' }));
@@ -54,6 +55,7 @@ async function page(cdpPort) {
   };
   const p = { ws, send, ev, errors }; pages.push(p);
   await send('Runtime.enable');
+  await send('Emulation.setDeviceMetricsOverride', {width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await send('Page.navigate', { url: base + '/?dbg=1' });
   await until(() => ev('!!window.__S?.net?.connected'), 'game boot');
   return p;
@@ -67,6 +69,17 @@ try {
   const code = await until(() => host.ev('window.__S.lobbyRoom?.room'), 'create');
   await guest.ev(`document.getElementById('name').value='LANGuest';document.getElementById('code').value='${code}';document.getElementById('btnJoin').click()`);
   await until(() => guest.ev('window.__S.lobbyRoom?.players?.length===2'), 'join');
+  if (process.env.P2P === '1') {
+    await host.ev('window.__S.net.peers.enable(true)');
+    await guest.ev('window.__S.net.peers.enable(true)');
+    await until(async () => await host.ev('[...window.__S.net.peers.peers.values()].some(p=>p.channel?.readyState==="open")'), 'WebRTC channel', 30000);
+    console.log('PASS two real browsers establish an unordered WebRTC DataChannel');
+    await guest.ev('window.__S.net.peers.enable(false)');
+    await until(() => host.ev('window.__S.net.peers.peers.size===0'), 'peer disabled');
+    await guest.ev('window.__S.net.peers.enable(true)');
+    await until(() => host.ev('[...window.__S.net.peers.peers.values()].some(p=>p.channel?.readyState==="open")'), 'peer re-enabled', 30000);
+    console.log('PASS P2P can be disabled and re-enabled without rejoining');
+  }
   await host.ev(`document.getElementById('btnAddAI').click()`);
   const botId = await until(() => host.ev('window.__S.lobby.find(p=>p.ai)?.id'), 'AI seat');
   const hostId = await host.ev('window.__S.localId'), guestId = await guest.ev('window.__S.localId');
@@ -88,6 +101,22 @@ try {
   const aiLocal = await host.ev(carState(botId)), aiRemote = await guest.ev(carState(botId));
   assert.ok(Math.hypot(aiLocal.x-aiRemote.x, aiLocal.z-aiRemote.z) < 12, JSON.stringify({ aiLocal, aiRemote }));
   console.log('PASS actual human driving and AI movement replicate between two game pages');
+  if (process.env.P2P === '1') {
+    await guest.ev('window.__originalSend=window.__S.net.send;window.__S.net.send=function(p){return p.t==="state"?true:window.__originalSend.call(this,p)}');
+    await guest.send('Input.dispatchKeyEvent', {type:'keyDown',key:'w',code:'KeyW',windowsVirtualKeyCode:87});
+    await sleep(1500);
+    const directLocal=await guest.ev(carState(guestId)),directRemote=await host.ev(carState(guestId));
+    assert.ok(Math.hypot(directLocal.x-directRemote.x,directLocal.z-directRemote.z)<8,JSON.stringify({directLocal,directRemote}));
+    assert.ok(Math.hypot(directRemote.x-remote.x,directRemote.z-remote.z)>2,'P2P-only car must keep moving');
+    await guest.ev('window.__S.net.send=window.__originalSend');
+    await guest.send('Input.dispatchKeyEvent', {type:'keyUp',key:'w',code:'KeyW',windowsVirtualKeyCode:87});
+    console.log('PASS human pose keeps moving over P2P with WebSocket state uplink disabled');
+  }
+  if (process.env.SCREENSHOT) {
+    await guest.ev('document.getElementById("dbg").style.display="none"');
+    const shot=await guest.send('Page.captureScreenshot',{format:'png'});
+    writeFileSync(process.env.SCREENSHOT,Buffer.from(shot.data,'base64'));
+  }
   await guest.ev('window.__savedSendState=window.__S.net.sendWorkerState;window.__S.net.sendWorkerState=()=>true');
   await guest.send('Input.dispatchKeyEvent', { type:'keyDown', key:'w', code:'KeyW', windowsVirtualKeyCode:87 });
   await sleep(700);

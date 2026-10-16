@@ -25,12 +25,9 @@ export class RemoteSnapshotBuffer {
       const last = h[h.length - 1];
       const seq = sample.seq || 0;
       const lastSeq = last.seq || 0;
-      // ① seq 回绕（新一局 / 重连 / 房主交接）：旧局残留的 seq 一旦高于新局，后续所有
-      //    包都会被下面第 ② 条永久判为"乱序"⇒ 该远端车在画面里永远停在起点不动。
-      //    这里显式识别回绕（seq 变小且时间轴同时回退）并整段清空重来。
-      if (seq > 0 && lastSeq > 0 && seq < lastSeq && sample.t <= last.t) {
-        this.reset();
-      } else {
+      // P2P 与服务端可重复、乱序到达；旧包不得重置历史。
+      // 新局与房主交接由生命周期显式 reset。
+      {
         // ② 真·乱序 / 重放：丢弃。
         if (seq > 0 && lastSeq > 0 && seq <= lastSeq) return false;
         const lastT = last.t;

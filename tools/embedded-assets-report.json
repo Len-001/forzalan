@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-10-14T11:34:55.722Z",
+  "checkedAt": "2026-10-16T00:30:20.041Z",
   "executable": "forzalan.exe",
-  "executableSha256": "b81aeda7f96c28f410296736ee9e40aecf612dfd616c8ba3501f5f008cadbbac",
-  "expectedFiles": 22,
-  "checkedFiles": 22,
+  "executableSha256": "43dc5a74c0d5c1834d4be9d485d5a8712a9e2c93367b554362af64f9ba989182",
+  "expectedFiles": 25,
+  "checkedFiles": 25,
   "passed": true,
   "results": [
     {
@@ -12,19 +12,29 @@
       "sha256": "feb36eace579eb1a76f5e8243b3d2f03c28e84515cace7549bf1380c83d5cacb"
     },
     {
+      "path": "js/DrivingControls.js",
+      "bytes": 5868,
+      "sha256": "f5afdb1765b4b59dd9ae3d671c0145d26c0a17258aa69f92405a1e95e50a3dd1"
+    },
+    {
       "path": "js/ForzaChaseCamera.js",
       "bytes": 20078,
       "sha256": "d926e7841317dbbf60f53419f87cae66e1a5d2a570dec577b1e94a7aaa9054bc"
     },
     {
+      "path": "js/PeerTransport.js",
+      "bytes": 6327,
+      "sha256": "7ea02c0e20fa8d956ce557d99fec9fa98934aae459c275c2e5b973f18feba67d"
+    },
+    {
       "path": "js/PenaltyController.js",
-      "bytes": 9522,
-      "sha256": "d9d9b2eb3c20fa1377339c7532de5f5fbf352aca481fa210ae337745dbbe3126"
+      "bytes": 9532,
+      "sha256": "4771b04f13fd56ac9ced2f6befe7221cba7b3d6ad3d64de58baf626048b97d66"
     },
     {
       "path": "js/PhysicsWorkerBridge.js",
-      "bytes": 23850,
-      "sha256": "0b44bc1ebd09a5ae97f3070d81a5ae4e6be43518b5bf4cc6680fbb47d7c42e52"
+      "bytes": 24301,
+      "sha256": "2cc2b5f2a0645b9da8c95c8baa5a25aeb1e5795e4b3ffcd22d2690e8a5270909"
     },
     {
       "path": "js/RaceUI.js",
@@ -33,8 +43,8 @@
     },
     {
       "path": "js/RemoteSnapshotBuffer.js",
-      "bytes": 4473,
-      "sha256": "0b317465e8557fe1747f2ce1dc087ba1d3167d8f045fd883eb7cf39aae51e8a2"
+      "bytes": 4173,
+      "sha256": "79226fac54bd97b447b70829e794db7cc38fca2f86fec43e42551fb78a326955"
     },
     {
       "path": "js/engine-sound-worklet.js",
@@ -43,13 +53,13 @@
     },
     {
       "path": "js/main.js",
-      "bytes": 224743,
-      "sha256": "4edc14c56b67b6998221025c1f9f080b43ebfa2b3b93c1ff89134f7a5065a574"
+      "bytes": 227772,
+      "sha256": "e25bce0084985abc02b72e496ecc576839ded8c0496fd78d6809968386a85998"
     },
     {
       "path": "js/network.js",
-      "bytes": 27389,
-      "sha256": "0d64e32d677c16cb37c7453e04c21b0e96ee2c2451113e0a68bd8bd99a60813b"
+      "bytes": 28517,
+      "sha256": "553a2dd9b292fb33ab4fd7931b6dca2a0b8c10f1a60a87ac171176dbe6d842f3"
     },
     {
       "path": "js/oval-geometry.js",
@@ -63,13 +73,18 @@
     },
     {
       "path": "js/physics.js",
-      "bytes": 218134,
-      "sha256": "2a2e98812bc83aead9d22cfbda5da963a31cb3beb0e7273dc5c239f977bda01c"
+      "bytes": 217256,
+      "sha256": "3f7736d79a68d9a0a6740963a1614045197e3b10682697eb7a017085aba29269"
     },
     {
       "path": "js/physics.worker.js",
-      "bytes": 26681,
-      "sha256": "406d4927fe5070e968ab7c0f27318b466adae4119aac5eed9bf382d624eab402"
+      "bytes": 26684,
+      "sha256": "4b6cf59f36403c55a128b3b848b9ada309017fd9e79e62db44b6308d167483e0"
+    },
+    {
+      "path": "js/race-position.js",
+      "bytes": 566,
+      "sha256": "d3f25197e7c478ce5e6d08fe66b1139b1df153899c3da692d76fa3382bff029a"
     },
     {
       "path": "js/spa-geometry.js",
@@ -83,8 +98,8 @@
     },
     {
       "path": "js/track.js",
-      "bytes": 169502,
-      "sha256": "5ce230076a3f3f1addd36ae1359af737c997bcb342e83611c49ff0c6f940c30a"
+      "bytes": 169836,
+      "sha256": "4f4ba71eca7e12a96e3bc2d14031577939e531dacf9ac6ccc0c39585e07d0e8d"
     },
     {
       "path": "js/vegas-geometry.js",
@@ -108,8 +123,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 60444,
-      "sha256": "df2cb353c2961868634d9f4a7f84514d831be3c130a0784cbba8fba83450e6f7"
+      "bytes": 62733,
+      "sha256": "800208f5d1273f85db05cb0b70c1a6036fbf84bc117ccd542e02949b81be61cc"
     },
     {
       "path": "ui-layout-overrides.css",

@@ -41,6 +41,14 @@ check('remote rescue/finish update collision masks immediately', () => {
   push(2,{f:1},1066); assert.equal(b.body.collisionFilterMask & a.groupBit,0);
 });
 class WorkerStub { messages=[]; postMessage(m) { this.messages.push(m); } terminate() {} }
+check('rejected late snapshots cannot rewind race telemetry or collision masks', () => {
+  remoteHistory.delete(2); b.finished=false; b.finishGhost=false;
+  push(2,{l:2,c:8,lc:3,pen:4,gr:4,go:1},2000,20);
+  const mask=b.body.collisionFilterMask;
+  push(2,{l:1,c:3,lc:2,pen:0,gr:0,go:0},1900,19);
+  assert.equal(b.lap,2); assert.equal(b.cpIdx,8); assert.equal(b.lineCross,3);
+  assert.equal(b.penalty,4); assert.equal(b.body.collisionFilterMask,mask);
+});
 globalThis.Worker = WorkerStub;
 const { PhysicsWorkerBridge } = await import('../public/js/PhysicsWorkerBridge.js');
 const bridge = new PhysicsWorkerBridge({ seed:42, localId:1, roster:[] }); bridge._message({type:'ready'});

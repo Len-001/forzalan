@@ -1183,3 +1183,33 @@ canvas#gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block
 .np-ghost-reason { color: #a4d6f6; padding: 1px 5px; margin-left: 5px; border: 1px solid rgba(164,214,246,.28); border-radius: 4px; font-size: 10px; }
 
 
+/* Driving inputs remain outside the HUD's pointer-events:none layer. */
+#driveControls { display:none; position:fixed; inset:0; z-index:40; pointer-events:none; }
+body:has(#hud:not(.hidden)) #driveControls { display:block; }
+#driveControls button { pointer-events:auto; touch-action:none; user-select:none; color:#fff; background:#152335d9; border:1px solid #ffffff50; border-radius:12px; padding:12px 18px; font:600 14px system-ui; }
+.drive-tools { position:absolute; left:50%; bottom:12px; transform:translateX(-50%); display:flex; gap:6px; align-items:center; }
+#driveStatus { color:#ddd; font:11px system-ui; max-width:250px; }
+.touch-steer,.touch-pedals,.rotate-hint,#gyroToggle,#gyroCenter { display:none; }
+@media (pointer:coarse) {
+  .drive-tools { left:auto; right:10px; top:8px; bottom:auto; transform:none; }
+  #driveControls .drive-tools button { padding:9px 12px; font-size:12px; }
+  .hud-tl { transform:scale(.82); transform-origin:top left; left:8px; top:8px; }
+  .hud-tl .lapbox { display:none; }
+  .hud-bl { bottom:108px; left:10px; transform:scale(.58); transform-origin:bottom left; }
+  .hud-br { bottom:105px; right:10px; transform:scale(.58); transform-origin:bottom right; }
+  .hud-tr { display:none; }
+  #driveStatus { display:none; }
+  #gyroToggle,#gyroCenter { display:block; }
+  .touch-steer,.touch-pedals { display:flex; gap:10px; position:absolute; bottom:max(18px,env(safe-area-inset-bottom)); }
+  .touch-steer { left:max(12px,env(safe-area-inset-left)); }
+  .touch-pedals { right:max(12px,env(safe-area-inset-right)); }
+  #driveControls .touch-steer button,#driveControls .touch-pedals button { min-width:64px; height:70px; background:#152335ba; }
+  #driveControls button:active { background:#d6412de6; }
+}
+@media (pointer:coarse) and (orientation:portrait) {
+  .rotate-hint { display:block; position:absolute; top:40%; width:100%; text-align:center; color:white; background:#0b1428cc; padding:14px 0; }
+}
+.remote-options { display:grid; gap:7px; margin:12px 0; font-size:12px; color:#b8c6d8; }
+.remote-options>div { display:flex; gap:7px; }
+.remote-options input[type=url] { min-width:0; flex:1; padding:8px; background:#0c1422; color:#fff; border:1px solid #526078; border-radius:6px; }
+.remote-options label { display:flex; gap:8px; align-items:center; }

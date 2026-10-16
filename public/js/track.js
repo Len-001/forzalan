@@ -726,12 +726,14 @@ function catmullRom(ctl, t) {
   const p1 = ctl[(i1 % n + n) % n];
   const p2 = ctl[((i1 + 1) % n + n) % n];
   const p3 = ctl[((i1 + 2) % n + n) % n];
-  const f2 = f * f, f3 = f2 * f;
-  const c = (a, b, cc, d, tt) => 0.5 * (
-    (2 * b) + (-a + cc) * tt +
-    (2 * a - 5 * b + 4 * cc - d) * tt * tt +
-    (-a + 3 * b - 3 * cc + d) * tt * tt * tt
-  );
+  // Centripetal knots prevent overshoot at unevenly spaced OSM street corners.
+  const knot = (a, b) => Math.max(1e-4, Math.sqrt(Math.hypot(a[0]-b[0], a[1]-b[1])));
+  const d0 = knot(p0,p1), d1 = knot(p1,p2), d2 = knot(p2,p3);
+  const c = (a, b, cc, d, tt) => {
+    const m1 = ((b-a)/d0 - (cc-a)/(d0+d1) + (cc-b)/d1)*d1;
+    const m2 = ((cc-b)/d1 - (d-b)/(d1+d2) + (d-cc)/d2)*d1;
+    return b + m1*tt + (3*(cc-b)-2*m1-m2)*tt*tt + (2*(b-cc)+m1+m2)*tt*tt*tt;
+  };
   return [c(p0[0], p1[0], p2[0], p3[0], f), c(p0[1], p1[1], p2[1], p3[1], f)];
 }
 
@@ -855,10 +857,10 @@ function quatFromBasis(x, y, z) {
  * @param {THREE.Vector3[]} sideVecs  赛道横向单位法向量（指向右侧）
  * @param {number} halfWidth          赛道半宽（默认 7.0m）
  */
-export function computeOptimalRacingLine(centerPts, sideVecs, halfWidth = 7.0) {
+export function computeOptimalRacingLine(centerPts, sideVecs, halfWidth = 7.0, widths = null) {
   const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
   const N = centerPts.length;
-  const maxOffset = Math.max(2.0, halfWidth - 1.35); // 预留车身安全边距
+  const maxOffset = Math.max(0.2, halfWidth - 1.35);
   const alpha = new Float32Array(N);                 // 横向偏移量 [-maxOffset, +maxOffset]
   const nextAlpha = new Float32Array(N);
 
@@ -881,7 +883,8 @@ export function computeOptimalRacingLine(centerPts, sideVecs, halfWidth = 7.0) {
       const midX = 0.5 * (prevX + nextX) - pCurr.x;
       const midZ = 0.5 * (prevZ + nextZ) - pCurr.z;
       const ideal = midX * sCurr.x + midZ * sCurr.z;
-      nextAlpha[i] = clamp(alpha[i] * 0.35 + ideal * 0.65, -maxOffset, maxOffset);
+      const bound = widths ? Math.max(0.2, widths[i] - 1.35) : maxOffset;
+      nextAlpha[i] = clamp(alpha[i] * 0.35 + ideal * 0.65, -bound, bound);
     }
     alpha.set(nextAlpha);
   }
@@ -1629,7 +1632,7 @@ export class Track {
     //   （取代旧的"有符号曲率 × 增益 → 滑动平均"启发式）。
     //   求解器自带 maxOffset = max(2.0, halfWidth − 1.35) 夹紧；此处再按**逐点半宽**
     //   夹一次，保证 |offset| ≤ halfWidthAt[i] − MARGIN 这条工程不变量成立。
-    const optimal = computeOptimalRacingLine(this.pts, this.side, this.halfWidth);
+    const optimal = computeOptimalRacingLine(this.pts, this.side, this.halfWidth, this.halfWidthAt);
     const off = new Float32Array(N);
     for (let i = 0; i < N; i++) {
       const maxOffI = Math.max(0.2, this.halfWidthAt[i] - MARGIN);

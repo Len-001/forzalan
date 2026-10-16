@@ -385,7 +385,7 @@ export const CFG = {
   // 出界滚阻增量：F_roll = (ROLL_K + ROLL_SAND_K·k)·正压力。
   // 从 0.18 降到 0.10：让"撞停后重新起步回赛道"有净推力（旧值下净推力仅约 1.6kN，
   // 约 0.12g，起步很吃力 —— 用户报"撞停后想回到赛道很困难"）。
-  ROLL_SAND_K: 0.10,
+  ROLL_SAND_K: 0.045,
   // 规格：动摩擦下限。mu 再怎么崩塌（手刹抱死后轴 0.45 / 出界 / 打转载荷转移），
   // 侧向滑动摩擦也不得低于该值，否则车会在草地上像在零摩擦冰面上无限平移。
   MU_SLIP_FLOOR: 0.45,
@@ -797,13 +797,10 @@ export class Car {
   /**
    * 施加罚时（本地车会同步给服务端，见 main.js）。
    *
-   * ★ 碰碰车模式关闭**碰撞类**罚时（wall / ram）：该模式的卖点就是刻意对撞。
-   *   走线类罚时（切弯 / 抄近道 / 出界获利 / 复位）**照常保留** —— 否则该模式会变成
-   *   免费的刷圈速通道，圈速与赛季成绩就不可信了。
-   *   这里是全工程唯一罚时漏斗（7 处调用点全汇于此），因此只需在这一处设闸。
+   * 碰碰车模式关闭全部罚时；所有模式撞墙均不罚时。
    */
   addPenalty(sec, reason) {
-    if (this.rp && this.rp.gameMode === 'bumper' && (reason === 'wall' || reason === 'ram')) return;
+    if (this.rp?.gameMode === 'bumper' || reason === 'wall') return;
     this.penalty += sec;
     if (sec > 0) this.lapInvalid = true;
     if (this.rp.onPenalty) this.rp.onPenalty(this, sec, reason);
@@ -1859,7 +1856,7 @@ export class RacePhysics {
       const halfCount = (t.count || 1440) * 0.5;
       const dIdx = c.trackIdx - prevIdx;
       if (dIdx < -halfCount) c.lineCross = (c.lineCross || 0) + 1;
-      else if (dIdx > halfCount) c.lineCross = Math.max(0, (c.lineCross || 0) - 1);
+      else if (dIdx > halfCount) c.lineCross = (c.lineCross || 0) - 1;
     }
     c.lateral = info.lateral;
     c.roadNormal = info.normal;
@@ -1952,6 +1949,18 @@ export class RacePhysics {
     }
     c.airborne = false;
     c.grounded = true;
+    // Resolve bottoming out after integration too; otherwise an uphill step
+    // spends a rendered frame below the road and stores a huge spring impulse.
+    const limitY = supportY + CFG.RIDE_H * Math.max(0.5, n.y) - SUSP.MAX_TRAVEL * 0.5;
+    if (c.body.position.y < limitY) {
+      c.body.position.y = limitY;
+      if (vn < 0) {
+        c.body.velocity.x -= n.x * vn;
+        c.body.velocity.y -= n.y * vn;
+        c.body.velocity.z -= n.z * vn;
+      }
+      x = restY - c.body.position.y;
+    }
     if (post) return;
 
     // 悬挂解耦保护：碰撞窗口内冻结行程上限，防止冲量把弹簧压到底。
@@ -1967,21 +1976,10 @@ export class RacePhysics {
     if (xc > c.suspLimit) spring += SUSP.BUMP_STOP * (xc - c.suspLimit);
     if (x < 0) spring = SUSP.K * x;
     const damper = -SUSP.C * vn;
-    const fN = spring + damper;
+    const fN = Math.max(0, Math.min(CFG.MASS * 9.81 * 4, spring + damper));
     _fv.set(n.x * fN, n.y * fN, n.z * fN);
     c.body.applyForce(_fv, ZERO_POINT);
 
-    // Last-resort vertical guard for an extreme missed contact; normal road
-    // support is supplied by the Heightfield ray hits above.
-    const limitY = restY - SUSP.MAX_TRAVEL * 1.5;
-    if (c.body.position.y < limitY) {
-      c.body.position.y = limitY;
-      if (vn < 0) {
-        c.body.velocity.x -= n.x * vn;
-        c.body.velocity.y -= n.y * vn;
-        c.body.velocity.z -= n.z * vn;
-      }
-    }
   }
 
   /**
@@ -2326,16 +2324,7 @@ export class RacePhysics {
         (c.lateral < 0 && c.fwd.dot(c.roadSide) > 0.05));
       // 抓地力保持在 0.78~0.90（回轨时提升至 0.90），绝不打滑空转陷车
       c.surfaceGripMul = headingBackToTrack ? 0.90 : 0.78;
-      // 温和滚阻替代 100 km/h 锁速：仅施加与超速平方成正比的自然草地阻力
-      const extraDrag = headingBackToTrack ? 0.35 : 0.65;
-      c.body.velocity.x *= Math.exp(-extraDrag * dt);
-      c.body.velocity.z *= Math.exp(-extraDrag * dt);
-      // 辅助回轨横向牵引，消除路肩边缘卡车现象
-      if (headingBackToTrack && c.roadSide) {
-        const pullSign = c.lateral > 0 ? -1 : 1;
-        c.body.velocity.x += c.roadSide.x * pullSign * 3.2 * dt;
-        c.body.velocity.z += c.roadSide.z * pullSign * 3.2 * dt;
-      }
+      // 草地阻力统一由下方滚阻计算，不能再直接缩放速度或额外推回赛道。
     }
 
     // ---- 横向抓地（用载荷转移后的整车极限做速度消除）----------------------
@@ -2435,12 +2424,7 @@ export class RacePhysics {
     // 规格 §四.1：沙地软上限 60km/h —— 用**渐进式附加阻力**（不是硬钳速）。
     // 公式 F = k·m·max(0, v − vsoft)：车速低于软上限时阻力为 0（不影响起步与调头），
     // 超过后阻力线性增长，自然收敛在软上限附近。这样玩家大油门 + 打方向能迅速开回沥青。
-    if (offRoad > 0.001 && vF > CFG.OFFROAD_SOFT_VMAX) {
-      const over = vF - CFG.OFFROAD_SOFT_VMAX;
-      force -= CFG.OFFROAD_DRAG_K * offRoad * CFG.MASS * over;
-    }
-    // 坡度重力分量
-    force -= CFG.MASS * 9.81 * fwd.y;
+    // 世界重力已经沿坡面产生分量，不重复施加坡度重力。
 
     // 注意：cannon-es 的 applyForce(force, relativePoint) 第二参是**相对质心**作用点，
     // 传世界坐标会注入巨大扭矩（车会自己转圈）。这里只施加过质心的纯推力。
@@ -2620,12 +2604,8 @@ export class RacePhysics {
    * 现在只保留"滚阻 + 抓地崩溃"，沙地仍可深踩油门慢慢爬回赛道。
    */
   updateOffRoad(c, dt) {
-    const inTrap = c.grassWheels >= CFG.OFFROAD_MIN_WHEELS;
-    if (inTrap) {
-      c.offRoad = Math.min(1, c.offRoad + dt / 0.15);        // 陷入很快
-    } else {
-      c.offRoad = Math.max(0, c.offRoad - dt / CFG.OFFROAD_RECOVER_T);  // 1.0s 平滑恢复
-    }
+    const target = Math.max(0, Math.min(1, (c.grassWheels || 0) / 4));
+    c.offRoad += (target - c.offRoad) * (1 - Math.exp(-dt / 0.35));
     const k = c.offRoad;
     c.body.linearDamping = 0;                                // 阻力全部显式建模，不叠全局阻尼
     // 沙地抓地崩溃（0.65）；路面端就是当前载荷转移解出的等效摩擦
@@ -3355,6 +3335,7 @@ export class RacePhysics {
       car.steerInput = 0; car.steerAngle = 0; car.handbrake = 0; car.yawDisturb = 0;
       car.prevForwardSpeed = 0; car.axMeasured = 0; car.offRoad = 0;
       car.trackIdx = t.nearest(anchor.x, anchor.z, car.trackIdx);
+      if (Number.isFinite(anchor.lineCross)) car.lineCross = anchor.lineCross;
       // ★ 复位是**瞬移**：必须把 CP 簿记同步到落点（见下方 rescueToCheckpoint 尾部注释）。
       this._syncCpAfterRescue(car)
       car.rescueCount++
@@ -3719,6 +3700,7 @@ export class RacePhysics {
     if (c.onAsphalt === 4 && c.grounded && !c.airborne && !c.finished) {
       const a = c.lastLegalAnchor || (c.lastLegalAnchor = { x: 0, y: 0, z: 0, yaw: 0, speed: 0 });
       a.x = c.pos.x; a.y = c.pos.y; a.z = c.pos.z;
+      a.lineCross = c.lineCross || 0;
       const at = t.tan[c.trackIdx];
       a.yaw = Math.atan2(at.x, at.z);
       a.speed = c.speed;

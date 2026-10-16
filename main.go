@@ -545,30 +545,35 @@ type Client struct {
 	closed bool
 
 	// --- 以下字段受 room.mu 保护 ---
-	id         int
-	name       string
-	color      string
-	ai         bool   // 虚拟车手：没有 WebSocket、不会进入 Hub.clients
-	engine     string // 客户端用于选择 AI 驱动器的稳定标识
-	ownerID    int    // 当前房主控制该人机的席位号
-	ready      bool
-	finished   bool
-	retired    bool
-	locked     bool // 已冲线，成绩已记
-	lap        int
-	laps       int
-	bestLap    float64
-	penalty    float64
-	violations int // FRR 裁决违规次数（计时塔"处罚"列显示为 "罚时 次数"）
-	offTime    float64
-	netTime    float64
-	total      float64
-	rank       int
-	state      json.RawMessage
-	stateAt    int64 // 服务端收到此位姿的单调时刻；广播不能刷新旧位姿的年龄。
-	lastSeen   time.Time
-	lastPen    time.Time
-	lastSeq    uint32
+	id            int
+	name          string
+	color         string
+	ai            bool   // 虚拟车手：没有 WebSocket、不会进入 Hub.clients
+	engine        string // 客户端用于选择 AI 驱动器的稳定标识
+	ownerID       int    // 当前房主控制该人机的席位号
+	ready         bool
+	finished      bool
+	retired       bool
+	locked        bool // 已冲线，成绩已记
+	lap           int
+	laps          int
+	bestLap       float64
+	penalty       float64
+	violations    int // FRR 裁决违规次数（计时塔"处罚"列显示为 "罚时 次数"）
+	offTime       float64
+	netTime       float64
+	total         float64
+	rank          int
+	state         json.RawMessage
+	stateAt       int64 // 服务端收到此位姿的单调时刻；广播不能刷新旧位姿的年龄。
+	lastSeen      time.Time
+	lastPen       time.Time
+	lastSeq       uint32
+	routeProgress float64
+	hasRoute      bool
+	routeTimes    map[int64]float64
+	routeAt       int64
+	routeTime     float64
 
 	// ---- 赛道进度（服务端权威排位用；受 room.mu 保护）----
 	cp        int                    // 上一个通过的 Checkpoint 索引（未通过任何 Checkpoint 时为 -1）
@@ -1276,6 +1281,7 @@ func (r *Room) armCountdownLocked() {
 			p.ready = p.ai
 			p.cp, p.distNext, p.speedKmh, p.score, p.gridSlot = -1, 0, 0, 0, 0
 			p.lastSeq = 0
+			p.hasRoute, p.routeTimes = false, nil
 			p.resetPassageStateLocked()
 			for i := range p.passTime {
 				p.passTime[i] = 0
@@ -1370,6 +1376,34 @@ func progressScore(lap, cpLast int, distNext float64) int64 {
 	return int64(lap)*scoreLapW + int64(cpLast+1)*scoreCpW - int64(distNext)
 }
 
+// Route position is independent of checkpoint validity and lateral grass distance.
+func (c *Client) recordRoute(progress, now float64) {
+	k := int64(math.Floor(progress * passageSlices))
+	if c.routeTimes == nil {
+		c.routeTimes = make(map[int64]float64)
+	}
+	if c.hasRoute && k > c.routeAt && k-c.routeAt <= 32 {
+		for i := c.routeAt + 1; i <= k; i++ {
+			c.routeTimes[i] = c.routeTime + (now-c.routeTime)*float64(i-c.routeAt)/float64(k-c.routeAt)
+		}
+	} else if !c.hasRoute || k != c.routeAt {
+		c.routeTimes[k] = now
+	}
+	c.routeProgress, c.hasRoute, c.routeAt, c.routeTime = progress, true, k, now
+	for i := range c.routeTimes {
+		if i < k-2*passageSlices || i > k+passageSlices {
+			delete(c.routeTimes, i)
+		}
+	}
+}
+
+func (c *Client) positionScore() float64 {
+	if c.hasRoute {
+		return c.routeProgress
+	}
+	return float64(progressScore(c.lap, c.cp, c.distNext)) / scoreLapW
+}
+
 // solveDeltaMs 解算 a 相对 b 的**带符号**时间差（毫秒）。
 //
 // ⚠️ 符号约定（与 C++ `forza::race::RaceDeltaTracker::Solve` **严格一致**）：
@@ -1392,6 +1426,21 @@ func progressScore(lap, cpLast int, distNext float64) int64 {
 func (r *Room) solveDeltaMs(a, b *Client) (float64, bool) {
 	if a == b {
 		return 0, true
+	}
+	if a.hasRoute && b.hasRoute && !a.finished && !b.finished {
+		lead, chase, sign := a, b, 1.0
+		if a.routeProgress < b.routeProgress {
+			lead, chase, sign = b, a, -1
+		}
+		k := int64(math.Floor(chase.routeProgress * passageSlices))
+		for back := int64(0); back <= 8; back++ {
+			tl, okL := lead.routeTimes[k-back]
+			tc, okC := chase.routeTimes[k-back]
+			if okL && okC && tc >= tl && tc-tl <= 300000 {
+				return sign * (tc - tl), true
+			}
+		}
+		return 0, false
 	}
 
 	// The UI treats a delta as a race-control aid, not a raw arithmetic dump.
@@ -1526,7 +1575,13 @@ func (r *Room) leaderboardLocked() []byte {
 		if a.finished && b.finished {
 			return a.total < b.total // 都完赛：净用时短者在前
 		}
-		if a.score != b.score {
+		if a.hasRoute != b.hasRoute {
+			return a.hasRoute
+		}
+		if a.hasRoute && b.hasRoute && a.routeProgress != b.routeProgress {
+			return a.routeProgress > b.routeProgress
+		}
+		if a.score != b.score && !(a.hasRoute && b.hasRoute) {
 			return a.score > b.score // 都未完赛：进度积分高者在前
 		}
 		// 起步瞬间（都在发车格、尚未过 CP0）进度积分可能同分，此时按**发车格**决胜：
@@ -1609,9 +1664,9 @@ func (r *Room) resultsLocked() []Result {
 	out := make([]Result, 0, len(r.players))
 	// 排序键：未完赛者（DNF）按服务端进度积分排名——谁跑得远谁名次高。
 	// progressScore 已在秒差解算里同一口径使用（lap/cp/distNext）。
-	score := make(map[int]int64, len(r.players))
+	score := make(map[int]float64, len(r.players))
 	for _, p := range r.players {
-		score[p.id] = progressScore(p.lap, p.cp, p.distNext)
+		score[p.id] = p.positionScore()
 		out = append(out, Result{
 			ID: p.id, Name: p.name, Color: p.color,
 			Net: p.netTime, Pen: p.penalty, Total: p.total,
@@ -2530,14 +2585,17 @@ func (h *Hub) leave(c *Client, reason string) {
 // progressJSON 只解客户端 60Hz 位姿包里排位需要的进度字段，
 // 比整包反序列化便宜得多（12 人 x 60Hz = 720 次/秒的小结构体解析）。
 type progressJSON struct {
-	L int      `json:"l"` // 已完成圈数
-	C int      `json:"c"` // 上一个通过的 Checkpoint 索引（0..maxCP-1）
-	N float64  `json:"n"` // 到下一个 Checkpoint 的欧氏距离（米）
-	S float64  `json:"s"` // 车速 km/h
-	P *float64 `json:"p"` // 当前圈归一化样条进度 [0,1)
+	Route *float64 `json:"rp"`
+	L     int      `json:"l"` // 已完成圈数
+	C     int      `json:"c"` // 上一个通过的 Checkpoint 索引（0..maxCP-1）
+	N     float64  `json:"n"` // 到下一个 Checkpoint 的欧氏距离（米）
+	S     float64  `json:"s"` // 车速 km/h
+	P     *float64 `json:"p"` // 当前圈归一化样条进度 [0,1)
 }
 
 type inbound struct {
+	To       int             `json:"to"`
+	Signal   json.RawMessage `json:"signal"`
 	T        string          `json:"t"`
 	ID       *int            `json:"id"`
 	Room     string          `json:"room"`
@@ -2941,6 +2999,25 @@ func (h *Hub) handleFrame(c *Client, raw []byte) {
 		rm.broadcastLocked(payload)
 		rm.mu.Unlock()
 
+	case "rtc":
+		rm := c.room
+		if rm == nil || len(m.Signal) == 0 || len(m.Signal) > 16384 || !json.Valid(m.Signal) {
+			return
+		}
+		rm.mu.Lock()
+		target := rm.playerByIDLocked(m.To)
+		if target != nil && target != c && !target.ai {
+			payload, err := json.Marshal(struct {
+				T      string          `json:"t"`
+				From   int             `json:"from"`
+				Signal json.RawMessage `json:"signal"`
+			}{"rtc", c.id, m.Signal})
+			if err == nil {
+				target.enqueue(payload)
+			}
+		}
+		rm.mu.Unlock()
+
 	case "state":
 		rm := c.room
 		if rm == nil {
@@ -2968,6 +3045,9 @@ func (h *Hub) handleFrame(c *Client, raw []byte) {
 			// 完赛车辆继续中继巡航位姿，已锁定的成绩不再参与进度更新。
 			if !target.finished && json.Unmarshal(d, &pj) == nil {
 				nowMs := float64(monoMs())
+				if pj.Route != nil && !math.IsNaN(*pj.Route) && !math.IsInf(*pj.Route, 0) && *pj.Route >= -1 && *pj.Route <= float64(rm.laps+2) {
+					target.recordRoute(*pj.Route, nowMs)
+				}
 				target.advanceLapLocked(pj.L, rm.laps)
 				// ★ 防"跨圈瞬间的旧 Checkpoint 索引污染新圈"。
 				//   advanceLapLocked 刚刚把 cp 重置为 -1；但同一份状态包仍可能带着
@@ -3015,6 +3095,10 @@ func (h *Hub) handleFrame(c *Client, raw []byte) {
 			return
 		}
 		rm.mu.Lock()
+		if rm.gameMode == "bumper" || m.Reason == "wall" {
+			rm.mu.Unlock()
+			return
+		}
 		// 与 state/lap/finish 同一套权威：无 id 记到发送者头上；
 		// 带 id 且发送者是房主时记到其人机席位上（AI 罚时链路）。
 		target, allowed := rm.botTargetLocked(c, m.ID)
@@ -3100,6 +3184,9 @@ func (h *Hub) handleFrame(c *Client, raw []byte) {
 				if m.Total != nil && *m.Total >= 0 && !math.IsNaN(*m.Total) && !math.IsInf(*m.Total, 0) {
 					total = *m.Total
 				}
+			}
+			if rm.gameMode == "bumper" {
+				penalty, total = 0, net
 			}
 			if math.IsNaN(total) || math.IsInf(total, 0) || total < 0 {
 				rm.mu.Unlock()
@@ -3260,6 +3347,19 @@ func main() {
 	hub := newHub()
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("/api/rtc-config", func(w http.ResponseWriter, r *http.Request) {
+		var servers []json.RawMessage
+		if raw := os.Getenv("FORZALAN_ICE_SERVERS"); raw != "" {
+			_ = json.Unmarshal([]byte(raw), &servers)
+		}
+		if servers == nil {
+			servers = []json.RawMessage{}
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Cache-Control", "no-store")
+		_ = json.NewEncoder(w).Encode(map[string]any{"iceServers": servers})
+	})
 	mux.Handle("/ws", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ws, err := upgrade(w, r)
 		if err != nil {
