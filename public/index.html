@@ -130,7 +130,12 @@
         </label>
       </div>
       <div class="row"><label class="lbl">引擎音效</label><select id="engineSound" class="inp sel"><option value="i6gt">直列六缸 GT（默认）</option><option value="v8">V8 十字曲轴</option><option value="v12">V12 高转</option><option value="fe">电动方程式（Formula E）</option></select></div>
-      <div class="row"><label class="lbl">游戏模式</label><select id="gameMode" class="inp sel"><option value="horizon">地平线模式 · 轻松驾驶</option><option value="fm8" selected>FM8 模式 · 拟真规则</option><option value="bumper">碰碰车模式 · 全程实体对抗</option></select></div>
+      <div class="row"><label class="lbl">游戏模式</label><select id="gameMode" class="inp sel"><option value="horizon">休闲模式 · Track Day / Assisted</option><option value="fm8" selected>竞技模式 · Spec Series</option><option value="bumper">碰碰车模式 · 全程实体对抗</option></select></div>
+      <fieldset id="drivingAssists"><legend id="assistStatus">辅助</legend>
+        <label><input type="checkbox" id="assist-autoBrake">自动刹车</label><label><input type="checkbox" id="assist-abs" checked>ABS</label><label><input type="checkbox" id="assist-tcs" checked>TCS</label><label><input type="checkbox" id="assist-stability">稳定控制</label><label><input type="checkbox" id="assist-steering">转向辅助</label>
+      </fieldset>
+      <div class="row"><button id="btnGarage" class="btn" type="button">调校车库</button><label>起步轮胎 <select id="startingCompound"><option>Soft</option><option selected>Medium</option><option>Hard</option><option>Wet</option></select></label></div>
+
       <div class="grid2" data-page-node-id="cn6vIBIAGQdgBnHMs12TFQ">
         <button id="btnCreate" class="btn primary" data-page-node-id="nXUjf0xDDMKZEDRCELHXMM">创建房间</button>
         <div class="joinbox" data-page-node-id="iXWiv5jssgblbsRJGZjWQG">
@@ -165,7 +170,7 @@
       </div>
       <div class="row" data-page-node-id="RwMode000000000000R1">
         <label class="lbl">规则</label>
-        <b id="roomGameMode" class="trackname">FM8 模式 · 拟真规则</b>
+        <b id="roomGameMode" class="trackname">竞技模式 · Spec Series</b>
         <button id="btnGameMode" class="btn ghost hidden" type="button">切换模式</button>
       </div>
       <div class="row" data-page-node-id="RwLaps000000000000R1">
@@ -379,5 +384,11 @@
 
 <script type="module" src="./js/RaceUI.js"></script>
 <script type="module" src="./js/main.js"></script>
+
+<dialog id="tuningGarage" class="garage"><h2>调校车库</h2><p>赛前调校 · 比赛开始后锁定</p><div id="tuningSliders"></div><button id="closeGarage" class="btn">保存并关闭</button></dialog>
+<div id="personalDelta" class="personal-delta" data-sign="none"><span id="personalDeltaText">个人最佳 · —</span><div class="delta-track"><i id="personalDeltaFill"></i></div></div>
+<div id="strategyHud" class="strategy-hud"><div id="tireMatrix"><span id="tire-FL"></span><span id="tire-FR"></span><span id="tire-RL"></span><span id="tire-RR"></span></div><small id="compoundReadout"></small><div><select id="pitCompound" aria-label="进站轮胎"><option>Soft</option><option selected>Medium</option><option>Hard</option><option>Wet</option></select><button id="btnPit" class="btn">进站 P</button></div><small id="pitStatus"></small></div>
+<div class="practice-tools"><button id="btnRewind" class="btn" hidden>◀ 按住回溯 · Backspace</button><span id="rewindStatus"></span></div>
+<div class="mastery"><span id="masteryLevel">Car Mastery · Lv.1</span><span id="masteryPopup" hidden></span></div>
 </body>
 </html>

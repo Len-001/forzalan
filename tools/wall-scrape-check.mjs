@@ -134,6 +134,20 @@ function rig(seed, incidenceDeg, kmh, type = 'vegas', velIncDeg = 0) {
     '峰值 |ωy| = ' + maxYaw.toFixed(3) + ' rad/s ≤ ' + CFG.WALL_STRAIGHTEN_MAX);
 }
 
+// Low-speed contact must allow throttle and steering away without a push teleport.
+{
+  const {q,c}=rig(777,12,4,'vegas',6);
+  const startX=c.pos.x,startZ=c.pos.z;
+  let hits=0;
+  for(let i=0;i<120;i++) {
+    c.input.throttle=1;c.input.steer=i<30?0:1;
+    q.fixedStep(DT);hits=Math.max(hits,c.barrierHits||0);
+  }
+  ok(hits>0,'low-speed release test actually contacts the barrier');
+  ok(Math.hypot(c.pos.x-startX,c.pos.z-startZ)>2 && c.speedKmh>10,
+    'low-speed throttle and steering away release the wall without suction',c.speedKmh.toFixed(1)+' km/h');
+}
+
 // ---------- ③ 参数一致性 ----------
 {
   console.log('\n\x1b[1m参数\x1b[0m');

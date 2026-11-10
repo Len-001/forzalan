@@ -1,3 +1,4 @@
+import {launchBrowser} from './browser-launcher.mjs';
 /* 裁决时序行为门禁 + 同工程 DOM/CSS 的真实 Edge 验收。 */
 import { strict as assert } from 'node:assert';
 import { createServer } from 'node:http';
@@ -90,11 +91,7 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const port = server.address().port;
 const cdpPort = 9451;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-const browser = spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', [
-  '--headless=new', '--remote-debugging-port=' + cdpPort, '--no-first-run', '--no-default-browser-check',
-  '--user-data-dir=' + mkdtempSync(join(process.env.TMPDIR || tmpdir(), 'penalty-ui-')),
-  '--window-size=1280,800', 'about:blank',
-], { stdio: 'ignore' });
+const browser = launchBrowser(cdpPort,'penalty-ui-');
 let ws, serial = 0;
 const pending = new Map(), errors = [];
 const command = (method, params = {}) => new Promise((resolve, reject) => {
@@ -131,7 +128,7 @@ try {
   for (let i = 0; i < 50; i++) { if (await evaluate('document.getElementById("profileName")?.textContent === "存储昵称甲"')) break; await sleep(100); }
   check(await evaluate('document.getElementById("profileName").textContent === "存储昵称甲"'), '未建房前 Profile 已显示 LocalStorage 昵称');
   const css = await evaluate('(() => { const e = document.getElementById("minimap"), s = getComputedStyle(e); return { background:s.backgroundColor, blur:s.backdropFilter }; })()');
-  check(css.background.includes('0.52') && css.blur.includes('blur'), '小地图半透明深灰背景与 backdrop-filter 已生效');
+  check(css.background.includes('0.72') && css.blur.includes('blur'), '小地图深色玻璃背景与 backdrop-filter 已生效');
   check(await evaluate('!!document.getElementById("btnAddAI")'), '房间存在添加人机入口');
   await evaluate('(async () => { window.__penalty = await import("./js/PenaltyController.js"); window.__penalty.showPenaltyEvent("造成碰撞",0,"collision","fm8"); })()');
   await sleep(550);

@@ -64,4 +64,25 @@ extrapNet.beginFrame(1000);
 const extrap = extrapNet.renderState(9,1000);
 assert.ok(Math.abs(extrap.pos.x-5) < 0.01,'fallback extrapolation is capped at 250ms');
 console.log('PASS fallback Hermite, shortest-path SLERP and 250ms extrapolation');
+const adaptive=new RemoteSnapshotBuffer();
+assert.equal(adaptive.delay,100);
+let receive=1000;
+for(let i=0;i<50;i++) {
+  receive+=i%2?75:25;
+  adaptive.push({...frame(1000+i*50,i,20),seq:i+1},receive);
+  const before=adaptive.lastTargetTime;
+  adaptive.sampleAt(receive,1/60);
+  assert.ok(adaptive.lastTargetTime>=before,'jitter adaptation must never rewind the playback clock');
+  assert.ok(adaptive.delay>=100 && adaptive.delay<=200);
+}
+assert.ok(adaptive.delay>100,'irregular delivery increases the jitter buffer');
+adaptive.reset();assert.equal(adaptive.delay,100);assert.equal(adaptive.lastSource,null);
+const moving=new Net();moving.renderDelay=0;
+moving.pushState(10,poseData(0,[0,0,0,1],10),0,false,0);
+moving.pushState(10,poseData(10,[0,0,0,1],10),0,false,1000);
+for(let t=100;t<=900;t+=20) {
+  moving.beginFrame(t);const p=moving.renderState(10,t);
+  assert.ok(Math.abs(p.pos.x-t/100)<1e-6,'constant velocity must not accumulate reconciliation lag');
+}
+console.log('PASS adaptive delay, monotonic playback, reset and constant-velocity reconciliation');
 console.log('remote-snapshot-check: PASS');

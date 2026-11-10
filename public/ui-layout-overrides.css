@@ -69,3 +69,7 @@
   }
 }
 
+/* A true circle with glass backing; no transformed oval or canvas fill. */
+#minimap{border-radius:50%;aspect-ratio:1;object-fit:contain;background:rgba(3,15,24,.72);box-shadow:0 0 0 1px rgba(70,207,232,.22);transform:none!important;clip-path:circle(50%)}
+#standList .st-row{transition:background-color .18s linear;color:#b5efff}.settlement.show{pointer-events:none!important;background:transparent!important;backdrop-filter:none!important}.settlement .settle-panel{pointer-events:auto!important;position:fixed;bottom:12px;left:50%;transform:translateX(-50%)!important;max-height:40vh;overflow:auto}
+#masteryPopup[hidden],#btnRewind[hidden],.frr[hidden]{display:none!important}

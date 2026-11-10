@@ -1309,12 +1309,16 @@ export class Track {
    * requested layer. The layer hint is essential at the Suzuka crossing.
    */
   raycastRoad(origin, direction, maxDistance = 8, currentY = undefined, layerHint = undefined) {
-    const from = new CANNON.Vec3(origin.x, origin.y, origin.z);
-    const d = new CANNON.Vec3(direction.x, direction.y, direction.z);
+    const scratch = this._rayScratch || (this._rayScratch = {
+      from:new CANNON.Vec3(), to:new CANNON.Vec3(), direction:new CANNON.Vec3(),
+      ray:new CANNON.Ray(), result:new CANNON.RaycastResult(),
+    });
+    const from = scratch.from; from.set(origin.x, origin.y, origin.z);
+    const d = scratch.direction; d.set(direction.x, direction.y, direction.z);
     const len = d.length();
     if (!Number.isFinite(len) || len < 1e-8) return null;
     d.scale(1 / len, d);
-    const to = new CANNON.Vec3(from.x + d.x * maxDistance, from.y + d.y * maxDistance, from.z + d.z * maxDistance);
+    const to = scratch.to; to.set(from.x + d.x * maxDistance, from.y + d.y * maxDistance, from.z + d.z * maxDistance);
     const rayMinX = Math.min(from.x, to.x), rayMaxX = Math.max(from.x, to.x);
     const rayMinY = Math.min(from.y, to.y), rayMaxY = Math.max(from.y, to.y);
     const rayMinZ = Math.min(from.z, to.z), rayMaxZ = Math.max(from.z, to.z);
@@ -1328,12 +1332,12 @@ export class Track {
       if (aabb && (rayMaxX < aabb.lowerBound.x || rayMinX > aabb.upperBound.x
         || rayMaxY < aabb.lowerBound.y || rayMinY > aabb.upperBound.y
         || rayMaxZ < aabb.lowerBound.z || rayMinZ > aabb.upperBound.z)) continue;
-      const ray = new CANNON.Ray(from, to);
+      const ray = scratch.ray; ray.from.copy(from); ray.to.copy(to);
+      const result = scratch.result; result.reset(); ray.result = result; ray.hasHit = false;
       // Heightfield 是查询面而非 Cannon 外壳碰撞体；显式允许射线命中
       // collisionResponse=false 的道路 patch，避免查询也被响应标记过滤掉。
       ray.checkCollisionResponse = false;
       ray.mode = CANNON.Ray.CLOSEST;
-      const result = new CANNON.RaycastResult();
       ray.intersectBody(patch.body, result);
       if (!result.hasHit || result.distance < 0 || result.distance > maxDistance + 1e-6) continue;
       const layerBias = Number.isFinite(currentY) ? Math.abs(result.hitPointWorld.y - currentY) : 0;
@@ -1431,6 +1435,35 @@ export class Track {
     return Math.sqrt(best);
   }
 
+  isInPitLane(car) {
+    const i=((car.trackIdx%this.count)+this.count)%this.count;
+    const start=Math.floor(this.count*0.015),end=start+Math.max(12,Math.round(85/this.spacing));
+    const hw=this.halfWidthAt?.[i]||this.halfWidth;
+    return i>=start&&i<=end&&car.lateral>hw-2.8&&car.lateral<hw+0.5;
+  }
+  buildPitLane() {
+    const start=Math.floor(this.count*0.015),end=start+Math.max(12,Math.round(85/this.spacing));
+    const positions=[];
+    for(let i=start;i<end;i++){
+      const a=this.pts[i%this.count],b=this.pts[(i+1)%this.count],sa=this.side[i%this.count],sb=this.side[(i+1)%this.count];
+      const ha=this.halfWidthAt[i%this.count],hb=this.halfWidthAt[(i+1)%this.count];
+      for(const [p,v,h] of [[a,sa,ha-2.8],[b,sb,hb-2.8],[a,sa,ha],[b,sb,hb-2.8],[b,sb,hb],[a,sa,ha]])positions.push(p.x+v.x*h,p.y+0.055,p.z+v.z*h);
+    }
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+    const mesh=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0x16bfd6,transparent:true,opacity:0.35,side:THREE.DoubleSide}));
+    mesh.name='pit-lane';return mesh;
+  }
+  _buildProgressGrid() {
+    const grid={cell:32,columns:new Map(),minX:Infinity,maxX:-Infinity,minZ:Infinity,maxZ:-Infinity};
+    for (let i=0;i<this.count;i++) {
+      const p=this.pts[i], x=Math.floor(p.x/grid.cell), z=Math.floor(p.z/grid.cell);
+      let column=grid.columns.get(x); if (!column) { column=new Map(); grid.columns.set(x,column); }
+      let bucket=column.get(z); if (!bucket) { bucket=[]; column.set(z,bucket); } bucket.push(i);
+      grid.minX=Math.min(grid.minX,x); grid.maxX=Math.max(grid.maxX,x);
+      grid.minZ=Math.min(grid.minZ,z); grid.maxZ=Math.max(grid.maxZ,z);
+    }
+    return this._progressGrid=grid;
+  }
   nearest(x, z, hint, curY, layerHint = undefined) {
     const N = this.count, pts = this.pts;
     let best = -1, bestD = Infinity;
@@ -1438,7 +1471,11 @@ export class Track {
     const hasY = typeof curY === 'number' && isFinite(curY);
     const wantedLayer = layerHint === 'bridge' ? 'bridge' : layerHint === 'ground' ? 'ground' : null;
     if (hint >= 0 && hint < N) {
-      const W = TRACK_CFG.WINDOW;
+      // Fixed local window is independent of track size. At crossings the
+      // existing layer-aware wider window remains authoritative.
+      let W = TRACK_CFG.WINDOW;
+      const hp=pts[hint], dx=hp.x-x, dz=hp.z-z;
+      if (!wantedLayer && !hasY && dx*dx+dz*dz < 4*this.spacing*this.spacing) W=4;
       for (let k = -W; k <= W; k++) {
         const i = (hint + k + N) % N;
         const p = pts[i];
@@ -1468,11 +1505,25 @@ export class Track {
       if (bestL >= 0 && bestLD < 900 && bestLD <= bestD + 225) return bestL;
       if (bestD < 900) return best;
     }
-    for (let i = 0; i < N; i++) {
-      const p = pts[i];
-      const dx = p.x - x, dz = p.z - z;
-      const d = dx * dx + dz * dz;
-      if (d < bestD) { bestD = d; best = i; }
+    const grid = this._progressGrid || this._buildProgressGrid();
+    const cell = grid.cell;
+    const cx = Math.max(grid.minX, Math.min(grid.maxX, Math.floor(x / cell)));
+    const cz = Math.max(grid.minZ, Math.min(grid.maxZ, Math.floor(z / cell)));
+    const maxRing = Math.max(cx-grid.minX,grid.maxX-cx,cz-grid.minZ,grid.maxZ-cz);
+    for (let ring=0; ring<=maxRing; ring++) {
+      for (let gx=cx-ring; gx<=cx+ring; gx++) {
+        const column=grid.columns.get(gx); if (!column) continue;
+        for (let gz=cz-ring; gz<=cz+ring; gz++) {
+          if (ring && gx!==cx-ring && gx!==cx+ring && gz!==cz-ring && gz!==cz+ring) continue;
+          const bucket=column.get(gz); if (!bucket) continue;
+          for (const i of bucket) {
+            const p=pts[i], dx=p.x-x, dz=p.z-z, d=dx*dx+dz*dz;
+            if (d<bestD) { bestD=d; best=i; }
+          }
+        }
+      }
+      const edge=Math.min(x-(cx-ring)*cell,(cx+ring+1)*cell-x,z-(cz-ring)*cell,(cz+ring+1)*cell-z);
+      if (edge>=0 && edge*edge>bestD) break;
     }
     return best;
   }
@@ -1636,7 +1687,7 @@ export class Track {
     const off = new Float32Array(N);
     for (let i = 0; i < N; i++) {
       const maxOffI = Math.max(0.2, this.halfWidthAt[i] - MARGIN);
-      off[i] = Math.max(-maxOffI, Math.min(maxOffI, optimal.alpha[i]));
+      off[i] = Math.max(-maxOffI, Math.min(maxOffI, optimal.alpha[i] * (radius[i]>1000?0.5:1)));
     }
     this.raceLine = {
       count: N, spacing: this.spacing,

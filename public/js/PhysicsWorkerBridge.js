@@ -1,8 +1,11 @@
+import {COMPOUND_NAMES,normalizeTuning,drivingAssists} from './RaceStrategy.js';
 import { PHYSICS_DT, STATE, STATE_STRIDE, REMOTE_STRIDE, trackForWorker, RENDER_CFG } from './physics-protocol.js';
 import { routeProgress } from './race-position.js';
 
 const V3 = () => new THREE.Vector3();
 const Q = () => new THREE.Quaternion();
+// 99% convergence in 15 frames at 60 Hz, independent of display refresh rate.
+const VISUAL_CORRECTION_DECAY = Math.log(100) / (15 / 60);
 const nowMono = () => (typeof performance !== 'undefined' && performance.now ? performance.now() : Date.now());
 const n = (v, d = 0) => Number.isFinite(v) ? v : d;
 // 定点量化（用于上行报文，见 _publishNetwork 的说明）。纯算术取整，不产生临时字符串。
@@ -26,6 +29,8 @@ class CarMirror {
     this.engineProfile = opts.engine || opts.engineProfile || 'i6gt';
     this.engine = this.engineProfile;
     this.input = { throttle: 0, brake: 0, steer: 0, handbrake: 0 };
+    this.visualOffset = V3(); this.visualRotationOffset = Q();
+    this._renderP = V3(); this._renderQ = Q(); this._hasState = false;
     this.pos = V3(); this.prevPos = V3(); this.quat = Q(); this.prevQuat = Q();
     this.vel = V3(); this.fwd = V3(); this.lateralDir = V3(); this.rightSide = V3(); this.up = V3();
     this.body = { position: this.pos, quaternion: this.quat, velocity: this.vel };
@@ -36,6 +41,7 @@ class CarMirror {
     this.speed = 0; this.speedKmh = 0; this.speedKmhMeasured = 0; this.forwardSpeed = 0; this.lateralSpeed = 0;
     this.rpm = RENDER_CFG.IDLE_RPM; this.gear = 1; this.slip = 0; this.slipAngleDeg = 0; this.slipRatio = 0;
     this.wheelspin = 0; this.driftIntensity = 0; this.steerAngle = 0; this.ayPrev = 0; this.wrongWay = false;
+    this.tireWear=[0,0,0,0];this.fuel=1;this.compound='Medium';this.rewindSeconds=0;this.rewinding=false;
     this.tireTemp = [80, 80, 80, 80]; this.tireGrip = 1;
     this.trackIdx = 0; this.lineCross = 0; this.progressScore = 0; this.ghost = 0; this.ghostTimer = 0;
     this.rescueGhost = false; this.finishGhost = false; this.zoneGhost = false; this.raceLocked = true;
@@ -46,7 +52,8 @@ class CarMirror {
 }
 
 export class PhysicsWorkerBridge {
-  constructor({ track, seed, trackType, localId = 0, hostId = localId, grid = null, roster = [], laps = 3, ghost = false, gameMode = 'fm8', workerUrl } = {}) {
+  constructor({ track, seed, trackType, localId = 0, hostId = localId, grid = null, roster = [], laps = 3, ghost = false, gameMode = 'fm8', solo = false, setup = {}, workerUrl } = {}) {
+    this.solo=!!solo;this.setup={...setup,tuning:normalizeTuning(setup.tuning),assists:drivingAssists(gameMode,setup.assists)};
     this.track = track || null;
     this.seed = (seed >>> 0) || (track && track.seed) || 0;
     this.trackType = trackType || (track && track.trackType) || 'suzuka';
@@ -77,6 +84,7 @@ export class PhysicsWorkerBridge {
     // Worker performance.now() has its own monotonic epoch.  Keep one explicit
     // conversion into the page epoch instead of inferring it from timeOrigin.
     this._workerToMainMonoOffset = 0;
+    this._identityRotation = Q();
     this._events = new Map();
     this._diagnosticId = 0;
     this._diagnostics = new Map();
@@ -94,7 +102,7 @@ export class PhysicsWorkerBridge {
       return opts;
     });
     this.worker.postMessage({
-      type: 'init', localId: this.localId, laps: this.laps, ghost: this.ghostMode, gameMode: this.gameMode,
+      type: 'init', solo:this.solo, setup:this.setup, localId: this.localId, laps: this.laps, ghost: this.ghostMode, gameMode: this.gameMode,
       track: trackForWorker(this.track) || { seed: this.seed, trackType: this.trackType, colliders: [] },
       roster: workerRoster,
     });
@@ -122,6 +130,14 @@ export class PhysicsWorkerBridge {
     if (this._stateNow === null) return 0;
     // Worker 包晚到时只预测一物理步的显示位置，避免每次等包都硬停。
     return Math.max(0, Math.min(2, this.alpha + Math.max(0, now - this._stateNow) / (PHYSICS_DT * 1000)));
+  }
+  renderPose(c, position, rotation, now = nowMono(), dt = 1 / 60) {
+    const alpha = this.renderAlpha(now);
+    const keep = Math.exp(-VISUAL_CORRECTION_DECAY * Math.max(0, dt));
+    c.visualOffset.multiplyScalar(keep);
+    c.visualRotationOffset.slerp(this._identityRotation, 1 - keep);
+    position.lerpVectors(c.prevPos, c.pos, alpha).add(c.visualOffset);
+    rotation.copy(c.prevQuat).slerp(c.quat, Math.min(1, alpha)).multiply(c.visualRotationOffset);
   }
   _postWhenReady(message, transfer = []) { this.readyPromise.then(() => { if (!this.disposed) this.worker.postMessage(message, transfer); }).catch(() => {}); }
   /**
@@ -199,6 +215,9 @@ export class PhysicsWorkerBridge {
     for (const c of this.cars) if (c.ai) { c.remote = hostId !== this.localId; c.auto = !c.remote; }
     this._postWhenReady({ type: 'aiHost', local: hostId === this.localId });
   }
+  setRewind(value){if(this.solo&&this.gameMode==='horizon')this._postWhenReady({type:'rewind',value:!!value});}
+  requestPit(compound){this._postWhenReady({type:'pit',id:this.localId,compound});}
+  setAssists(assists){this._postWhenReady({type:'assists',assists});}
   setRemoteInput(id, thr, brk, steer, hand) {
     const c = this.byId.get(id);
     if (!c) return;
@@ -272,9 +291,11 @@ export class PhysicsWorkerBridge {
       a[i+25] = n(d.pen); a[i+26] = n(d.vio); a[i+27] = d.li ? 1 : 0; a[i+28] = n(d.pr);
       a[i+29] = d.cs ? 1 : 0; a[i+30] = n(d.lc); a[i+31] = n(d.ll); a[i+32] = n(d.ft); a[i+33] = n(d.tt);
       a[i+34] = n(e.seq);
+      for(let j=0;j<4;j++){a[i+35+j]=n(d.tw?.[j]);a[i+39+j]=n(d.ttemp?.[j],80);}
+      a[i+43]=n(d.fuel,1);a[i+44]=COMPOUND_NAMES.indexOf(d.compound||'Medium');
       k++;
     }
-    this._postWhenReady({ type:'remoteSamples', count, stride:REMOTE_STRIDE, renderDelay:n(packet.renderDelay,80), buffer:a.buffer }, [a.buffer]);
+    this._postWhenReady({ type:'remoteSamples', count, stride:REMOTE_STRIDE, renderDelay:n(packet.renderDelay,100), buffer:a.buffer }, [a.buffer]);
   }
   /**
    * 位姿上报（30Hz，Worker 拥有真实物理状态后由它驱动）。
@@ -313,6 +334,7 @@ export class PhysicsWorkerBridge {
         s:Math.round(c.speedKmh),t:r2(c.steerAngle),
         l:c.lap,c:c.cpIdx,n:r1(distNext),p:r4(spline),
         rp:routeProgress(c, this.track),
+        tw:c.tireWear,ttemp:c.tireTemp,fuel:r3(c.fuel),compound:c.compound,
         k:c.slip>0.5?1:0,f:c.finished?1:0,
         u:r2(c.throttle),b:r2(c.brake),e:r2(c.steer),h:c.handbrake?1:0,
         gr:c.ghostReasonCode,go:c.ghost,
@@ -346,6 +368,8 @@ export class PhysicsWorkerBridge {
     }
     if (m.type !== 'state' || !m.buffer) return;
     const a = new Float32Array(m.buffer);
+    this._previousStateNow = this._stateNow;
+    this._previousAlpha = this.alpha;
     this.time = n(m.time); this.alpha = Math.max(0, Math.min(1, n(m.alpha)));
     this._stateNow = n(m.now, nowMono()) + this._workerToMainMonoOffset;
     const count = Math.min(m.count | 0, Math.floor(a.length / (m.stride || STATE_STRIDE)));
@@ -368,9 +392,23 @@ export class PhysicsWorkerBridge {
   _applyRecord(a, i) {
     const id = Math.round(a[i + STATE.ID]);
     const c = this.byId.get(id); if (!c) return;
+    if (c.isLocal && c._hasState) {
+      const oldAlpha = Math.max(0, Math.min(2, this._previousAlpha + Math.max(0, this._stateNow - this._previousStateNow) / (PHYSICS_DT * 1000)));
+      c._renderP.lerpVectors(c.prevPos, c.pos, oldAlpha).add(c.visualOffset);
+      c._renderQ.copy(c.prevQuat).slerp(c.quat, Math.min(1, oldAlpha)).multiply(c.visualRotationOffset);
+    }
     c.prevPos.set(a[i + STATE.PPX], a[i + STATE.PPY], a[i + STATE.PPZ]);
     c.prevQuat.set(a[i + STATE.PQX], a[i + STATE.PQY], a[i + STATE.PQZ], a[i + STATE.PQW]);
     c.pos.set(a[i + STATE.PX], a[i + STATE.PY], a[i + STATE.PZ]); c.quat.set(a[i + STATE.QX], a[i + STATE.QY], a[i + STATE.QZ], a[i + STATE.QW]);
+    if (c.isLocal && c._hasState) {
+      c.visualOffset.copy(c._renderP);
+      c._renderP.lerpVectors(c.prevPos, c.pos, this.alpha);
+      c.visualOffset.sub(c._renderP);
+      c.visualRotationOffset.copy(c._renderQ);
+      c._renderQ.copy(c.prevQuat).slerp(c.quat, this.alpha).invert();
+      c.visualRotationOffset.premultiply(c._renderQ).normalize();
+    }
+    c._hasState = true;
     c.vel.set(a[i + STATE.VX], a[i + STATE.VY], a[i + STATE.VZ]); c.body.position = c.pos; c.body.quaternion = c.quat; c.body.velocity = c.vel;
     c.fwd.set(0, 0, 1).applyQuaternion(c.quat);
     c.up.set(0, 1, 0).applyQuaternion(c.quat);
@@ -386,6 +424,9 @@ export class PhysicsWorkerBridge {
     c.axMeasured = a[i + STATE.AX]; c.surface = a[i + STATE.SURFACE]; c.airborne = a[i + STATE.AIRBORNE] > 0.5;
     for (let k = 0; k < 4; k++) c.tireTemp[k] = a[i + STATE.TIRE_TEMP0 + k];
     c.tireGrip = a[i + STATE.TIRE_GRIP];
+    for(let k=0;k<4;k++)c.tireWear[k]=a[i+STATE.WEAR0+k];
+    c.fuel=a[i+STATE.FUEL];c.pitProgress=a[i+STATE.PIT_PROGRESS];c.compound=COMPOUND_NAMES[a[i+STATE.COMPOUND]|0]||'Medium';
+    c.inPit=!!a[i+STATE.IN_PIT];c.rewindSeconds=a[i+STATE.REWIND_SECONDS];c.rewinding=!!a[i+STATE.REWINDING];
     c.ghostReasonCode = a[i + STATE.GHOST_REASON]; c.yawSpeed = a[i + STATE.YAW_SPEED];
     c.groundY = a[i + STATE.GROUND_Y]; c.suspCompression = a[i + STATE.SUSPENSION];
     c.pgGhost = a[i + STATE.PG_GHOST] > 0.5; c.curbH = a[i + STATE.CURB_H];

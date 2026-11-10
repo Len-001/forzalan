@@ -254,7 +254,7 @@ func sanitizeTrack(s string) string {
 //	bumper —— 碰碰车模式（全程实体、关闭碰撞罚时、车车高弹性）
 func sanitizeGameMode(s string) string {
 	switch strings.ToLower(strings.TrimSpace(s)) {
-	case "horizon", "horizon-mode", "horizon模式":
+	case "casual", "horizon", "horizon-mode", "horizon模式":
 		return "horizon"
 	case "bumper", "bumper-car", "bumper_mode", "碰碰车", "碰碰车模式":
 		return "bumper"
@@ -576,16 +576,19 @@ type Client struct {
 	routeTime     float64
 
 	// ---- 赛道进度（服务端权威排位用；受 room.mu 保护）----
-	cp        int                    // 上一个通过的 Checkpoint 索引（未通过任何 Checkpoint 时为 -1）
-	distNext  float64                // 到下一个 Checkpoint 的欧氏距离
-	speedKmh  float64                // 上报车速（用于秒差估算）
-	score     int64                  // 进度积分
-	passTime  [maxCP]float64         // 本圈各 Checkpoint 的**服务端**通过时刻（ms）
-	spline    float64                // 当前圈归一化样条进度 [0,1)
-	sliceAt   int                    // 最近记录的样条切片（-1 表示本圈尚无记录）
-	sliceTime [passageSlices]float64 // 每片首次通过的服务端单调时刻（ms）
-	gridSlot  int                    // 倒序发车分配的槽位 1..maxPlayers
-	points    int64                  // 历史总积分（加入房间时从 Hub 快照，结算后回写）
+	cp              int                    // 上一个通过的 Checkpoint 索引（未通过任何 Checkpoint 时为 -1）
+	distNext        float64                // 到下一个 Checkpoint 的欧氏距离
+	speedKmh        float64                // 上报车速（用于秒差估算）
+	score           int64                  // 进度积分
+	passTime        [maxCP]float64         // 本圈各 Checkpoint 的**服务端**通过时刻（ms）
+	spline          float64                // 当前圈归一化样条进度 [0,1)
+	sliceAt         int                    // 最近记录的样条切片（-1 表示本圈尚无记录）
+	sliceTime       [passageSlices]float64 // 每片首次通过的服务端单调时刻（ms）
+	skillRating     int64
+	safetyRating    int64
+	unsafeIncidents int
+	gridSlot        int   // 倒序发车分配的槽位 1..maxPlayers
+	points          int64 // 历史总积分（加入房间时从 Hub 快照，结算后回写）
 
 	// ---- 延迟测量（供房间内**与大厅**显示每个玩家的毫秒数）----
 	// 由服务端主动探测：每 2s 发一次 {"t":"sping","c":<nonce>}，客户端回
@@ -1014,6 +1017,12 @@ func (r *Room) roomMsgLocked(you int) []byte {
 		sb.WriteString(strconv.Itoa(p.gridSlot))
 		sb.WriteString(`,"pts":`)
 		sb.WriteString(strconv.FormatInt(p.points, 10))
+		if !p.ai {
+			sb.WriteString(`,"skillRating":`)
+			sb.WriteString(strconv.FormatInt(p.skillRating, 10))
+			sb.WriteString(`,"safetyRating":`)
+			sb.WriteString(strconv.Quote(safetyGrade(p.safetyRating)))
+		}
 		// 延迟（毫秒）：服务端实测，-1 = 尚未测得（客户端据此不显示徽标）。
 		sb.WriteString(`,"ms":`)
 		p.pingMu.Lock()
@@ -1113,6 +1122,12 @@ func (r *Room) assignGridLocked() {
 	}
 	sort.SliceStable(ses, func(i, j int) bool {
 		if ses[i].pts != ses[j].pts {
+			if r.gameMode == "fm8" {
+				if ses[i].p.skillRating != ses[j].p.skillRating {
+					return ses[i].p.skillRating > ses[j].p.skillRating
+				}
+				return ses[i].pts > ses[j].pts
+			}
 			return ses[i].pts < ses[j].pts
 		}
 		return ses[i].p.id < ses[j].p.id
@@ -1748,6 +1763,9 @@ func (r *Room) endRaceLocked(reason string) {
 				p.points = r.hub.pointsOf(p.name)
 			}
 		}
+		if r.gameMode == "fm8" {
+			r.hub.updateRaceRatings(r.players, res)
+		}
 		r.hub.savePoints()
 		r.hub.rebuildSeasonLocked()
 		seasonJSON = r.hub.seasonSnapshot()
@@ -1794,6 +1812,14 @@ func (r *Room) raceResultsJSONLocked(res []Result, pts map[int]int64) []byte {
 		sb.WriteString(strconv.FormatFloat(e.Total, 'f', 3, 64))
 		sb.WriteString(`,"points":`)
 		sb.WriteString(strconv.FormatInt(pts[e.ID], 10))
+		for _, p := range r.players {
+			if p.id == e.ID && !p.ai {
+				sb.WriteString(`,"skillRating":`)
+				sb.WriteString(strconv.FormatInt(p.skillRating, 10))
+				sb.WriteString(`,"safetyRating":`)
+				sb.WriteString(strconv.Quote(safetyGrade(p.safetyRating)))
+			}
+		}
 		sb.WriteString(`,"fin":`)
 		sb.WriteString(boolStr(e.Finished))
 		sb.WriteString(`,"dnf":`)
@@ -1817,6 +1843,7 @@ func (r *Room) backToLobbyLocked() {
 	r.dnfLeft = 0
 	for _, p := range r.players {
 		p.ready = p.ai
+		p.unsafeIncidents = 0
 		p.finished = false
 		p.locked = false
 		p.retired = false
@@ -2327,7 +2354,7 @@ func (h *Hub) seasonBoardLocked() string {
 	}
 	es := make([]e, 0, len(h.points))
 	for n, v := range h.points {
-		if isDefaultName(n) || v <= 0 {
+		if isRatingKey(n) || isDefaultName(n) || v <= 0 {
 			continue
 		}
 		es = append(es, e{n, v})
@@ -2387,6 +2414,7 @@ func (h *Hub) create(c *Client, laps int, track string, ghost bool, gameMode str
 	rm := &Room{hub: h, id: code, laps: clampInt(laps, 1, 20), trackType: sanitizeTrack(track), gameMode: mode, ghost: ghost, close: make(chan struct{})}
 	h.rooms[code] = rm
 	c.points = h.pointsOf(c.name)
+	c.skillRating, c.safetyRating = h.ratingOf(c.name)
 	h.mu.Unlock()
 
 	rm.mu.Lock()
@@ -2462,6 +2490,7 @@ func (h *Hub) join(c *Client, code string) {
 	h.mu.Lock()
 	rm := h.rooms[code]
 	c.points = h.pointsOf(c.name)
+	c.skillRating, c.safetyRating = h.ratingOf(c.name)
 	h.mu.Unlock()
 	if rm == nil {
 		c.enqueue([]byte(`{"t":"err","msg":"房间不存在，检查房间号"}`))
@@ -2799,6 +2828,7 @@ func (h *Hub) handleFrame(c *Client, raw []byte) {
 		if c.hub != nil {
 			c.hub.mu.Lock()
 			c.points = c.hub.pointsOf(newName)
+			c.skillRating, c.safetyRating = c.hub.ratingOf(newName)
 			c.hub.mu.Unlock()
 		}
 		rm.broadcastRoomLocked()
@@ -3113,6 +3143,9 @@ func (h *Hub) handleFrame(c *Client, raw []byte) {
 			}
 			target.lastPen = time.Now()
 			target.penalty += sec
+			if m.Reason == "ram" || m.Reason == "collision" {
+				target.unsafeIncidents++
+			}
 			// FRR 裁决类罚时（获利 / 抄近道 / 脱困复位 / 切弯）计入**违规次数**，
 			// 计时塔"处罚"列要显示成 "+2.70 1" 这种"罚时 + 违规次数"。
 			// 注意 sec 被夹到 ≤4s：FRR 阶梯罚上限 3.0s 正好落在允许区间内。

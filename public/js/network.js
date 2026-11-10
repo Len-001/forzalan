@@ -9,7 +9,7 @@ import { PeerTransport } from './PeerTransport.js';
  *
  * 【本实现：Jitter Buffer + 快照插值】
  *   · 每个远端车维护长度 64 的历史快照环形缓冲（时间戳 / 位置 / 四元数 / 线速度）
- *   · 自适应渲染延迟 RenderDelay = clamp(3σ, 60, 120)ms（σ = 近 1s 快照到达时差的标准差），
+ *   · 自适应渲染延迟 RenderDelay = clamp(100 + 3σ, 100, 200)ms（σ = 近 1s 快照到达时差的标准差），
  *     永远回放"过去"的状态，于是任何抖动都发生在缓冲里，而不是发生在画面上
  *   · renderTime = 本地时钟 − RenderDelay，在缓冲里定位前后两个快照 SnapA / SnapB
  *   · 位置：Hermite 三次样条插值（用线速度作为端点切线，比线性 LERP 无折角）
@@ -23,13 +23,13 @@ import { PeerTransport } from './PeerTransport.js';
  *   算 offset，使 serverNow() = Date.now() + offset；快照时间统一换算到本地时间轴。
  * ========================================================================== */
 
-/* 渲染延迟：规格要求**弹性自适应** —— dynamicDelay = clamp(3σ, 60, 120)，
+/* 渲染延迟：规格要求**弹性自适应** —— dynamicDelay = clamp(100 + 3σ, 100, 200)，
  * σ = 近 RENDER_WIN_MS 内快照到达时差的标准差。丢包/抖动大就自动加长缓冲，
- * 网络好就收紧以减少视觉滞后。冷启动（样本不足）先用 80ms 兜底，
+ * 网络好就收紧以减少视觉滞后。冷启动（样本不足）先用 100ms 兜底，
  * 否则 σ=0 会直接把延迟压到下限 60ms，一上来就缓冲区击穿。 */
-const RENDER_DELAY_DEFAULT = 80;  // 样本不足时的兜底渲染延迟 (ms)
-const RENDER_DELAY_MIN = 60;      // 规格：3σ 下限 (ms)
-const RENDER_DELAY_MAX = 120;     // 规格：3σ 上限 (ms)
+const RENDER_DELAY_DEFAULT = 100;  // 样本不足时的兜底渲染延迟 (ms)
+const RENDER_DELAY_MIN = 100;      // Baseline delay (ms)
+const RENDER_DELAY_MAX = 200;     // Maximum adaptive delay (ms)
 const RENDER_WIN_MS = 1000;       // σ 统计窗口：近 1 秒
 const RENDER_MIN_N = 8;           // 至少这么多次到达间隔才开始自适应
 const CLOCK_WIN = 20;         // 规格：时钟样本滑窗长度 20（保留 RTT 最小的优质样本）
@@ -224,7 +224,7 @@ export class Net {
   /**
    * 自适应抖动缓冲（规格 §3.2）。
    * 记录快照到达时刻，对**近 RENDER_WIN_MS 窗口内**的到达间隔求标准差 σ，
-   * 再按 dynamicDelay = clamp(3σ, 60, 120) 伸缩渲染延迟：
+   * 再按 dynamicDelay = clamp(100 + 3σ, 100, 200) 伸缩渲染延迟：
    * 网络一抖就自动加长缓冲（防击穿断流），网络好就收紧（减少视觉滞后）。
    * 样本不足时维持兜底值 —— 冷启动 σ=0 会把延迟直接压到下限 60ms，反而更易被击穿。
    */
@@ -239,7 +239,8 @@ export class Net {
     let sq = 0;
     for (let i = 1; i < a.length; i++) { const d = (a[i] - a[i - 1]) - mean; sq += d * d; }
     this.jitterSigma = Math.sqrt(sq / n);
-    this.renderDelay = clamp(3 * this.jitterSigma, RENDER_DELAY_MIN, RENDER_DELAY_MAX);
+    const desired = clamp(100 + 3 * this.jitterSigma, RENDER_DELAY_MIN, RENDER_DELAY_MAX);
+    this.renderDelay += clamp(desired - this.renderDelay, -0.5, 2);
   }
 
   /* --------------------------- 收发 --------------------------- */
@@ -460,7 +461,7 @@ export class Net {
           // Dual-Layer（ForzaTech，规格 §一.3）：
           //   phys* = 物理层权威状态（直接矫正为网络数据）
           //   visual*Offset = 视觉平滑层偏移量（吸收矫正差值，exp(-20·dt) 衰减）
-          physPos: new THREE.Vector3(), physRot: new THREE.Quaternion(),
+          velocity: new THREE.Vector3(), physPos: new THREE.Vector3(), physRot: new THREE.Quaternion(),
           visualPosOffset: new THREE.Vector3(), visualRotOffset: new THREE.Quaternion(),
           speed: 0, steer: 0, lap: 0, slip: 0, finished: false,
         },
@@ -521,7 +522,10 @@ export class Net {
     const p = this.players.get(id);
     if (!p || p.count === 0) return null;
     const r = p.render;
-    const rt = now - this.renderDelay;      // 自适应延迟（clamp(3σ,60,120)）
+    const rt = Math.max(p.lastRenderTime ?? -Infinity, now - this.renderDelay);
+    const validUntil=p.T[this.slot(p,p.count-1)]+MAX_EXTRAP_MS;
+    const playbackDt = p.lastRenderTime === undefined ? 0 : Math.max(0,Math.min(rt,validUntil)-p.lastRenderTime)/1000;
+    p.lastRenderTime = rt;      // 自适应延迟（clamp(100 + 3σ,100,200)）
 
     // ---- 定位夹帧：找到最后一个 T <= rt 的快照 ----
     let ka = -1;
@@ -591,7 +595,7 @@ export class Net {
       p.has = true;
     } else {
       // 记录矫正前的视觉空间状态
-      const curVisualPos = this._vtmp.copy(r.physPos).add(r.visualPosOffset);
+      const curVisualPos = this._vtmp.copy(r.physPos).add(r.visualPosOffset).addScaledVector(r.velocity, playbackDt);
       const curVisualRot = this._qtmp.copy(r.physRot).multiply(r.visualRotOffset);
       // 物理层直接矫正为新数据
       r.physPos.copy(this._target);
@@ -603,6 +607,14 @@ export class Net {
       r.visualPosOffset.copy(curVisualPos).sub(r.physPos);
       r.visualRotOffset.copy(r.physRot).invert().multiply(curVisualRot);
     }
+    if (sa >= 0 && sb >= 0) {
+      const mix = clamp((rt-p.T[sa])/Math.max(1e-4,p.T[sb]-p.T[sa]),0,1);
+      r.velocity.set(p.V[sa*3]+(p.V[sb*3]-p.V[sa*3])*mix,
+        p.V[sa*3+1]+(p.V[sb*3+1]-p.V[sa*3+1])*mix,
+        p.V[sa*3+2]+(p.V[sb*3+2]-p.V[sa*3+2])*mix);
+    } else if (sa >= 0 && rt-p.T[sa] <= MAX_EXTRAP_MS) {
+      r.velocity.set(p.V[sa*3],p.V[sa*3+1],p.V[sa*3+2]);
+    } else r.velocity.set(0,0,0);
     // 每帧衰减消解（规格系数 20.0）
     const bf = Math.exp(-ERR_BLEND * this._interpDt);
     r.visualPosOffset.multiplyScalar(bf);
