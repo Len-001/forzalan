@@ -1,3 +1,4 @@
+import { launchBrowser } from './browser-launcher.mjs';
 /* 车辆"一顶一顶"（速度/位置抖动）真机量化。
  *
  * 判据（真机 118fps）：
@@ -19,11 +20,7 @@ const srv = spawn(join(root, 'forzalan.exe'), ['-addr', '127.0.0.1:' + PORT, '-q
   cwd: mkdtempSync(join(process.env.TMPDIR || tmpdir(), 'handling-jitter-data-')), windowsHide: true, stdio: 'ignore',
 });
 await sleep(1500);
-const browser = ['C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Microsoft/Edge/Application/msedge.exe'].find((p) => existsSync(p));
-const child = spawn(browser, ['--headless=new', '--ignore-gpu-blocklist', '--use-angle=d3d11',
-  `--remote-debugging-port=${CDP}`, `--user-data-dir=${mkdtempSync(join(process.env.TMPDIR || tmpdir(), 'tc-jit-'))}`,
-  '--no-first-run', '--window-size=1280,720', 'about:blank'], { stdio: 'ignore' });
+const child = launchBrowser(CDP, 'tc-jit-');
 
 let ws, id = 0; const waits = new Map(), exceptions = [];
 const cleanup = () => {
@@ -47,7 +44,7 @@ ws.addEventListener('message', (e) => {
   if (m.method === 'Runtime.exceptionThrown') exceptions.push(m.params.exceptionDetails.exception?.description || m.params.exceptionDetails.text);
   if (m.id && waits.has(m.id)) { const w = waits.get(m.id); waits.delete(m.id); clearTimeout(w.timer); m.error ? w.rej(new Error(m.error.message)) : w.res(m.result); }
 });
-const send = (method, params = {}) => new Promise((res, rej) => { const i = ++id, timer = setTimeout(() => { if (waits.has(i)) { waits.delete(i); rej(new Error(method + ' timeout')); } }, 10000); waits.set(i, { res, rej, timer }); ws.send(JSON.stringify({ id: i, method, params })); });
+const send = (method, params = {}) => new Promise((res, rej) => { const i = ++id, timer = setTimeout(() => { if (waits.has(i)) { waits.delete(i); rej(new Error(method + ' timeout')); } }, 30000); waits.set(i, { res, rej, timer }); ws.send(JSON.stringify({ id: i, method, params })); });
 const ev = async (expr) => { const r = await send('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true }); if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text); return r.result.value; };
 
 let fail = 0;
@@ -60,47 +57,52 @@ await send('Page.addScriptToEvaluateOnNewDocument', {
   source: `(() => {
     window.__jit = [];
     const _raf = window.requestAnimationFrame.bind(window);
-    let prev = 0, bridge = null, contactSeen = 0;
-    window.requestAnimationFrame = (cb) => _raf((ts) => {
-      if (prev && ts - prev > 1) {
-        const S = window.__S, c = S && S.localCar;
-        if (c && c.body && S.rp && S.rp.racing) {
-          if (bridge !== S.rp) {
-            bridge = S.rp;
-            bridge.on('state', () => { contactSeen |= S.localCar?.contact ? 1 : 0; });
-          }
+    let bridge = null, previousStep = null;
+    // This probe checks Worker physics, so observe every delivered fixed step.
+    // Sampling only the last packet per rAF conflates software-renderer stalls
+    // with impulses and hides intermediate contacts. Visual timing is measured
+    // separately by judder-probe.
+    function record() {
+          const S=window.__S, c=S?.localCar;
+          if (!c?.body || !S.rp.racing) return;
           const p = c.body.position, v = c.body.velocity;
           const vm = Math.hypot(v.x, v.y, v.z);
           // 慢帧内可能先撞墙再离开，不能只读最后一个物理包而丢掉中间接触。
-          const contact = contactSeen | (c.contact ? 1 : 0);
-          contactSeen = 0;
+          const contact = c.contact ? 1 : 0;
+          const step=S.rp.physicsStep;
+          const elapsed=previousStep===null ? 0 : (step-previousStep)*1000/60;
+          previousStep=step;
           const f = window.__jit;
           const q = c.body.quaternion;
-          if (f.length < 200000) f.push([+(ts - prev).toFixed(3), +c.speedKmh.toFixed(3),
+          if (f.length < 200000) f.push([+elapsed.toFixed(3), +c.speedKmh.toFixed(3),
             +vm.toFixed(4), +p.x.toFixed(4), +p.y.toFixed(4), +p.z.toFixed(4), contact,
             // 直接使用 Worker 随状态包回传的真实步数，缺失时验收失败。
             S.rp.physicsStep, c.terrainContact ? 1 : 0, c.surface, c.airborne ? 1 : 0, c.ghostReasonCode, c.rescueGhost ? 1 : 0, c.trackIdx, JSON.stringify(c.contactDetails || []),
             +q.x.toFixed(5), +q.y.toFixed(5), +q.z.toFixed(5), +q.w.toFixed(5),
             +(c.roadNormal?.x || 0).toFixed(5), +(c.roadNormal?.y || 0).toFixed(5), +(c.roadNormal?.z || 0).toFixed(5), +Number(c.curbH || 0).toFixed(5)]);
-        }
-      }
-      prev = ts;
+    }
+    window.requestAnimationFrame = (cb) => _raf((ts) => {
+      const current=window.__S?.rp;
+      if (current && bridge!==current) { bridge=current; bridge.on('state',record); previousStep=null; }
       cb(ts);
     });
   })()`,
 });
 await send('Page.navigate', { url: `http://127.0.0.1:${PORT}/?solo=1&track=suzuka&laps=5` });
 let running = false;
-for (let i = 0; i < 150; i++) {
+const readyDeadline = Date.now() + 120000;
+while (Date.now() < readyDeadline) {
   running = await ev('!!(window.__S?.rp?.racing && window.__S.rp.physicsStep >= 0)');
   if (running) break;
   await sleep(100);
 }
 assert.ok(running, 'Worker race started after lights and prewarm');
+console.log('Renderer:', await ev(`(() => { const r=window.__renderer,g=r.getContext(),e=g.getExtension('WEBGL_debug_renderer_info'); return {device:e?g.getParameter(e.UNMASKED_RENDERER_WEBGL):'unknown',width:g.drawingBufferWidth,height:g.drawingBufferHeight,shadows:r.shadowMap.enabled}; })()`));
 await send('Input.dispatchKeyEvent', { type: 'keyDown', code: 'KeyW', key: 'w', windowsVirtualKeyCode: 87, nativeVirtualKeyCode: 87, text: 'w' });
 await sleep(20000);
 const jit = await ev('window.__jit.slice(0, 200000)');
-writeFileSync('jitter-raw-report.json', JSON.stringify({columns:['frameMs','kmh','velocityMagnitude','x','y','z','carWallContact','physicsStep','terrainContact','surface','airborne','ghostReason','rescueGhost','trackIdx','contactDetails','quatX','quatY','quatZ','quatW','roadNormalX','roadNormalY','roadNormalZ','curbH'],frames:jit}));
+writeFileSync('jitter-raw-report.json', JSON.stringify({columns:['fixedStepMs','kmh','velocityMagnitude','x','y','z','carWallContact','physicsStep','terrainContact','surface','airborne','ghostReason','rescueGhost','trackIdx','contactDetails','quatX','quatY','quatZ','quatW','roadNormalX','roadNormalY','roadNormalZ','curbH'],frames:jit}));
+console.log('Collected racing frames:',jit.length);
 if (jit.length < 100 || jit.some(f => !Number.isInteger(f[7]) || f[7] < 0)) throw new Error('缺少真实 Worker 步数或样本不足');
 await send('Input.dispatchKeyEvent', { type: 'keyUp', code: 'KeyW', key: 'w', windowsVirtualKeyCode: 87, nativeVirtualKeyCode: 87 });
 

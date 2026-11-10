@@ -16,7 +16,7 @@ import { Net } from './network.js';
 import { routeProgress } from './race-position.js';
 import { DrivingControls } from './DrivingControls.js';
 import { showPenaltyEvent, setPenaltyMode, clearPenaltyEvents } from './PenaltyController.js';
-import { syncPlayerProfile } from './RaceUI.js';
+import { createMotorsportUI, syncPlayerProfile } from './RaceUI.js';
 
 /* ========================================================================== */
 /* 0. 启动与容错                                                               */
@@ -441,7 +441,8 @@ class EngineAudio {
       listener.positionX.setTargetAtTime(this._num(lp.x, 0), ctx.currentTime, 0.04);
       listener.positionY.setTargetAtTime(this._num(lp.y, 0), ctx.currentTime, 0.04);
       listener.positionZ.setTargetAtTime(this._num(lp.z, 0), ctx.currentTime, 0.04);
-      const d = new THREE.Vector3(0, 0, 1);
+      const d = this._listenerDirection || (this._listenerDirection = new THREE.Vector3());
+      d.set(0, 0, 1);
       if (viewCamera && viewCamera.getWorldDirection) viewCamera.getWorldDirection(d);
       for (const [k, v] of [['forwardX', d.x], ['forwardY', d.y], ['forwardZ', d.z]]) {
         if (listener[k]) listener[k].setTargetAtTime(this._num(v, 0), ctx.currentTime, 0.04);
@@ -585,6 +586,15 @@ const sun = new THREE.DirectionalLight(0xffe9c4, 1.15);
 const SUN_OFF = { x: -42, y: 52, z: 30 };     // 相对车的位置，保证光照方向恒定
 sun.position.set(-420, 520, 300);
 sun.castShadow = true;
+// Software WebGL shares CPU time with input, networking and the physics
+// worker. Avoid a second full scene pass on those drivers; hardware rendering
+// retains the existing shadow quality.
+const glContext = renderer.getContext();
+const rendererInfo = glContext.getExtension('WEBGL_debug_renderer_info');
+const deviceRenderer = rendererInfo ? String(glContext.getParameter(rendererInfo.UNMASKED_RENDERER_WEBGL)) : '';
+const softwareRenderer = /swiftshader|llvmpipe|software/i.test(deviceRenderer);
+renderer.shadowMap.enabled = !softwareRenderer;
+if (softwareRenderer) renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 0.75));
 sun.shadow.mapSize.set(2048, 2048);
 sun.shadow.camera.left = -35;
 sun.shadow.camera.right = 35;
@@ -631,6 +641,7 @@ function buildWorld(seed, trackType) {
   // 这里漏传过一次 -> 拉斯维加斯虽然生成了、服务端也下发了，但客户端永远加载不到。
   track = new Track(seed, trackType || currentTrackType);
   trackBuilt = track.build();
+  trackBuilt.group.add(track.buildPitLane());
   gantryLights = trackBuilt.lights;
   scene.add(trackBuilt.group);
   // 阴影规范（规格 §三.1）：赛道地面只**接收**阴影、不投射（它自己不产生阴影）。
@@ -1074,6 +1085,8 @@ const S = {
   settlement: null,        // 最近一次结算数据（RACE_RESULTS），供 Modal 渲染
 };
 
+const tireTelemetryIds=['telFL','telFR','telRL','telRR'];
+const motorsportUI=createMotorsportUI(()=>S,text=>showToast(text));
 const carVisuals = new Map();   // id -> THREE.Group
 const driveControls = new DrivingControls({ changed: () => { if (S.localCar) sampleLocalInput(S.localCar, 0); }, notify: text => showToast(text) });
 
@@ -1092,7 +1105,7 @@ const isArrowKey = (e) => e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key 
 
 window.addEventListener('keydown', (e) => {
   const tgt = e.target;
-  const inField = tgt && (tgt.tagName === 'INPUT' || tgt.tagName === 'TEXTAREA' || tgt.isContentEditable);
+  const inField = tgt && (tgt.tagName === 'INPUT' || tgt.tagName === 'TEXTAREA' || tgt.tagName === 'SELECT' || tgt.isContentEditable);
 
   // ---- 聊天输入激活中：窗口级驾驶按键**全部旁路**（规格 §三.2）----
   // 只要焦点在任意输入框内，就不再把按键送进驾驶状态机。
@@ -1331,7 +1344,7 @@ function beginRace(opts) {
   S.dnfLeft = 0;
   S.rp = new PhysicsWorkerBridge({
     track, seed, trackType: type, localId: opts.localId, hostId: S.offline ? opts.localId : S.hostId, grid: opts.grid, roster: opts.roster,
-    laps: S.laps, ghost: !!opts.ghost, gameMode: S.gameMode,
+    laps: S.laps, ghost: !!opts.ghost, gameMode: S.gameMode, solo:S.offline, setup:motorsportUI.setup(),
   });
   if (S.net && S.net.attachWorker) S.net.attachWorker(S.offline ? null : S.rp);
   // 全员幽灵车模式（规格 §二）：必须在任何 addCar 之前/之后立刻设置。
@@ -1358,6 +1371,7 @@ function beginRace(opts) {
     showPenaltyEvent(reason, finiteNum(info && (info.seconds || info.sec)), info && info.kind, S.gameMode);
   });
   S.rp.on('lap', ({ car, lap, time, dirty }) => {
+    motorsportUI.lap(car,time,dirty);
     if (!S.offline && car && !car.remote && (car.isLocal || car.ai) && S.net) {
       S.net.send({ t: 'lap', id: car.ai ? car.id : undefined, n: lap, time, dirty });
     }
@@ -1397,6 +1411,8 @@ function beginRace(opts) {
 
   resetHUD();
   S._racePrewarmDone = false;
+  motorsportUI.begin(track,S.gameMode);
+  if(track.raceLine?.mesh)track.raceLine.mesh.visible=S.gameMode==='horizon'&&track.raceLine.active;
   S.rp.start();
   const bridge = S.rp;
   S.raceReadyPromise = prewarmRace(bridge).catch((e) => {
@@ -1630,7 +1646,7 @@ function showSettlement(data) {
   const sub = $('settleSub');
   if (sub) {
     sub.textContent = me
-      ? ('本场名次 P' + (me.rank | 0) + ' ｜ 赛季积分 +' + (Math.max(0, me.points | 0)))
+      ? ('本场名次 P' + (me.rank | 0) + ' ｜ 赛季积分 +' + (Math.max(0, me.points | 0)) + (me.safetyRating ? ' ｜ 安全 '+me.safetyRating+' · 技能 '+me.skillRating : ''))
       : '本场结算';
   }
   root.classList.remove('hidden');
@@ -1638,7 +1654,7 @@ function showSettlement(data) {
   // 结算 Modal 接管画面，完赛条和观战切换入口必须退出，避免三层结果 UI 重叠。
   hideFinishBar();
   const spectate = $('spectate');
-  if (spectate) spectate.classList.add('hidden');
+  if (spectate) spectate.classList.remove('hidden');
 }
 
 function hideSettlement() {
@@ -2063,8 +2079,8 @@ function snapCameraToCar(car) {
   }
   S.orbitYaw = S.orbitYawTarget = 0;
   S.orbitPitch = S.orbitPitchTarget = 0;
-  const fwd = new THREE.Vector3(0, 0, 1).applyQuaternion(car.quat);
-  const up = new THREE.Vector3(0, 1, 0).applyQuaternion(car.quat);
+  const fwd = _camFwd.set(0, 0, 1).applyQuaternion(car.quat);
+  const up = _camUp.set(0, 1, 0).applyQuaternion(car.quat);
   if (S.camMode === 2) {
     // 鸟瞰：直接放到车顶正上方
     camState.pos.set(car.pos.x, car.pos.y + CAM.TOP_DOWN_H, car.pos.z);
@@ -2087,9 +2103,9 @@ function updateCamera(dt, now) {
     // 大厅/加载：环绕赛道巡航
     camState.orbit += dt * 0.06;
     const r = 460;
-    const p = new THREE.Vector3(Math.cos(camState.orbit) * r, 150, Math.sin(camState.orbit) * r);
+    const p = _camWant.set(Math.cos(camState.orbit) * r, 150, Math.sin(camState.orbit) * r);
     camState.pos.lerp(p, 1 - Math.exp(-2.2 * dt));
-    camState.look.lerp(new THREE.Vector3(0, 0, 0), 1 - Math.exp(-2.2 * dt));
+    camState.look.lerp(_camLook.set(0, 0, 0), 1 - Math.exp(-2.2 * dt));
     camera.position.copy(camState.pos);
     camera.lookAt(camState.look);
     camera.fov = expDamp(camera.fov, CAM.FOV_STILL, 3, dt);
@@ -2117,8 +2133,8 @@ function updateCamera(dt, now) {
   }
 
   const q = car.quat;
-  const fwd = new THREE.Vector3(0, 0, 1).applyQuaternion(q);
-  const up = new THREE.Vector3(0, 1, 0).applyQuaternion(q);
+  const fwd = _camFwd.set(0, 0, 1).applyQuaternion(q);
+  const up = _camUp.set(0, 1, 0).applyQuaternion(q);
   const orbitLeft = pressed('arrowleft') ? 1 : 0;
   const orbitRight = pressed('arrowright') ? 1 : 0;
   const orbitUp = pressed('arrowup') ? 1 : 0;
@@ -2373,6 +2389,9 @@ function updateMinimap() {
   mapCtx.lineWidth = 3;
   mapCtx.stroke();
 
+  const pitIndex=Math.floor(track.count*0.015),pitPoint=track.pts[pitIndex],pitSide=track.side[pitIndex],pitOffset=track.halfWidthAt[pitIndex]-1.4;
+  mapCtx.fillStyle='#36d4ed';mapCtx.font='bold 11px sans-serif';
+  mapCtx.fillText('P',TX(pitPoint.x+pitSide.x*pitOffset,pitPoint.z+pitSide.z*pitOffset),TZ(pitPoint.x+pitSide.x*pitOffset,pitPoint.z+pitSide.z*pitOffset));
   // ── ② 终点线：青绿色短横条（垂直于起点切线）──
   if (mm.pts.length >= 4) {
     const x0 = TX(mm.pts[0], mm.pts[1]), z0 = TZ(mm.pts[0], mm.pts[1]);
@@ -2464,36 +2483,21 @@ function updateHUD(now) {
   const order = standings();
   const myRank = order.findIndex((c) => c.id === car.id) + 1;
   setTxt('mapPos', 'P' + (myRank || 1));
+  motorsportUI.update(now,gCar,track,myRank);
 
   // ---- 圈速信息框第三行：累计惩罚（规格 §五.2："惩罚 +2.000"，橙红）----
   setTxt('lapPen', '+' + Math.max(0, gCar.penalty || 0).toFixed(3));
 
-  // ---- 右下遥测：四轮胎温/磨损（按漂移强度与侧偏角模拟）----
-  // 本作没有真正的轮胎热学模型，这里按"当前载荷/滑移"推一个 0..1 热度：
-  // 冷蓝 -> 绿 -> 黄 -> 红。纯 HUD 可视化，不参与物理。
-  {
-    const heat = clamp(0.18 + (gCar.driftIntensity || 0) * 0.62 +
-      Math.min(1, (gCar.slipAngleDeg || 0) / 30) * 0.34 +
-      Math.min(1, Math.abs(gCar.forwardSpeed || 0) / 70) * 0.12, 0, 1);
-    const col = (t) => {
-      const h = (1 - t) * 55;                    // 55°(冷蓝) -> 0°(红)
-      return 'hsl(' + h.toFixed(0) + ', 88%, ' + (34 + t * 22).toFixed(0) + '%)';
-    };
-    // 前轮偏转向、后轮偏驱动 -> 给一点前后差异，避免四个格子完全一样
-    const skew = clamp(Math.abs(gCar.steerAngle || 0) / 0.5, 0, 1) * 0.14;
-    setStyle('telFL', 'background', col(clamp(heat + skew, 0, 1)));
-    setStyle('telFR', 'background', col(clamp(heat + skew, 0, 1)));
-    setStyle('telRL', 'background', col(clamp(heat - skew, 0, 1)));
-    setStyle('telRR', 'background', col(clamp(heat - skew, 0, 1)));
+  for (let i=0;i<4;i++) {
+    const temp=gCar.tireTemp?.[i]??80;
+    setStyle(tireTelemetryIds[i],'background',temp<60?'#38bfff':temp<100?'#36e5a0':temp<120?'#ffcf54':'#ff5858');
   }
 
   // ---- 挡位模式 + 油量条（规格 §五.4）----
   setTxt('gearMode', gCar.isLocal ? 'M' : 'A');
   {
-    // 油量：满油起步，按"全油门时长"线性消耗（纯 HUD 观感，不影响动力）。
-    if (S.fuel === undefined) S.fuel = 1;
-    if (!car.finished) S.fuel = Math.max(0, S.fuel - hudDt * 0.0042 * clamp(car.input ? car.input.throttle : 0, 0, 1));
-    setStyle('fuelBar', 'height', (S.fuel * 100).toFixed(1) + '%');
+    S.fuel=gCar.fuel??1;
+    setStyle('fuelBar','height',(S.fuel*100).toFixed(1)+'%');
   }
 
   // 侧向 G 值（用 physics 里的 ayPrev 估计；1G = 9.81 m/s²）
@@ -2666,12 +2670,13 @@ function updateHUD(now) {
     '<span class="wr">' + (r.dnf ? '&#128295;' : '') + '</span>' +
     '</div>').join('');
   if ((timingDue || !list._h) && list._h !== html) { list._h = html; list.innerHTML = html; }
-  setTxt('twHdr', rows.length + ' 玩家');
+  let humans=0,bots=0;for(const c of S.rp.cars){if(c.ai)bots++;else humans++;}
+  setTxt('twHdr', humans + ' 车手 · ' + bots + ' AI');
 
   // 观战面板
   const spec = $('spectate');
   const settlementOpen = $('settlement') && !$('settlement').classList.contains('hidden');
-  if (!settlementOpen && (car.finished || S.mode === 'end')) {
+  if (car.finished || S.mode === 'end') {
     spec.classList.remove('hidden');
     const rest = S.rp.cars.filter((c) => !c.finished && !c.retired);
     $('specList').innerHTML = rest.length
@@ -3041,9 +3046,9 @@ class DriftFX {
           p.x + q.x, gy + 0.02, p.z + q.z,
           now
         );
-        if (key === 'L') e.lastL = p.clone(); else e.lastR = p.clone();
+        if (key === 'L') { if (!e.lastL) e.lastL = new THREE.Vector3(); e.lastL.copy(p); } else { if (!e.lastR) e.lastR = new THREE.Vector3(); e.lastR.copy(p); }
       } else {
-        if (key === 'L') e.lastL = p.clone(); else e.lastR = p.clone();
+        if (key === 'L') { if (!e.lastL) e.lastL = new THREE.Vector3(); e.lastL.copy(p); } else { if (!e.lastR) e.lastR = new THREE.Vector3(); e.lastR.copy(p); }
       }
     }
   }
@@ -3085,13 +3090,14 @@ class DriftFX {
     if (!onGrass) {
       const now = performance.now() / 1000;
       const back = this._q.copy(car.fwd).multiplyScalar(-1.1);
-      const sideQ = new THREE.Vector3().copy(car.rightSide).multiplyScalar(0.17);
+      const sideQ = this._sideQ || (this._sideQ = new THREE.Vector3());
+      sideQ.copy(car.rightSide).multiplyScalar(0.17);
       for (const side of [1, -1]) {
         car.rearContactPoint(side, this._p);
-        const base = this._p.clone();
+        const base = this._base || (this._base = new THREE.Vector3()); base.copy(this._p);
         for (let k = 0; k < 5; k++) {
-          const p0 = base.clone().addScaledVector(back, k);
-          const p1 = base.clone().addScaledVector(back, k + 1);
+          const p0 = this._mark0 || (this._mark0 = new THREE.Vector3()); p0.copy(base).addScaledVector(back, k);
+          const p1 = this._mark1 || (this._mark1 = new THREE.Vector3()); p1.copy(base).addScaledVector(back, k + 1);
           this.marks.addQuad(
             p0.x - sideQ.x, p0.y + 0.02, p0.z - sideQ.z,
             p0.x + sideQ.x, p0.y + 0.02, p0.z + sideQ.z,
@@ -3449,7 +3455,7 @@ function updateVortex(dt) {
 /*      与玩家当前车速比较 -> 绿(可全油门) / 黄(需收油) / 红(必须重刹)          */
 /* ========================================================================== */
 
-const LINE_SAFE = [0.00, 1.00, 0.00];    // #00ff00
+const LINE_SAFE = [0.00, 0.75, 1.00];    // cyan: throttle
 const LINE_WARN = [1.00, 1.00, 0.00];    // #ffff00
 const LINE_OVER = [1.00, 0.00, 0.20];    // #ff0033
 const LINE_IDLE = [0.30, 0.30, 0.34];    // 未激活（玩家后方 / 关闭时）
@@ -3458,6 +3464,8 @@ let lineTick = 0;
 function updateRacingLine(dt) {
   const rl = track && track.raceLine;
   if (!rl || !rl.active) return;
+  if(rl.mesh)rl.mesh.visible=S.gameMode==='horizon';
+  if(S.gameMode!=='horizon')return;
   const car = S.localCar;
   if (!car || !S.rp) return;
   lineTick += dt;
@@ -3637,12 +3645,10 @@ function loop(now) {
     // 用 acc/substep 作为插值系数，在"上一固定步"与"当前固定步"之间插值，
     // 等价于 cannon 的 interpolatedPosition，消除高刷新率下的视觉撕裂/微抖。
     // 注意执行顺序：必须在 world.step 全部结束、并完成位姿采样之后才做这一步。
-    const alpha = S.rp.renderAlpha(now);
     for (const c of S.rp.cars) {
       const vis = carVisuals.get(c.id);
       if (!vis) continue;
-      vis.position.lerpVectors(c.prevPos, c.pos, alpha);
-      vis.quaternion.copy(c.prevQuat).slerp(c.quat, alpha);
+      S.rp.renderPose(c, vis.position, vis.quaternion, now, dt);
       const ud = vis.userData;
       // ── ★ 悬挂与车身一体化 + 平滑（用户报障："俯仰侧倾没有丝滑转变" /
       //     "车辆偶尔前后抖动" / "其他玩家车辆行驶时抖动"）──────────────────────────
@@ -3728,7 +3734,7 @@ function loop(now) {
       }
       // 手刹锁死后轮：后轮不再随车速滚动（漂移时后轮是拖着的）
       const rearLocked = c.handbrake > 0.5;
-      const spinFront = c.forwardSpeed / 0.36;
+      const spinFront = (c.rewinding?-1:1)*c.forwardSpeed / 0.36;
       const spinRear = rearLocked ? 0 : spinFront;
       // ── ★ 悬挂位移与车身动态姿态（消除"漂浮在路面上"感，仿 FM8 拟真物理）──
       // 物理计算出的悬挂压缩量（c.suspCompression）在底盘与地面之间动态呼吸：
@@ -3887,6 +3893,7 @@ function renderLobby(room) {
   const host = (room.host != null ? S.localId === room.host : S.localId === 1) && !room.started && !room.counting;
   $('btnTrack').classList.toggle('hidden', !host);
   const mode = room.gameMode === 'horizon' ? 'horizon' : room.gameMode === 'bumper' ? 'bumper' : 'fm8';
+  if($('gameMode').value!==mode){$('gameMode').value=mode;motorsportUI.syncMode();}
   // 碰碰车模式与幽灵车互斥 ⇒ 该模式下幽灵车按钮直接隐藏、状态文案说明原因
   //（服务端 case "ghost" 也会拒绝，这里只是不给用户点进死路）。
   $('roomGhost').textContent = mode === 'bumper'
@@ -3895,8 +3902,8 @@ function renderLobby(room) {
   $('btnGhost').classList.toggle('hidden', !host || mode === 'bumper');
   const modeEl = $('roomGameMode');
   if (modeEl) {
-    modeEl.textContent = mode === 'horizon' ? '地平线模式 · 轻松驾驶'
-      : mode === 'bumper' ? '碰碰车模式 · 全程实体对抗' : 'FM8 模式 · 拟真规则';
+    modeEl.textContent = mode === 'horizon' ? '休闲模式 · Track Day / Assisted'
+      : mode === 'bumper' ? '碰碰车模式 · 全程实体对抗' : '竞技模式 · Spec Series';
   }
   const modeBtn = $('btnGameMode');
   if (modeBtn) modeBtn.classList.toggle('hidden', !host);
@@ -4831,7 +4838,8 @@ async function boot() {
   if (qs.get('track') && $('track')) $('track').value = qs.get('track');
   if (qs.get('mode') && $('gameMode')) {
     const m = qs.get('mode');
-    $('gameMode').value = m === 'horizon' ? 'horizon' : m === 'bumper' ? 'bumper' : 'fm8';
+    $('gameMode').value = m === 'horizon' || m === 'casual' ? 'horizon' : m === 'bumper' ? 'bumper' : 'fm8';
+    motorsportUI.syncMode();
   }
   if (qs.has('drift')) S.demoDrift = true;
   if (qs.has('rescue')) S.demoRescue = true;

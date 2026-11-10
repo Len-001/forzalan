@@ -111,7 +111,7 @@ export class PenaltyController {
   }
 
   _start(entry) {
-    if (this.getMode() === 'horizon') { this.clear(); return; }
+    if (this.getMode() === 'horizon' || this.getMode() === 'bumper') { this.clear(); return; }
     this.active = entry;
     this.phase = 'investigating';
     this.startedAt = this.clock();
@@ -153,7 +153,7 @@ export class PenaltyController {
 
   _resolve() {
     if (!this.active) return;
-    if (this.getMode() === 'horizon') { this.clear(); return; }
+    if (this.getMode() === 'horizon' || this.getMode() === 'bumper') { this.clear(); return; }
     this.phase = 'verdict';
     const root = this.root;
     const text = this.active.sec > 0 ? `+${this.active.sec.toFixed(3)}s` : '无处罚';

@@ -2,9 +2,9 @@ const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 export function deadzone(value, zone = 0.12) {
   return Number.isFinite(value) && Math.abs(value) > zone ? Math.sign(value) * clamp((Math.abs(value)-zone)/(1-zone), 0, 1) : 0;
 }
-export function gamepadInput(pad) {
+export function gamepadInput(pad, out = {}) {
   const button = i => clamp(Number(pad?.buttons?.[i]?.value) || 0, 0, 1);
-  return { throttle:button(7), brake:button(6), steer:deadzone(pad?.axes?.[0]), handbrake:button(0)>0.5 ? 1 : 0 };
+  out.throttle=button(7); out.brake=button(6); out.steer=deadzone(pad?.axes?.[0]); out.handbrake=button(0)>0.5 ? 1 : 0; return out;
 }
 export function tiltSteer(beta, gamma, angle, center = 0) {
   const radians = angle * Math.PI / 180;
@@ -14,6 +14,7 @@ export function tiltSteer(beta, gamma, angle, center = 0) {
 
 export class DrivingControls {
   constructor({ changed = () => {}, notify = () => {} } = {}) {
+    this._input = {throttle:0,brake:0,steer:0,handbrake:0};
     this.changed = changed; this.notify = notify; this.touch = new Map();
     this.gyro = false; this.center = null; this.tilt = 0; this.steer = 0; this.lastSensor = 0;
     this.mobile = matchMedia('(pointer: coarse)').matches;
@@ -65,15 +66,20 @@ export class DrivingControls {
   }
   sample() {
     let pad;
-    try { pad = Array.from(navigator.getGamepads?.() || []).find(p => p?.connected && p.mapping === 'standard'); } catch { /* policy blocked */ }
-    const input = gamepadInput(pad), touch = new Set(this.touch.values());
-    if (touch.has('throttle')) input.throttle = 1;
-    if (touch.has('brake')) input.brake = 1;
-    if (touch.has('handbrake')) input.handbrake = 1;
-    const steer = (touch.has('right') ? 1 : 0) - (touch.has('left') ? 1 : 0);
+    try { for (const p of navigator.getGamepads?.() || []) if (p?.connected && p.mapping === 'standard') { pad=p; break; } } catch { /* policy blocked */ }
+    const input = gamepadInput(pad, this._input);
+    let left=false, right=false;
+    for (const action of this.touch.values()) {
+      if (action === 'throttle') input.throttle=1;
+      if (action === 'brake') input.brake=1;
+      if (action === 'handbrake') input.handbrake=1;
+      if (action === 'left') left=true;
+      if (action === 'right') right=true;
+    }
+    const steer = (right ? 1 : 0) - (left ? 1 : 0);
     if (steer) input.steer = steer;
     else if (!input.steer && this.gyro && performance.now()-this.lastSensor < 500) input.steer = this.steer;
-    if (document.hidden || !document.hasFocus()) return { throttle:0, brake:0, steer:0, handbrake:0 };
+    if (document.hidden || !document.hasFocus()) input.throttle=input.brake=input.steer=input.handbrake=0;
     return input;
   }
 }

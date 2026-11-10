@@ -1,3 +1,4 @@
+import {COMPOUND_NAMES} from './RaceStrategy.js';
 /* Worker transport contract. Keep this file free of Cannon/DOM imports. */
 export const PHYSICS_DT = 1 / 60;
 export const PHYSICS_STATE_HZ = 60;
@@ -52,9 +53,10 @@ export const STATE = Object.freeze({
   GHOST_REASON: 75, YAW_SPEED: 76, GROUND_Y: 77, SUSPENSION: 78, PG_GHOST: 79,
   ROAD_NX: 80, ROAD_NY: 81, ROAD_NZ: 82, CURB_H: 83,
   LAP_INVALID: 84, BEST_CLEAN_LAP: 85, CHECKPOINT_PROGRESS: 86, CROSSED_START: 87,
+  WEAR0:88, FUEL:92, PIT_PROGRESS:93, COMPOUND:94, IN_PIT:95, REWIND_SECONDS:96, REWINDING:97,
 });
-export const STATE_STRIDE = 88;
-export const REMOTE_STRIDE = 35;
+export const STATE_STRIDE = 98;
+export const REMOTE_STRIDE = 45;
 
 export function clamp(value, lo, hi) {
   return value < lo ? lo : value > hi ? hi : value;
@@ -138,6 +140,11 @@ export function buildStateArray(cars, out) {
     o[i + STATE.BEST_CLEAN_LAP] = n(c.bestCleanLap);
     o[i + STATE.CHECKPOINT_PROGRESS] = n(c.progress);
     o[i + STATE.CROSSED_START] = c.crossedStart ? 1 : 0;
+    for(let k=0;k<4;k++)o[i+STATE.WEAR0+k]=n(c.tireWear?.[k]);
+    o[i+STATE.FUEL]=n(c.fuel,1);o[i+STATE.PIT_PROGRESS]=n(c.pitProgress);
+    o[i+STATE.COMPOUND]=COMPOUND_NAMES.indexOf(c.compound||'Medium');
+    o[i+STATE.IN_PIT]=c.inPit?1:0;o[i+STATE.REWIND_SECONDS]=Math.max(0,n(c.rewindHistory?.count)-1)/20;
+    o[i+STATE.REWINDING]=c.rp?.rewindHeld?1:0;
   };
   for (let k = 0; k < cars.length; k++) put(a, cars[k], k * STATE_STRIDE);
   return a;

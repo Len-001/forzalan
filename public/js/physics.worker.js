@@ -1,3 +1,4 @@
+import { COMPOUND_NAMES, COMPOUNDS, drivingAssists } from './RaceStrategy.js';
 /* Dedicated physics runtime. This module is loaded only by PhysicsWorkerBridge. */
 import {
   PHYSICS_DT, STATE_STRIDE, REMOTE_STRIDE, buildStateArray, clamp,
@@ -88,7 +89,8 @@ let stateHits = 0;
 let stateTerrainHits = 0;
 let stateContactDetails = [];
 let diagnosticProbe = null;
-let renderDelayMs = 80;
+let renderDelayMs = 100;
+let strategySetup={};
 const MAX_FIXED_STEPS = 15;
 const remoteHistory = new Map();
 // 复用型 scratch：接触详情与"步前运动学"每个固定步都要用，但不需要每步重新分配。
@@ -193,11 +195,10 @@ function pushRemoteSample(id, d, t, seq = 0) {
 }
 function updateRemoteTargets(now) {
   if (!rp) return;
-  const targetTime = now - renderDelayMs;
   for (const c of rp.cars) {
     if (!c.remote) continue;
     const h = remoteHistory.get(c.id);
-    const sample = h && h.sample(targetTime, PHYSICS_DT);
+    const sample = h && h.sampleAt(now, PHYSICS_DT, renderDelayMs);
     if (!sample) continue;
     rp.applyRemoteTarget(c.id, sample.p, sample.q, sample.v);
     rp.setRemoteInput(c.id, ...sample.u);
@@ -369,6 +370,7 @@ async function init(m) {
       else indexStaticBody(body);
     }
   };
+  const seenStatic = new Set();
   rp.world.broadphase.collisionPairs = (world, pairs1, pairs2) => {
     rebuildBroadphaseIndex(world);
     for (let i = 0; i < dynamicBodies.length; i++) {
@@ -384,7 +386,7 @@ async function init(m) {
       const lo = a.aabb.lowerBound, hi = a.aabb.upperBound;
       const x0 = Math.floor(lo.x / broadphaseCell), x1 = Math.floor(hi.x / broadphaseCell);
       const z0 = Math.floor(lo.z / broadphaseCell), z1 = Math.floor(hi.z / broadphaseCell);
-      const seen = new Set();
+      const seen = seenStatic; seen.clear();
       for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) {
         const bucket = staticBuckets.get(bucketKey(x, z));
         if (!bucket) continue;
@@ -398,6 +400,8 @@ async function init(m) {
   };
   broadphase.__workerConfig = { algorithm: 'static-bucket-xz', cellXZ: broadphaseCell };
   localId = Number(m.localId) || 0;
+  strategySetup=m.setup||{};
+  rp.rewindAllowed=!!m.solo && m.gameMode==='horizon';
   rp.setGhostMode(!!m.ghost); rp.setGameMode(m.gameMode || 'fm8');
   configureCallbacks();
   if (Array.isArray(m.roster)) for (const car of m.roster) addCar(car);
@@ -412,6 +416,7 @@ function addCar(opts) {
   if (!rp || !opts || rp.byId.has(opts.id)) return;
   const c = rp.addCar(opts); c.auto = !!opts.ai && !c.remote; c.raceLocked = opts.raceLocked !== false;
   c._inputSeq = 0;
+  rp.configureStrategy(c,c.isLocal?strategySetup:{});
 }
 self.onmessage = async (ev) => {
   const m = ev.data || {};
@@ -439,15 +444,17 @@ self.onmessage = async (ev) => {
     if (m.type === 'input') {
       const c = rp && rp.byId.get(m.id || localId); const d = m.values || m.data || [];
       if (c) { c.input.throttle = clamp(num(d[0] ?? d.throttle), 0, 1); c.input.brake = clamp(num(d[1] ?? d.brake), 0, 1); c.input.steer = clamp(num(d[2] ?? d.steer), -1, 1); c.input.handbrake = (d[3] ?? d.handbrake) ? 1 : 0; c._inputSeq = num(m.seq); }
+      if(c){const i=c.driverIntent||(c.driverIntent={});i.throttle=c.input.throttle;i.brake=c.input.brake;i.steer=c.input.steer;i.handbrake=c.input.handbrake;}
       if (m.buffer) post({ type: 'recycleInput', buffer: m.buffer }, [m.buffer]);
       return;
     }
     if (m.type === 'remoteSamples') {
-      renderDelayMs = clamp(num(m.renderDelay,80),60,120);
+      renderDelayMs = clamp(num(m.renderDelay,100),100,200);
       const a = new Float32Array(m.buffer), stride = m.stride || REMOTE_STRIDE;
       for (let k=0;k<m.count;k++) {
         const i=k*stride;
         pushRemoteSample(a[i],{x:a[i+2],y:a[i+3],z:a[i+4],q:[a[i+5],a[i+6],a[i+7],a[i+8]],v:[a[i+9],a[i+10],a[i+11]],u:a[i+12],b:a[i+13],e:a[i+14],h:a[i+15],f:a[i+16],l:a[i+17],gr:a[i+19],go:a[i+20],c:a[i+21],lt:a[i+22],bl:a[i+23],bc:a[i+24],pen:a[i+25],vio:a[i+26],li:a[i+27],pr:a[i+28],cs:a[i+29],lc:a[i+30],ll:a[i+31],ft:a[i+32],tt:a[i+33]},a[i+1],a[i+34]);
+        const c=rp?.byId.get(a[i]);if(c){for(let j=0;j<4;j++){c.tireWear[j]=a[i+35+j];c.tireTemp[j]=a[i+39+j];}c.fuel=a[i+43];c.compound=COMPOUND_NAMES[a[i+44]|0]||'Medium';}
       }
       // 归还缓冲给主线程的复用池：60Hz × N 车不再每包分配一个 Float32Array。
       post({ type: 'recycleRemote', buffer: m.buffer }, [m.buffer]);
@@ -463,6 +470,9 @@ self.onmessage = async (ev) => {
       } else if (p.id && p.d) pushRemoteSample(p.id, p.d, p.ts || performance.now(), num(p.seq));
       return;
     }
+    if(m.type==='rewind'){if(rp)rp.setRewinding(m.value);return;}
+    if(m.type==='assists'){if(rp)for(const c of rp.cars)if(c.isLocal)c.assists=drivingAssists(rp.gameMode,m.assists);return;}
+    if(m.type==='pit'){const c=rp?.byId.get(localId);if(c&&COMPOUNDS[m.compound]){c.nextCompound=m.compound;c.pitRequested=true;}return;}
     if (m.type === 'rescue') { if (rp) { const c = rp.byId.get(m.id || localId); if (c && rp.rescueToCheckpoint) rp.rescueToCheckpoint(c); } return; }
     if (m.type === 'finish') { if (rp) { const c = rp.byId.get(m.id); if (c && rp.finishCar) rp.finishCar(c); } return; }
     if (m.type === 'dispose') { disposed = true; running = false; if (rp) rp.clear(); close(); }

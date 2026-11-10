@@ -36,6 +36,8 @@
  *   4. 完赛成绩 = 净用时 + 累计罚时（净用时由服务端时钟给定，见 network.js）。
  * ========================================================================== */
 
+import { routeProgress } from './race-position.js';
+import { COMPOUNDS, normalizeTuning, drivingAssists, RewindHistory } from './RaceStrategy.js';
 import * as CANNON from '../libs/cannon-es.js';
 import { registerTrackBodies, ROAD_COLLISION_GROUP } from './track.js';
 
@@ -624,6 +626,10 @@ export class Car {
     this.vel = new THREE.Vector3();
 
     // 输入
+    this.tuning = normalizeTuning();
+    this.assists = drivingAssists('fm8');
+    this.compound = 'Medium'; this.tireWear = [0,0,0,0]; this.fuel = 1;
+    this.pitProgress = 0; this.pitRequested = false; this.reentryGrace = 0;
     this.input = { throttle: 0, brake: 0, steer: 0, handbrake: 0 };
     // 转向状态：steerInput 是带"攻击/回正"双速率的状态量（-1..1，>0 表示向右）
     this.steerInput = 0;
@@ -809,7 +815,8 @@ export class Car {
   /** 世界坐标 -> 车体局部 */
   toLocal(v, out) {
     out.copy(v).sub(this.pos);
-    out.applyQuaternion(this.quat.clone().invert());
+    const inverse = this._inverseQuat || (this._inverseQuat = new THREE.Quaternion());
+    out.applyQuaternion(inverse.copy(this.quat).invert());
     return out;
   }
 
@@ -944,6 +951,23 @@ export function installCannonBaumgarteKill() {
     // 之所以不直接重写公式：cannon 各版本 B 的项与临时向量名可能不同，
     // 位置补偿在数值上等价（g 只通过 penetrationVec 影响 B）且更抗版本漂移。
     const n = this.ni;
+    if (!bi.__roadHeightfield && !bj.__roadHeightfield) {
+      const length = Math.hypot(n.x, n.z);
+      this.__lastPenetration = 0;
+      if (length < CFG.NORMAL_FLAT_EPS) { this.minForce = this.maxForce = 0; return 0; }
+      n.x /= length; n.y = 0; n.z /= length;
+      // Shell impacts transmit horizontal momentum, not suspension compression.
+      for (let armIndex=0; armIndex<2; armIndex++) {
+        const arm=armIndex===0 ? this.ri : this.rj;
+        arm.y = 0;
+        const size = Math.hypot(arm.x, arm.z);
+        if (size > 3) { arm.x *= 3 / size; arm.z *= 3 / size; }
+      }
+      this.minForce = 0;
+      this.maxForce = CFG.IMPULSE_MAX_NS / Math.max(h, 1e-6);
+      const closure = Math.abs((bi.velocity.x-bj.velocity.x)*n.x + (bi.velocity.z-bj.velocity.z)*n.z);
+      this.restitution = restitutionFor(closure);
+    }
     const pi = bi.position, pj = bj.position;
     // 当前 g（< 0 = 重叠）。用与 cannon 相同的算法重算一遍。
     const rx = pj.x + this.rj.x - pi.x - this.ri.x;
@@ -955,13 +979,32 @@ export function installCannonBaumgarteKill() {
     // 把 b 沿 +n 平移 |g|（b 在 n 的正侧），使重算出的 g' = 0。
     const d = -g;   // > 0
     pj.x += n.x * d; pj.y += n.y * d; pj.z += n.z * d;
-    const B = original.call(this, h);
-    pj.x -= n.x * d; pj.y -= n.y * d; pj.z -= n.z * d;   // **必须还原**位置
+    let B;
+    try { B = original.call(this, h); }
+    finally { pj.x -= n.x * d; pj.y -= n.y * d; pj.z -= n.z * d; }   // **必须还原**位置
 
     this.__lastPenetration = -g;   // 遥测：本接触的穿透深度
     return B;
   };
   patched.__isBaumgarteKill = true;      // 幂等判据（看实现本身，不看模块布尔）
+  const FP = CANNON.FrictionEquation?.prototype;
+  if (FP && !FP.computeB.__safeShellFriction) {
+    const frictionB = FP.computeB;
+    const safeFriction = function(h) {
+      if ((this.bi.__carId !== undefined || this.bj.__carId !== undefined) &&
+          !this.bi.__roadHeightfield && !this.bj.__roadHeightfield) {
+        const length = Math.hypot(this.t.x, this.t.z);
+        if (length < 1e-6) { this.minForce = this.maxForce = 0; return 0; }
+        this.t.x /= length; this.t.y = 0; this.t.z /= length;
+        this.ri.y = this.rj.y = 0;
+        this.maxForce = Math.min(this.maxForce, 20000 / Math.max(h, 1e-6));
+        this.minForce = -this.maxForce;
+      }
+      return frictionB.call(this, h);
+    };
+    safeFriction.__safeShellFriction = true;
+    FP.computeB = safeFriction;
+  }
   CE.prototype.computeB = patched;
   CE.prototype.__baumgarteKilled = true;
   CE.prototype.__patched = patched;       // 便于测试/调试取回补丁版
@@ -1746,6 +1789,12 @@ export class RacePhysics {
   }
 
   fixedStep(dt) {
+    if (this.rewindAllowed && this.rewindHeld) {
+      for (const c of this.cars) if (!c.remote && c.rewindHistory) {
+        const time=c.rewindHistory.rewind(c,dt); if(time!==null)this.time=time;
+      }
+      return;
+    }
     this.time += dt;
     this.stepCount = (this.stepCount || 0) + 1;
     const cars = this.cars;
@@ -1760,6 +1809,12 @@ export class RacePhysics {
       c.resetCooldown = Math.max(0, c.resetCooldown - dt);
     }
 
+    for (const c of cars) {
+      if (c.remote) continue;
+      c.reentryGrace=Math.max(0,c.reentryGrace-dt);
+      this.updatePitStrategy(c,dt);
+      if (this.rewindAllowed && c.rewindHistory) c.rewindHistory.record(c,this.time,dt);
+    }
     this.refreshSlipstream();
     // 预测性前向幽灵化（规格 §二.2）：TTC + 相对速度扫描，比碰撞求解更早一步隔离高速车对
     this.updatePredictiveGhosting();
@@ -1770,6 +1825,7 @@ export class RacePhysics {
       if (c.remote) {
         this.steerRemote(c, dt);
       } else {
+        this.applyAssists(c, dt);
         this.updateSteer(c, dt);      // 先更新转向状态（含回正插值），再算力
         this.driveLocal(c, dt);
       }
@@ -1780,8 +1836,11 @@ export class RacePhysics {
     // like a dead stop and destroys the tangential momentum we need to guide.
     for (const c of cars) {
       if (c.remote) continue;
-      c.preBarrierVx = c.body.velocity.x;
-      c.preBarrierVz = c.body.velocity.z;
+      c.preCollisionVy = c.body.velocity.y;
+      // Include this step's external impulse. Restoring only last step's
+      // tangent would discard throttle force every frame of a sustained scrape.
+      c.preBarrierVx = c.body.velocity.x + c.body.force.x * c.body.invMass * dt;
+      c.preBarrierVz = c.body.velocity.z + c.body.force.z * c.body.invMass * dt;
     }
 
     this.world.step(dt);
@@ -1790,11 +1849,8 @@ export class RacePhysics {
     // 且 projectPenetration 之前（先导流动量，再修几何位置）。
     this.applyBarrierDeflection(dt);
 
-    // 规格 §四：FM8 级护栏接触导向 + 偏摆力矩 + 几何防吸入外推。
-    // 与上面的 applyBarrierDeflection 是**叠加**关系（后者是本工程既有的通用导流层，
-    // 本层是规格 §四 明确给出的 FM8 公式：切向 90% 保留 + theta<60° 偏摆冲量 + pen+0.03 外推）。
-    this.applyBarrierGuidance(dt);
-
+    // Position correction has a single owner; no additional penetration+epsilon
+    // wall push may bypass the split-impulse budget below.
     // 方案 A：分离位置投影。必须紧跟 world.step，且在地面约束之前。
     this.projectPenetration(dt);
 
@@ -1863,19 +1919,20 @@ export class RacePhysics {
     c.roadTangent = info.tangent;
     c.roadSide = info.side;
 
-    const wheelLocal = [
+    const wheelLocal = this._wheelLocal || (this._wheelLocal = [
       new CANNON.Vec3(-CFG.HALF.x * 0.78, -CFG.HALF.y * 0.72, -CFG.HALF.z * 0.68),
       new CANNON.Vec3( CFG.HALF.x * 0.78, -CFG.HALF.y * 0.72, -CFG.HALF.z * 0.68),
       new CANNON.Vec3(-CFG.HALF.x * 0.78, -CFG.HALF.y * 0.72,  CFG.HALF.z * 0.68),
       new CANNON.Vec3( CFG.HALF.x * 0.78, -CFG.HALF.y * 0.72,  CFG.HALF.z * 0.68),
-    ];
-    const wheelHits = [];
+    ]);
+    let wheelHits = 0;
     let hitY = 0, hitNx = 0, hitNy = 0, hitNz = 0;
     for (const local of wheelLocal) {
-      const wheel = c.body.pointToWorldFrame(local, new CANNON.Vec3());
+      const wheel = c.body.pointToWorldFrame(local, this._wheelWorld || (this._wheelWorld = new CANNON.Vec3()));
       const wheelInfo = t.sample(wheel.x, wheel.z, info.i, c.body.position.y, routeLayer);
       const n0 = wheelInfo.normal;
-      const rayFrom = new CANNON.Vec3(
+      const rayFrom = this._suspensionRayFrom || (this._suspensionRayFrom = new CANNON.Vec3());
+      rayFrom.set(
         wheel.x + n0.x * 0.75,
         wheel.y + n0.y * 0.75,
         wheel.z + n0.z * 0.75,
@@ -1897,7 +1954,7 @@ export class RacePhysics {
       const validHit = hit && hit.layer === (info.onBridge ? 'bridge' : 'ground') &&
         Math.abs(hit.point.y - wheelInfo.y) <= 1.75 && Math.abs(agreement) > 0.5;
       if (validHit) {
-        wheelHits.push(hit);
+        wheelHits++;
         hitY += hit.point.y;
         // 悬挂沿道路基准法线伸缩。Heightfield 在路肩边缘的三角
         // 法线只用于确认顶面；让减震器沿该三角侧向斜坡施力会把
@@ -1913,7 +1970,7 @@ export class RacePhysics {
     const supportY = hitY / wheelLocal.length;
     const nl = Math.hypot(hitNx, hitNy, hitNz) || 1;
     const n = { x: hitNx / nl, y: hitNy / nl, z: hitNz / nl };
-    c.roadRayHits = wheelHits.length;
+    c.roadRayHits = wheelHits;
     c.roadLayer = info.onBridge ? 'bridge' : 'ground';
     c.roadNormal = n;
     c.groundY = supportY;
@@ -1972,9 +2029,9 @@ export class RacePhysics {
     c.suspLimit += (lockTarget - c.suspLimit) * kRec;
 
     const xc = Math.max(x, 0);
-    let spring = SUSP.K * Math.min(xc, c.suspLimit);
+    let spring = SUSP.K * (c.tuning?.suspension||1) * Math.min(xc, c.suspLimit);
     if (xc > c.suspLimit) spring += SUSP.BUMP_STOP * (xc - c.suspLimit);
-    if (x < 0) spring = SUSP.K * x;
+    if (x < 0) spring = SUSP.K * (c.tuning?.suspension||1) * x;
     const damper = -SUSP.C * vn;
     const fN = Math.max(0, Math.min(CFG.MASS * 9.81 * 4, spring + damper));
     _fv.set(n.x * fN, n.y * fN, n.z * fN);
@@ -2072,6 +2129,38 @@ export class RacePhysics {
    *      废除"瞬时打死"——指数形式前期快后期缓，等价手打方向盘的机械行程。
    * 同时维护手刹咬合程度（咬合快 0.05s / 释放慢 0.20s）。
    */
+  configureStrategy(c, setup={}) {
+    c.strategyEnabled=true;
+    c.tuning=normalizeTuning(setup.tuning);c.assists=drivingAssists(this.gameMode,setup.assists);
+    c.compound=COMPOUNDS[setup.compound]?setup.compound:'Medium';
+    if(this.rewindAllowed)c.rewindHistory=new RewindHistory();
+  }
+  setRewinding(value) {
+    if(!this.rewindAllowed)return false;
+    this.rewindHeld=!!value;
+    if(!value)for(const c of this.cars)if(c.rewindHistory){c.rewindHistory.resume();c.offActive=false;c.reentryGrace=0.75;}
+    return true;
+  }
+  applyAssists(c,dt) {
+    // Apply assists to the latest raw driver intent, rather than repeatedly
+    // filtering the previous assisted output when render/input messages stall.
+    if(c.driverIntent && c.isLocal && !c.auto){const i=c.driverIntent;c.input.throttle=i.throttle;c.input.brake=i.brake;c.input.steer=i.steer;c.input.handbrake=i.handbrake;}
+    const a=c.assists;if(!a)return;
+    if(a.autoBrake){const target=this.track.raceLine?.vTarget[c.trackIdx]||100;if(c.speed>target){c.input.brake=Math.max(c.input.brake,Math.min(1,(c.speed-target)/12));c.input.throttle=0;}}
+    if(a.abs&&c.input.brake>0&&Math.abs(c.lateralSpeed)>3)c.input.brake=Math.min(c.input.brake,0.85);
+    if(a.tcs&&c.wheelspin>0.15)c.input.throttle*=Math.max(0.35,1-c.wheelspin*0.5);
+    if(a.stability&&c.grounded)c.body.angularVelocity.y*=Math.exp(-Math.max(0,c.slipAngleDeg-12)*0.02*dt);
+    if(a.steering&&Math.abs(c.input.steer)<0.65){const t=this.track.tan[c.trackIdx];const cross=c.fwd.z*t.x-c.fwd.x*t.z;c.input.steer=clamp(c.input.steer-cross*0.25,-1,1);}
+  }
+  updatePitStrategy(c,dt) {
+    if(c.raceLocked||c.finished)return;
+    c.fuel=Math.max(0,c.fuel-dt*(0.000008+Math.abs(c.forwardSpeed)*c.input.throttle*0.000001));
+    c.inPit=this.track.isInPitLane?.(c)||false;
+    if(c.pitRequested&&c.inPit&&c.speedKmh<5){
+      c.pitProgress=Math.min(1,c.pitProgress+dt/3);
+      if(c.pitProgress>=1){c.compound=COMPOUNDS[c.nextCompound]?c.nextCompound:'Medium';c.fuel=1;for(let i=0;i<4;i++){c.tireWear[i]=0;c.tireTemp[i]=65;}c.pitRequested=false;c.pitProgress=0;if(this.onAlert)this.onAlert(c,'进站完成 · '+c.compound,'ok');}
+    }else c.pitProgress=0;
+  }
   updateSteer(c, dt) {
     const raw = clamp(c.input.steer, -1, 1);
     // ---- 低速非线性曲线（平滑淡出）----
@@ -2080,7 +2169,10 @@ export class RacePhysics {
     const target = raw + (curved - raw) * fade;
     c.steerTarget = target;                       // 供调试/断言
     // ---- 指数滤波（规格公式）----
-    c.steerInput = THREE.MathUtils.damp(c.steerInput, target, CFG.STEER_DAMP_LAMBDA, dt);
+    const highSpeed = clamp((Math.abs(c.speedKmh) - 80) / 160, 0, 1);
+    const reversing = target * c.steerInput < 0;
+    const lambda = CFG.STEER_DAMP_LAMBDA * (reversing || target === 0 ? 1.3 : 1 - 0.3 * highSpeed);
+    c.steerInput += (target - c.steerInput) * (1 - Math.exp(-lambda * dt));
 
     // 手刹状态：按下立刻咬合，松开 0.2s 内缓释（规格：防 Snap Oversteer）
     const hbTarget = c.input.handbrake > 0.5 ? 1 : 0;
@@ -2136,8 +2228,8 @@ export class RacePhysics {
     const rpm = this.rpmFor(c, c.gear);
     if (rpm >= CFG.REDLINE_RPM) return 0;                 // 断油
     const T = this.torqueAt(rpm);
-    const F = (T * this.totalRatio(c.gear) * CFG.DRIVELINE_EFF) / CFG.WHEEL_RADIUS;
-    return Math.min(F, CFG.MAX_FORCE) * throttle;
+    const F = (T * (this.totalRatio(c.gear) * (c.tuning?.finalDrive||1)) * CFG.DRIVELINE_EFF) / CFG.WHEEL_RADIUS;
+    return Math.min(F, CFG.MAX_FORCE) * throttle * (c.fuel===0?0:1);
   }
 
   /* ---------------------------------------------------------------------- */
@@ -2200,6 +2292,19 @@ export class RacePhysics {
     c.tireGripFront = this.tireGripFactor(front);
     c.tireGripRear = this.tireGripFactor(rear);
     c.tireGrip = (c.tireGripFront + c.tireGripRear) * 0.5;
+    const compound=COMPOUNDS[c.compound]||COMPOUNDS.Medium;
+    const pressure=c.tuning?.pressure||30;
+    let wearGrip=0;
+    for(let i=0;i<4;i++){
+      const axleLoad=c.strategyEnabled?(i<2?1+0.45*c.input.brake:1+0.3*c.wheelspin+0.15*c.input.throttle):1;
+      const sideLoad=c.strategyEnabled?1+(i%2?1:-1)*Math.sign(c.steerAngle)*Math.min(0.3,Math.abs(c.ayPrev||0)/40):1;
+      const load=axleLoad*sideLoad;
+      c.tireTemp[i]=clamp(c.tireTemp[i]+work*(compound.heat*load-1)*dt*0.06,CFG.TIRE_AMBIENT_C,CFG.TIRE_MAX_C);
+      c.tireWear[i]=Math.min(1,c.tireWear[i]+compound.wear*load*dt*(1+work*0.05)*Math.max(0.1,c.speedKmh/100));
+      wearGrip+=1-0.35*c.tireWear[i];
+    }
+    const grip=compound.grip*(1-Math.min(0.12,Math.abs(pressure-30)*0.008))*wearGrip/4;
+    c.tireGripFront*=grip;c.tireGripRear*=grip;c.tireGrip*=grip;
     c.tireSlipHeat = work;
   }
 
@@ -2224,8 +2329,9 @@ export class RacePhysics {
     // 气动下压力按前后平衡分配后叠加到轴荷上：
     // 这是"高速弯抓地暴涨"的物理来源，也是脏气流里抓地变差的原因。
     const down = c.downforce || 0;
-    const FzAeroF = down * CFG.AERO_BALANCE_FRONT;
-    const FzAeroR = down * (1 - CFG.AERO_BALANCE_FRONT);
+    const balance=CFG.AERO_BALANCE_FRONT*(c.tuning?.frontAero||1)/(CFG.AERO_BALANCE_FRONT*(c.tuning?.frontAero||1)+(1-CFG.AERO_BALANCE_FRONT)*(c.tuning?.rearAero||1));
+    const FzAeroF = down * balance;
+    const FzAeroR = down * (1 - balance);
     // 纵向转移量（限幅，避免极端工况把轴荷算成负数）
     const dFz = clamp((m * ax * h) / L * CFG.LOAD_TRANSFER_GAIN, -FzStatF * 0.55, FzStatR * 0.55);
     let FzF = Math.max(FzStatF * 0.25, FzStatF + FzAeroF - dFz);
@@ -2236,7 +2342,7 @@ export class RacePhysics {
     const pen = 1 - 0.12 * clamp(Math.abs(ay) / Math.max(latRef, 1), 0, 1) ** 2;
 
     // 轮胎载荷敏感性（指数 0.85）
-    const sens = (Fz, Fz0) => Math.pow(Fz / Fz0, 0.15);   // 容量 ∝ Fz^0.85 -> 等效系数
+    const sens = (Fz, Fz0) => Math.pow(Fz0 / Fz, 0.15);   // 容量 ∝ Fz^0.85 -> 等效系数
     const surfScale = muSurf / CFG.GRIP_ROAD;             // 草地等低附着路面同比缩放
     // 常规前后配比：前 2.6 / 后 2.4（规格值）
     const tireF = Number.isFinite(c.tireGripFront) ? c.tireGripFront : 1;
@@ -2301,6 +2407,10 @@ export class RacePhysics {
     const absV = Math.abs(vF);
     const axPrev = c.prevForwardSpeed !== undefined ? (vF - c.prevForwardSpeed) / dt : 0;
     c.axMeasured = axPrev;
+    // Contact impulses are not sustained acceleration and must not instantly
+    // unload an axle for the following frame.
+    const axLoad = clamp(axPrev, -20, 15);
+    c.loadAcceleration = (c.loadAcceleration || 0) + (axLoad - (c.loadAcceleration || 0)) * (1 - Math.exp(-dt / 0.12));
     c.prevForwardSpeed = vF;
 
     // ---- 载荷转移 -> 两轴摩擦与整车横向极限 -------------------------------
@@ -2308,7 +2418,7 @@ export class RacePhysics {
     // 于是车尾自然甩出（不再靠"魔法降摩擦"来制造漂移）。
     const muSurface = this.surfaceMu(c);
     this.updateTireThermals(c, dt, axPrev, c.ayPrev || 0);
-    const aLatCap = this.axleState(c, axPrev, c.ayPrev || 0);
+    const aLatCap = this.axleState(c, c.loadAcceleration, c.ayPrev || 0);
     const muF = c.muFront, muR = c.muRear;
     c.muSurface = muSurface;
     c.muEffective = aLatCap / 9.81;   // 整车等效摩擦（对外可观测）
@@ -2352,18 +2462,20 @@ export class RacePhysics {
     // 两者都作用在容量上；规格 §四 的动摩擦下限（latFloorMu）保持最外层兜底，
     // 完全侧滑时侧向 mu 依旧不低于 0.45 量级，"冰面平移"的回归路径不变。
     const slipDegNow = Math.atan2(Math.abs(vS), Math.max(Math.abs(vF), 0.6)) / DEG;
-    const longUse = clamp(
-      (c.wheelspin || 0) * 0.8 +
-      (c.input && c.input.brake > 0 ? c.input.brake * 0.55 : 0) +
-      (hb > 0.01 ? 0.35 : 0), 0, 1);
-    const ellipseK = Math.sqrt(Math.max(0.05, 1 - CFG.FRICTION_ELLIPSE * longUse * longUse));
+    const totalTireForce = CFG.MASS * Math.max(aLatCap, latFloorMu * 9.81);
+    const requestedLongForce = c.input.brake > 0 && vF > 0.4
+      ? -Math.min((CFG.BRAKE_TORQUE * 4 / CFG.WHEEL_RADIUS) * c.input.brake,totalTireForce*(c.assists?.abs?0.85:1))
+      : this.driveForce(c, c.input.throttle) * (1 - hb);
+    const longUse = clamp(Math.abs(requestedLongForce) / Math.max(totalTireForce, 1), 0, 1);
+    const ellipseK = Math.sqrt(Math.max(0, 1 - longUse * longUse));
+    c.longitudinalSlip = Math.sign(requestedLongForce) * Math.max(0, longUse - 0.9) / 0.1;
     const slipGripK = this.slipGripFactor(slipDegNow);
     c.slipGripK = slipGripK;     // 遥测：当前滑移曲线保留率
     c.fricEllipseK = ellipseK;   // 遥测：摩擦椭圆剩余份额
     const latCapEff = Math.max(
       Math.min(aLatCap * slipGripK * ellipseK, c.offRoadMu * 9.81),
-      latFloorMu * 9.81);
-    const maxLatDV = Math.max(latCapEff, 0.5) * dt;
+      latFloorMu * 9.81 * ellipseK);
+    const maxLatDV = Math.max(0, latCapEff) * dt;
     const dS = clamp(-vS, -maxLatDV, maxLatDV);
     if (dS !== 0) {
       c.body.velocity.x += left.x * dS;
@@ -2371,7 +2483,7 @@ export class RacePhysics {
       c.body.velocity.z += left.z * dS;
     }
     c.slipRatio = Math.min(1, Math.abs(vS) / 9.0);
-    c.ayPrev = Math.abs(vS) / Math.max(dt, 1e-3) * 0.02 + (c.ayPrev || 0) * 0.98;  // 平滑侧向加速度估计
+    c.ayPrev = Math.abs(dS) / Math.max(dt, 1e-3) * 0.1 + (c.ayPrev || 0) * 0.9;  // 平滑侧向加速度估计
 
     if (c.airborne) {
       c.steerAngle *= 0.98;
@@ -2414,6 +2526,11 @@ export class RacePhysics {
       const rearBrake = CFG.HANDBRAKE_FORCE * hb;
       force -= Math.sign(vF) * Math.min(rearBrake, CFG.MASS * (absV / dt) * 0.9);
     }
+    const lateralForce = Math.abs(dS) * CFG.MASS / Math.max(dt, 1e-6);
+    const longitudinalCapacity = Math.sqrt(Math.max(0, totalTireForce * totalTireForce - lateralForce * lateralForce));
+    force = clamp(force, -longitudinalCapacity, longitudinalCapacity);
+    c.tireForceLongitudinal = force; c.tireForceLateral = lateralForce;
+    c.tireForceCapacity = totalTireForce;
     // 空气阻力  F_drag = 0.5·ρ·Cd·A·v²  （尾流区降 35% —— 写实数值，不是街机的 70%）
     force -= DRAG_K * (1 - slipDragCut) * vF * absV;
     // 滚动阻力（随实际轴荷增长：滚阻 ∝ 正压力，含气动压紧）
@@ -2433,7 +2550,7 @@ export class RacePhysics {
 
     // ---- 气动下压力 F_down = 0.5·ρ·Cl·A·v²（脏气流区削减 30%）-------------
     // 垂直压在底盘上 -> 通过 axleState 的载荷转移项动态提升轮胎正压力与过弯极限
-    const downCut = 1 - CFG.SLIP_DOWNFORCE_CUT * c.slip;
+    const downCut = (1 - CFG.SLIP_DOWNFORCE_CUT * c.slip) * ((c.tuning?.frontAero||1)*CFG.AERO_BALANCE_FRONT+(c.tuning?.rearAero||1)*(1-CFG.AERO_BALANCE_FRONT));
     c.downforce = 0.5 * CFG.AIR_RHO * CFG.CL * CFG.FRONTAL_AREA * c.body.velocity.lengthSquared() * downCut;
     _fv.set(-n.x * c.downforce, -n.y * c.downforce, -n.z * c.downforce);
     c.body.applyForce(_fv, ZERO_POINT);
@@ -2458,7 +2575,7 @@ export class RacePhysics {
       ? (0.42 + 0.58 * Math.pow(clamp(speedKmh / 100, 0, 1), 0.85))
       : 1.0;
     const highSpeedAtten = 1.0 / (1.0 + Math.max(0, speedKmh - 100) * 0.0085);
-    const maxSteerRad = CFG.STEER_MAX_LOW * lowSpeedFactor * highSpeedAtten;
+    const maxSteerRad = Math.min(this.maxSteerAt(speedKmh), CFG.STEER_MAX_LOW * lowSpeedFactor * highSpeedAtten);
 
     // 转向角平滑速率：低于 100 km/h 时放缓转向速率，回正依然迅速
     const steerRate = (Math.abs(c.steerInput) > Math.abs(c.steerAngle / Math.max(maxSteerRad, 1e-3)))
@@ -2473,6 +2590,7 @@ export class RacePhysics {
     // 上一版用了前后加权平均 μ，等于把已经崩塌的后轴 μ 也算进"能转多快"里，
     // 结果手刹时横摆被锁死 -> 车头转不动 = 玩家感知的"入弯严重推头"。
     let yawTarget = (vF * Math.tan(c.steerAngle)) / CFG.WHEELBASE;
+    yawTarget *= 1 - ((c.tuning?.differential??0.5)-0.5)*0.16*c.input.throttle;
     // 规格 §四：出界时前轴 μ 会崩到路面值以下，横摆权限随之锁死 ⇒ "方向盘打死也拐不回来"。
     // 这里给前轴 μ 一个与出界程度联动的下限（路面段不受影响，仍用真实 muF）。
     const muFYaw = offRoad > 0.001
@@ -2605,7 +2723,7 @@ export class RacePhysics {
    */
   updateOffRoad(c, dt) {
     const target = Math.max(0, Math.min(1, (c.grassWheels || 0) / 4));
-    c.offRoad += (target - c.offRoad) * (1 - Math.exp(-dt / 0.35));
+    c.offRoad += (target - c.offRoad) * (1 - Math.exp(-dt / (target<c.offRoad?CFG.OFFROAD_RECOVER_T/5:0.35)));
     const k = c.offRoad;
     c.body.linearDamping = 0;                                // 阻力全部显式建模，不叠全局阻尼
     // 沙地抓地崩溃（0.65）；路面端就是当前载荷转移解出的等效摩擦
@@ -2923,20 +3041,7 @@ export class RacePhysics {
       const car = this.byId ? this.byId.get(carBody.__carId) : null;
       if (!car || car.remote) continue;
 
-      // 低速主动脱离只在低速窗口生效，高速接触交给正常导流和位置投影。
-      const speedKmh = Math.hypot(carBody.velocity.x, carBody.velocity.z) * 3.6;
-      const barrierBody = bi.__carId !== undefined ? bj : bi;
-      if (speedKmh < CFG.ANTI_SUCTION_KMH) {
-        if (!car._suctionDone) car._suctionDone = new Set();
-        const sKey = (carBody.id | 0) + ':' + (barrierBody.id | 0);
-        if (!car._suctionDone.has(sKey)) {
-          car._suctionDone.add(sKey);
-          carBody.position.x += nx * CFG.ANTI_SUCTION_LOW_PUSH_M;
-          carBody.position.z += nz * CFG.ANTI_SUCTION_LOW_PUSH_M;
-          carBody.aabbNeedsUpdate = true;
-        }
-      }
-
+      const speedKmh = Math.hypot(car.preBarrierVx || 0, car.preBarrierVz || 0) * 3.6;
       // Multiple contact equations share one manifold. Resolve the velocity
       // response once per car per physics step.
       if (car._barrierDeflectStep === stepId) continue;
@@ -2947,7 +3052,10 @@ export class RacePhysics {
       const preVx = Number.isFinite(car.preBarrierVx) ? car.preBarrierVx : v.x;
       const preVz = Number.isFinite(car.preBarrierVz) ? car.preBarrierVz : v.z;
       const speed = Math.hypot(preVx, preVz);
-      if (speed < CFG.GUIDANCE_MIN_SPEED) continue;
+      // A separating car must be free to steer away. Never erase its outward
+      // component or reapply friction from a stale manifold.
+      if (speed < 1e-6) continue;
+      const outwardSpeed = Math.max(0, preVx * nx + preVz * nz);
 
       let tx = -nz, tz = nx;
       const tl = Math.hypot(tx, tz) || 1;
@@ -3009,14 +3117,14 @@ export class RacePhysics {
       }
       keep = Math.max(keep, lowSpeedKeep);
       const tangentSpeed = Math.max(0, preVx * tx + preVz * tz) * keep;
-      v.x = tx * tangentSpeed;
-      v.z = tz * tangentSpeed;
+      v.x = tx * tangentSpeed + nx * outwardSpeed;
+      v.z = tz * tangentSpeed + nz * outwardSpeed;
 
       // 车头修正不能按“法线方向”硬扭，否则擦墙时车头会被推向墙内。以
       // 碰撞前切向速度为目标航向，按入射法向分量做分力衰减：浅角刮擦时
       // 快速把车头拉回速度方向；大角度撞击只保留一部分修正，避免车头
       // 被瞬间甩向护栏，同时仍会沿切向平滑带出碰撞点。
-      if (car.forwardSpeed > 0.4 && car._barrierYawStep !== stepId) {
+      if (speed > 0.4 && car._barrierYawStep !== stepId) {
         car._barrierYawStep = stepId;
         const q = carBody.quaternion;
         const fwdX = 2 * (q.x * q.z + q.w * q.y);
@@ -3050,46 +3158,10 @@ export class RacePhysics {
     }
   }
 
-  /**
-   * 规格 §四：护栏接触的**几何防吸入**收尾。
-   *
-   * 速度投影与车头修正统一由 applyBarrierDeflection 完成；本函数只负责
-   * 每个子步末的几何防吸入：penetrationDepth > 0.005m 时沿外法线平移
-   * (penetrationDepth + 0.03m)。速度与角速度在这里一律不改写，避免两个
-   * 后处理层互相覆盖导致反向旋转或把车吸回墙里。
-   */
+  // Legacy hook retained for diagnostics; position repair is exclusively below.
   applyBarrierGuidance(dt) {
-    const cs = this.world.contacts;
-    if (!cs || !cs.length) return;
-
-    for (let k = 0; k < cs.length; k++) {
-      const eq = cs[k];
-      const bi = eq.bi, bj = eq.bj;
-      if (!bi || !bj) continue;
-
-      const contact = this.barrierContactNormal(eq);
-      if (!contact) continue;
-      const { carBody, nx, nz } = contact;
-      const car = this.byId ? this.byId.get(carBody.__carId) : null;
-      if (!car || car.remote) continue;
-
-      const pen = (typeof eq.__lastPenetration === 'number') ? eq.__lastPenetration : 0;
-      if (pen <= 0.005) continue;
-
-      if (!car._guidanceDone) car._guidanceDone = new Set();
-      const gKey = (bi.id | 0) + ':' + (bj.id | 0);
-      if (car._guidanceDone.has(gKey)) continue;
-      car._guidanceDone.add(gKey);
-
-      const push = pen + CFG.GUIDANCE_OUT_EPS;
-      carBody.position.x += nx * push;
-      carBody.position.z += nz * push;
-      carBody.aabbNeedsUpdate = true;
-    }
-
-    for (const c of this.cars) {
-      if (c._guidanceDone && c._guidanceDone.size) c._guidanceDone.clear();
-    }
+    // Geometry is owned exclusively by projectPenetration: all shell contacts
+    // share its bounded split-impulse path, with no extra pen+epsilon teleport.
   }
 
   /**
@@ -3250,14 +3322,18 @@ export class RacePhysics {
     for (const c of cars) {
       const b = c.body;
       if (!b || c.remote) continue;
+      let touched=false;
+      for (const eq of this.world.contacts) if ((eq.bi===b || eq.bj===b) && !eq.bi.__roadHeightfield && !eq.bj.__roadHeightfield) { touched=true; break; }
+      if (!touched) continue;
       // ① 横摆角速度硬截断
       const av = b.angularVelocity;
       const cap = CFG.COLLISION_YAW_CAP;
       if (av.y > cap) av.y = cap; else if (av.y < -cap) av.y = -cap;
       // ② 竖直反冲软处理：超过阈值说明是被"铲飞"，压回一个安全的小值
       const v = b.velocity;
-      if (v.y > CFG.COLLISION_VY_SOFT || v.y < -CFG.COLLISION_VY_SOFT) {
-        v.y = CFG.COLLISION_VY_REST;
+      const preVy = Number.isFinite(c.preCollisionVy) ? c.preCollisionVy : 0;
+      if (Math.abs(v.y - preVy) > CFG.COLLISION_VY_SOFT) {
+        v.y = preVy;
       }
     }
     this._stepTouched = 0;
@@ -3555,6 +3631,10 @@ export class RacePhysics {
         const aheadOnVic = rel.dot(vic.fwd);            // <0 表示攻击者在受害车后方
         const latOnVic = rel.dot(vic.lateralDir);
         if (aheadOnVic > 0.6) continue;
+        if (Math.abs(latOnVic)<1.25 && aheadOnVic<0 && atk.input.throttle>0.5 &&
+          (atk.vel.x-vic.vel.x)*vic.fwd.x+(atk.vel.z-vic.vel.z)*vic.fwd.z>8 && d<4.4){
+          if(!atk.remote && this.gameMode==='fm8'){atk.ramCooldown=2.5;atk.addPenalty(CFG.PEN_RAM,'collision');vic.hitGraceT=CFG.HIT_GRACE_T;}continue;
+        }
         if (Math.abs(latOnVic) < 1.25) continue;        // 正后追尾不算侧撞
         // 航向夹角 > 40°
         const hd = clamp(atk.fwd.dot(vic.fwd), -1, 1);
@@ -3638,7 +3718,8 @@ export class RacePhysics {
             //   旧实现把"脏圈"整段跳过 ⇒ 只要本圈吃过任何罚时（出界/复位/切弯），
             //   累计圈速就永远停在 --:--.---。实测罚 33s 的一局里三圈全被标脏、
             //   最佳圈速全程为空。
-            const dirty = !!c.lapInvalid;
+            const dirty = !!c.lapInvalid || !!c.rewoundLap;
+            c.rewoundLap=false;
             c.lapInvalid = false;
             c.lastLap = this.time - c.lapStart;
             c.lapTime = c.lastLap;
@@ -3667,10 +3748,12 @@ export class RacePhysics {
     // 出界本身不罚，"出界并获利"才罚：
     //   全油门 + 高速 + 不刹车 -> 抄近道获利 -> 阶梯罚 1.0~3.0s
     //   松油 / 刹车 / 掉速     -> 失控脱轨无获利 -> Racing Incident，仅记录、免罚
-    if (c.grassWheels >= 4 && !c.finished) {
+    if (c.grassWheels >= 4 && !c.finished && !c.inPit && !(c.reentryGrace>0)) {
       if (!c.offActive) {
         c.offActive = true;
         c.offEnterT = this.time;
+        c.offEnterProgress=routeProgress(c,t);
+        c.lapInvalid=true;
         c.offDist = 0;
         c.offThrottleT = 0;
         c.offBrakeT = 0;
@@ -3734,7 +3817,7 @@ export class RacePhysics {
    */
   settleOffTrack(c) {
     const dtOff = this.time - c.offEnterT;
-    if (dtOff < CFG.FRR_MIN_OFF_T) return;
+    if (this.gameMode!=='fm8' || c.reentryGrace>0 || c.inPit || dtOff < CFG.FRR_MIN_OFF_T) return;
     // ★ #10：刚被别人撞过 ⇒ 这次出界按"赛车事故"处理，**不判获利罚时**
     //   （用户报障："有时被撞车辆也会被罚时"）。被顶出去的人不该再被罚一次。
     if ((c.hitGraceT || 0) > 0) {
@@ -3751,7 +3834,9 @@ export class RacePhysics {
     //   那种出界走的距离更长、时间更久，玩家其实是**亏了时间**的，不该再罚。
     //   FM8 也是这个口径：切弯（短）罚，跑宽冲出去（长）只算事故。
     const shortCut = dtOff <= CFG.FRR_MAX_CUT_T;
-    const gained = shortCut &&
+    const routeDistance=Number.isFinite(c.offEnterProgress)?Math.max(0,(routeProgress(c,this.track)-c.offEnterProgress)*this.track.length):c.offDist;
+    const netAdvantage=routeDistance/ref-dtOff;
+    const gained = netAdvantage>0.15 && shortCut &&
       thrRatio >= CFG.FRR_GAIN_THR &&
       brakeRatio < CFG.FRR_BRAKE_SAFE &&
       avg >= ref * CFG.FRR_GAIN_SPEED;
@@ -3827,7 +3912,8 @@ export class RacePhysics {
     const alpha = Math.atan2((dx * rf.x + dz * rf.z) / rlen, (dx * ff.x + dz * ff.z) / flen);
     // Pure Pursuit 曲率 κ = 2·sin(α)/Ld；这里直接转成归一化转向意图。
     // 增益 1.8 与 AI autopilot 一致（工程既有标定），保证平滑不画龙。
-    c.input.steer = clamp(alpha * 1.8, -1, 1);
+    const pursuitAngle=Math.atan2(2*CFG.WHEELBASE*Math.sin(alpha),Ld);
+    c.input.steer=clamp(pursuitAngle/Math.max(0.1,c.maxSteerNow||this.maxSteerAt(c.speedKmh)),-1,1);
 
     // ---- 纵向：只在 50~60km/h 区间内做柔和调节，绝不满舵刹车 ----
     if (c.speed < vHi) {
@@ -3892,11 +3978,13 @@ export class RacePhysics {
       // 用车辆**当前真实**横向极限（含气动下压力与载荷转移）评估过弯速度：
       // 高速下压力带来的抓地提升会被利用，脏气流中的抓地损失也会被自动补偿。
       const gripNow = Math.max(c.aLatCap || 0, 5);
-      const vCorner = Math.sqrt(gripNow * R * 0.62);
+      // ABS may reserve 85% of the friction circle for braking, leaving
+      // sqrt(1-.85²) lateral capacity. Keep a further margin for traffic.
+      const vCorner = Math.sqrt(gripNow * R * 0.45);
       const vAllowed = Math.sqrt(vCorner * vCorner + 2 * decel * (k * sp));
       if (vAllowed < vTarget) vTarget = vAllowed;
     }
-    vTarget = Math.min(vTarget, CFG.VMAX * 0.94);
+    vTarget = Math.min(vTarget, CFG.VMAX * 0.94,58);
     // 完赛后自动巡航（规格）：维持 60km/h 顺着最佳走线慢游，绝不停在终点线挡路
     if (c.finished) vTarget = CFG.CRUISE_KMH / 3.6;
     if (c.airborne) vTarget *= 0.9;
@@ -3904,11 +3992,11 @@ export class RacePhysics {
     // ---- 1b. 出界自救：被撞飞/冲出路面后优先回中，否则会在草坪林子里越跑越远 ----
     const offTrack = Math.abs(c.lateral) - t.halfWidth;
     if (offTrack > 3) {
-      vTarget = Math.min(vTarget, 20);        // ~72km/h，先稳住再回赛道
+      vTarget = Math.min(vTarget, 8);        // ~72km/h，先稳住再回赛道
     }
 
     // ---- 2. 转向：前视点 + 粗略走线（向弯心偏移）----
-    const look = clamp(7 + spd * 0.85, 12, 58) * (offTrack > 3 ? 0.45 : 1);
+    const look = clamp(5 + spd * 0.5, 10, 34) * (offTrack > 3 ? 0.45 : 1);
     const li = (c.trackIdx + Math.round(look / sp)) % N;
     const a0 = t.tan[c.trackIdx];
     const aB = t.tan[(c.trackIdx + Math.round(28 / sp)) % N];
@@ -3943,7 +4031,8 @@ export class RacePhysics {
     const flen = Math.hypot(ff.x, ff.z) || 1e-3;
     // angRight > 0 表示目标点在本车右侧；input.steer>0 也是"向右"，符号天然一致
     const angRight = Math.atan2((dx * rf.x + dz * rf.z) / rlen, (dx * ff.x + dz * ff.z) / flen);
-    c.input.steer = clamp(angRight * 1.8, -1, 1);
+    const pursuitAngle=Math.atan2(2*CFG.WHEELBASE*Math.sin(angRight),Math.max(4,Math.hypot(dx,dz)));
+    c.input.steer=clamp(pursuitAngle/Math.max(0.1,c.maxSteerNow||this.maxSteerAt(c.speedKmh)),-1,1);
 
     // ---- 3. 纵向：±2km/h 内收油滑行，带有限速率的油门/制动 ----
     const speedControl = this.computeAISpeedControl(
@@ -3952,6 +4041,7 @@ export class RacePhysics {
       dt,
       c.aiSpeedControl || c.input,
     );
+    if(c.forwardSpeed<1 && speedControl.brake>0){speedControl.brake=0;speedControl.throttle=0.35;}
     c.aiSpeedControl = speedControl;
     c.input.throttle = speedControl.throttle;
     c.input.brake = speedControl.brake;
